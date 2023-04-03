@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Blender RNA">
+      <UniqueIdentifier>{5608f392-9b7c-4ef9-a4be-31b2ee508c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Intermediate">
+      <UniqueIdentifier>{4244e8cc-de33-4892-baa8-384f8a343eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderApp">
+      <UniqueIdentifier>{a6356c52-b3d4-4a77-9bd2-9dfd08b044a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderApp\windows">
+      <UniqueIdentifier>{ee5bbea9-e35e-46a8-bfe8-d392048bcd96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Nodes">
+      <UniqueIdentifier>{48f53527-03c6-494b-be11-411714ade092}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Pencil4LineForBlender.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaImage.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="intermContext.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaCamera.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaObject.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="intermCamera.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMesh.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderAppSession.cpp">
+      <Filter>RenderApp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderAppSessionWindows.cpp">
+      <Filter>RenderApp\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="FileMapping.cpp">
+      <Filter>RenderApp\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMLoopTri.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMLoop.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMEdge.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMaterial.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="Nodes.cpp">
+      <Filter>Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="intermMeshDataAccessor.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="intermObjectIDMapper.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="intermNodeParamsFixer.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="intermImageMapper.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMeshUVLoopLayer.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="intermDataHash.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMPoly.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaID.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaIDOverrideLibrary.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaMeshLoopColorLayer.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="blrnaAttribute.cpp">
+      <Filter>Blender RNA</Filter>
+    </ClCompile>
+    <ClCompile Include="intermNameIDMapper.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+    <ClCompile Include="intermBlenderVersion.cpp">
+      <Filter>Intermediate</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="blrnaImage.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaBase.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="intermRenderInstance.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="intermContext.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaCamera.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaObject.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="intermCamera.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderAppData.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMesh.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderAppSession.h">
+      <Filter>RenderApp</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderAppSessionWindows.h">
+      <Filter>RenderApp\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="FileMapping.h">
+      <Filter>RenderApp\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderAppDefine.h">
+      <Filter>RenderApp\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMLoopTri.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMLoop.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMEdge.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMaterial.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="Nodes.h">
+      <Filter>Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="StructDefinitions.h">
+      <Filter>Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="intermMeshDataAccessor.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="intermObjectIDMapper.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="intermNodeParamsFixer.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="intermImageMapper.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMeshUVLoopLayer.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="intermDataHash.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="intermDrawOptions.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMPoly.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaID.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaIDOverrideLibrary.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaMeshLoopColorLayer.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="blrnaAttribute.h">
+      <Filter>Blender RNA</Filter>
+    </ClInclude>
+    <ClInclude Include="intermNameIDMapper.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+    <ClInclude Include="intermBlenderVersion.h">
+      <Filter>Intermediate</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
