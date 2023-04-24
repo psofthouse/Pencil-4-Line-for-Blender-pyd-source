@@ -39,7 +39,7 @@ namespace interm
 	{
 		if (!_viewport_image_buffer || !_data_hash)
 		{
-			_viewport_image_buffer = std::make_shared<std::vector<unsigned char>>();
+			_viewport_image_buffer = std::make_shared<std::vector<float>>();
 			_data_hash = std::make_shared<DataHash>();
 		}
 		CleanupFrame();
@@ -128,10 +128,10 @@ namespace interm
 		renderAppData.taskName = taskName;
 		renderAppData.renderInformation.width = w;
 		renderAppData.renderInformation.height = h;
-		renderAppData.renderInformation.pixelBufferFormat = image ? RenderAppPixelFormat_Float : RenderAppPixelFormat_RGBA32;
+		renderAppData.renderInformation.pixelBufferFormat = RenderAppPixelFormat_Float;
 		renderAppData.renderInformation.flipY = true;
 		renderAppData.renderInformation.lineScale = drawOptions ? drawOptions->line_scale : 1.0f;
-		const size_t bytesPerPixel = 4 * (image ? sizeof(float) : 1);
+		const size_t bytesPerPixel = 4 * sizeof(float);
 
 		// ƒJƒƒ‰Ý’è
 		renderAppData.camera.nearClip = camera.GetNearClip();
@@ -509,7 +509,7 @@ namespace interm
 			{
 				return RenderAppRet::Error_Unknown;
 			}
-			memcpy(dst.data(), dataAccessor->ptr<unsigned char*>(), dst.size() * sizeof(unsigned char));
+			memcpy(dst.data(), dataAccessor->ptr<unsigned char*>(), dst.size() * sizeof(float));
 		}
 
 		_data_hash = data_hash;

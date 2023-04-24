@@ -77,10 +77,10 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 		{
 			if (!self.GetViewportImageBuffer())
 			{
-				return py::array_t<unsigned char>(0, nullptr);
+				return py::array_t<float>(0, nullptr);
 			}
 			const auto& buff = *self.GetViewportImageBuffer();
-			return py::array_t<unsigned char>(buff.size(), buff.data());
+			return py::array_t<float>(buff.size(), buff.data());
 		})
 		.def("clear_viewport_image_buffer", [](interm::Context& self) { self.ClearViewportImageBuffer(); })
 		.def_readwrite("draw_options", &interm::Context::drawOptions)

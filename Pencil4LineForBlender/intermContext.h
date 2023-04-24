@@ -56,7 +56,7 @@ namespace interm
 		bool mesh_color_attributes_on = false;
 		std::vector<std::pair<py::object, std::vector<py::object>>> mesh_color_attributes;
 
-		std::shared_ptr<std::vector<unsigned char>> GetViewportImageBuffer() const { return _viewport_image_buffer; }
+		std::shared_ptr<std::vector<float>> GetViewportImageBuffer() const { return _viewport_image_buffer; }
 		void ClearViewportImageBuffer() { _viewport_image_buffer = nullptr; }
 
 	private:
@@ -76,7 +76,7 @@ namespace interm
 
 		std::vector<float> _textureWorkBuffer;
 
-		std::shared_ptr<std::vector<unsigned char>> _viewport_image_buffer;
+		std::shared_ptr<std::vector<float>> _viewport_image_buffer;
 		std::shared_ptr<DataHash> _data_hash;
 		std::shared_ptr<DataHash> _data_hash_excluding_objects;
 	};
