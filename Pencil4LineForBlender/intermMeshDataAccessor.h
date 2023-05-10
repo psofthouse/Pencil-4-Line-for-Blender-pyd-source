@@ -53,11 +53,14 @@ namespace interm
 
 		std::unique_ptr<GeomDataAccessor<int>> _cornerVertAccessor;
 		std::unique_ptr<GeomDataAccessor<int>> _cornerEdgeAccessor;
+		std::unique_ptr<GeomDataAccessor<std::pair<int, int>>> _edgeAccessor;
 		std::unique_ptr<GeomDataAccessor<bool>> _edgeSharpAccessor;
 		std::unique_ptr<GeomDataAccessor<bool>> _edgeWireAccessor;
 		std::unique_ptr<GeomDataAccessor<std::pair<int, int>>> _polyLoopAccessor;
 		std::unique_ptr<GeomDataAccessor<bool>> _polySharpAccessor;
 		std::unique_ptr<GeomDataAccessor<int>> _polyMaterialIndexAccessor;
+		std::unique_ptr<GeomDataAccessor<unsigned int*>> _loopTriAccessor;
+		std::unique_ptr<GeomDataAccessor<int>> _loopTriPolyAccessor;
 
 		void WriteVerticesData(char* buff);
 		void WriteFaceData(char* buff, const std::vector<int>& loopTriIndexToOutputOffset);

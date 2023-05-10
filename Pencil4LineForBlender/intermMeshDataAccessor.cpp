@@ -39,6 +39,29 @@ namespace interm
 		return org_material.data();
 	}
 
+
+	//-----------------------------------------
+	template <class T> class MeshStructAccessor
+	{
+	public:
+		MeshStructAccessor(void* pData, size_t dataStep) : _pData(static_cast<char*>(pData)), _dataStep(dataStep) {}
+		T& operator[](size_t i) const { return *reinterpret_cast<T*>(_pData + _dataStep * i); }
+	private:
+		char* _pData;
+		const size_t _dataStep;
+	};
+
+	class MEdgeAccessor : public MeshStructAccessor<MEdge>
+	{
+	public:
+		MEdgeAccessor(blrna::Mesh mesh) : MeshStructAccessor(mesh.get_edges<void*>(), mesh.get_edges_data_step<MEdge>()) {}
+	};
+	class MLoopTriAccessor : public MeshStructAccessor<MLoopTri>
+	{
+	public:
+		MLoopTriAccessor(blrna::Mesh mesh) : MeshStructAccessor(mesh.get_loop_triangles<void*>(), mesh.get_loop_triangles_data_step<MLoopTri>()) {}
+	};
+
 	//-----------------------------------------
 	template <class T, class blrnaT> class GeomAttribAccessor : public GeomDataAccessor<T>
 	{
@@ -76,6 +99,15 @@ namespace interm
 		int operator[](size_t i) const override { return _pLoops[i].e; }
 	private:
 		const MLoop* _pLoops;
+	};
+
+	class GeomEdgeAccessorMEdge : public GeomDataAccessor<std::pair<int, int>>
+	{
+	public:
+		GeomEdgeAccessorMEdge(blrna::Mesh mesh) : _pEdges(mesh.get_edges<MEdge*>()) {}
+		std::pair<int, int> operator[](size_t i) const override { return std::make_pair(_pEdges[i].v1, _pEdges[i].v2); }
+	private:
+		const MEdge* _pEdges;
 	};
 
 	class GeomEdgeSharpAccessorMEdge : public GeomDataAccessor<bool>
@@ -118,11 +150,49 @@ namespace interm
 	{
 	public:
 		GeomPolyMaterialIndexAccessorMPloy(blrna::Mesh mesh) : _pPolygons(mesh.get_polygons<MPoly*>())
-		, _mpolyObjectWork(PointerRNA{ (ID*)mesh.data(), mesh.polygons_item_type(), nullptr })  {}
-		int operator[](size_t i) const override { (const_cast<blrna::MPoly*>(&_mpolyObjectWork))->SetMPoly(&(_pPolygons[i])); return _mpolyObjectWork.get_material_index(); }
+		, _mpolyObjectWork(PointerRNA{ (ID*)mesh.data(), mesh.polygons_item_type(), nullptr })
+		, _max(std::max(mesh.get_materials_length() - 1, 0)) {}
+		int operator[](size_t i) const override { (const_cast<blrna::MPoly*>(&_mpolyObjectWork))->SetMPoly(&(_pPolygons[i])); return std::min(std::max(_mpolyObjectWork.get_material_index(), 0), _max); }
 	private:
 		const MPoly* _pPolygons;
 		blrna::MPoly _mpolyObjectWork;
+		const int _max;
+	};
+
+	class GeomLoopTriAccessor : public GeomDataAccessor<unsigned int*>
+	{
+	public:
+		GeomLoopTriAccessor(blrna::Mesh mesh) : _loopTri(mesh) {}
+		unsigned int* operator[](size_t i) const override { return _loopTri[i].tri; }
+	private:
+		const MLoopTriAccessor _loopTri;
+	};
+
+	class GeomLoopTriPolyAccessorMLoopTri : public GeomDataAccessor<int>
+	{
+	public:
+		GeomLoopTriPolyAccessorMLoopTri(blrna::Mesh mesh) : _loopTri(mesh) {}
+		int operator[](size_t i) const override { return _loopTri[i].poly; }
+	private:
+		const MLoopTriAccessor _loopTri;
+	};
+
+	class GeomEdgeAccessorArray : public GeomDataAccessor<std::pair<int, int>>
+	{
+	public:
+		GeomEdgeAccessorArray(blrna::Mesh mesh) : _pData(mesh.get_edges<int*>()) {}
+		std::pair<int, int> operator[](size_t i) const override { return std::make_pair(_pData[i * 2], _pData[i * 2 + 1]); }
+	private:
+		const int* _pData;
+	};
+
+	class GeomLoopTriPolyAccessorArray : public GeomDataAccessor<int>
+	{
+	public:
+		GeomLoopTriPolyAccessorArray(blrna::Mesh mesh) : _pData(mesh.get_loop_triangle_polygons<int*>()) {}
+		int operator[](size_t i) const override { return _pData[i]; }
+	private:
+		const int* _pData;
 	};
 
 	class GeomPolyLoopAccessorArray : public GeomDataAccessor<std::pair<int, int>>
@@ -154,6 +224,17 @@ namespace interm
 		static std::unique_ptr<GeomDataAccessor<int>> CornerEdgeAccessor(blrna::Mesh mesh)
 		{
 			return FetchMeshCornerAccessor<GeomDataAccessor<int>, GeomCornerEdgeAccessorMLoop, GeomAttribIntAccessor>(mesh, ".corner_edge");
+		}
+		static std::unique_ptr<GeomDataAccessor<std::pair<int, int>>> EdgeAccessor(blrna::Mesh mesh)
+		{
+			if (BlenderVersion::Shared() >= BlenderVersion(3, 6))
+			{
+				return std::make_unique<GeomEdgeAccessorArray>(mesh);
+			}
+			else
+			{
+				return std::make_unique<GeomEdgeAccessorMEdge>(mesh);
+			}
 		}
 		static std::unique_ptr<GeomDataAccessor<bool>> EdgeSharpAccessor(blrna::Mesh mesh)
 		{
@@ -242,6 +323,21 @@ namespace interm
 				return std::make_unique<GeomPolyMaterialIndexAccessorMPloy>(mesh);
 			}
 		}
+		static std::unique_ptr<GeomDataAccessor<unsigned int*>> LoopTriAccessor(blrna::Mesh mesh)
+		{
+			return std::make_unique<GeomLoopTriAccessor>(mesh);
+		};
+		static std::unique_ptr<GeomDataAccessor<int>> LoopTriPolyAccessor(blrna::Mesh mesh)
+		{
+			if (mesh.has_loop_triangle_polygons_prop())
+			{
+				return std::make_unique<GeomLoopTriPolyAccessorArray>(mesh);
+			}
+			else
+			{
+				return std::make_unique<GeomLoopTriPolyAccessorMLoopTri>(mesh);
+			}
+		};
 
 	private:
 		template<class TBase, class TMLoop, class TAttrib> std::unique_ptr<TBase> static FetchMeshCornerAccessor(blrna::Mesh mesh, const char* attribName)
@@ -277,11 +373,14 @@ namespace interm
 
 			_cornerVertAccessor = GeomData::CornerVertAccessor(_mesh);
 			_cornerEdgeAccessor = GeomData::CornerEdgeAccessor(_mesh);
+			_edgeAccessor = GeomData::EdgeAccessor(_mesh);
 			_edgeSharpAccessor = GeomData::EdgeSharpAccessor(_mesh);
 			_edgeWireAccessor = GeomData::EdgeWireAccessor(_mesh);
 			_polyLoopAccessor = GeomData::PolyLoopAccessor(_mesh);
 			_polySharpAccessor = GeomData::PolySharpAccessor(_mesh);
 			_polyMaterialIndexAccessor = GeomData::PolyMaterialIndexAccessor(_mesh);
+			_loopTriAccessor = GeomData::LoopTriAccessor(_mesh);
+			_loopTriPolyAccessor = GeomData::LoopTriPolyAccessor(_mesh);
 			auto& materialIndices = *_polyMaterialIndexAccessor;
 
 			// メッシュの基本情報を設定
@@ -290,7 +389,7 @@ namespace interm
 			info.objectType = 0;
 
 			// サブメッシュの数（使用しているマテリアル数）、サブメッシュごとのトライアングル数をカウント
-			const auto ltPtr = mesh.get_loop_triangles<MLoopTri*>();
+			auto& loopTriPoly = *_loopTriPolyAccessor;
 			const auto mumMaterials = mesh.get_materials_length();
 			const auto materialsPtr = mesh.get_materials<void**>();
 
@@ -300,7 +399,7 @@ namespace interm
 			{
 				for (int i = 0; i < numTri; i++)
 				{
-					info.subMeshPrimitiveCounts[materialIndices[(size_t)ltPtr[i].poly]]++;
+					info.subMeshPrimitiveCounts[materialIndices[(size_t)loopTriPoly[i]]]++;
 				}
 			}
 			else
@@ -353,7 +452,8 @@ namespace interm
 		auto& materials = curveData.Materials();
 		auto& splineMaterialIndices = curveData.SplineMaterialIndices();
 		const auto numEdges = _mesh.get_edges_length();
-		const auto pEdges = _mesh.get_edges<MEdge*>();
+		_edgeAccessor = GeomData::EdgeAccessor(_mesh);
+		auto& edges = *_edgeAccessor;
 
 		// スプラインをサブメッシュに振り分ける
 		_subMeshEdges.resize(std::max(materials.size(), (size_t)1));
@@ -369,12 +469,12 @@ namespace interm
 		}
 		else
 		{
-			int prevEdgeV2 = numEdges > 0 ? pEdges[0].v1 : 0;
+			int prevEdgeV2 = numEdges > 0 ? edges[0].first : 0;
 			int splineIndex = 0;
 			for (int i = 0; i < numEdges; i++)
 			{
-				const auto& edge = pEdges[i];
-				if (prevEdgeV2 != edge.v1 && prevEdgeV2 != edge.v2)
+				const auto edge = edges[i];
+				if (prevEdgeV2 != edge.first && prevEdgeV2 != edge.second)
 				{
 					splineIndex++;
 					if (splineIndex == splineMaterialIndices.size())
@@ -386,7 +486,7 @@ namespace interm
 				int subMesh = splineMaterialIndices[splineIndex];
 
 				_subMeshEdges[subMesh].emplace_back(i);
-				prevEdgeV2 = edge.v2;
+				prevEdgeV2 = edge.second;
 			}
 		}
 
@@ -538,12 +638,13 @@ namespace interm
 	void MeshDataAccessor::WriteFaceData(char* buff, const std::vector<int>& loopTriIndexToOutputOffset)
 	{
 		const auto numTri = info.PrimitiveCountAll();
-		const auto ltPtr = _mesh.get_loop_triangles<MLoopTri*>();
 		const auto polygonsPtr = _mesh.get_polygons<MPoly*>();
-		const auto pEdges = _mesh.get_edges<MEdge*>();
+		auto& edges = *_edgeAccessor;
 		auto& cornerVerts = *_cornerVertAccessor;
 		auto& cornerEdges = *_cornerEdgeAccessor;
 		auto& materialIndices = *_polyMaterialIndexAccessor;
+		auto& loopTri = *_loopTriAccessor;
+		auto& loopTriPoly = *_loopTriPolyAccessor;
 
 		std::vector<unsigned char> edgeFlags;
 		SetupEdgesFlags(edgeFlags);
@@ -555,24 +656,24 @@ namespace interm
 		for (int i = 0; i < numTri; i++)
 		{
 			const auto offset = loopTriIndexToOutputOffset[i];
-			const auto& lt = ltPtr[i];
+			const auto& tri = loopTri[i];
 
 			auto loopVerts = &pDstTri[3 * offset];
 			for (int t = 0; t < 3; t++)
 			{
-				loopVerts[t] = cornerVerts[lt.tri[t]];
-				loopEdges[t] = cornerEdges[lt.tri[t]];
+				loopVerts[t] = cornerVerts[tri[t]];
+				loopEdges[t] = cornerEdges[tri[t]];
 			}
 
-			auto dstFlag = _mtlFaceFlags[isMultiMaterial ? materialIndices[ltPtr[i].poly] : 0];
+			auto dstFlag = _mtlFaceFlags[isMultiMaterial ? materialIndices[loopTriPoly[i]] : 0];
 			for (int t = 2, tNext = 0; tNext < 3; t = tNext++)
 			{
 				const auto& edgeFlag = edgeFlags[loopEdges[t]];
 				if (edgeFlag)
 				{
-					const auto& edge = pEdges[loopEdges[t]];
-					if ((edge.v1 == loopVerts[t] && edge.v2 == loopVerts[tNext]) ||
-						(edge.v2 == loopVerts[t] && edge.v1 == loopVerts[tNext])) 
+					const auto edge = edges[loopEdges[t]];
+					if ((edge.first == loopVerts[t] && edge.second == loopVerts[tNext]) ||
+						(edge.second == loopVerts[t] && edge.first == loopVerts[tNext])) 
 					{
 						dstFlag |= edgeFlag << t;
 					}
@@ -589,8 +690,8 @@ namespace interm
 			return;
 		}
 
+		auto& loopTri = *_loopTriAccessor;
 		const auto numTri = info.PrimitiveCountAll();
-		const auto ltPtr = _mesh.get_loop_triangles<MLoopTri*>();
 		auto pDst = info.UVsData(buff);
 		for (int uvChannel : info.uvChannels)
 		{
@@ -603,11 +704,11 @@ namespace interm
 				for (int i = 0; i < numTri; i++)
 				{
 					const auto offset = loopTriIndexToOutputOffset[i];
-					const auto& lt = ltPtr[i];
+					const auto& tri = loopTri[i];
 
 					for (int t = 0; t < 3; t++)
 					{
-						auto pUV = pFloat2 + 2 * lt.tri[t];
+						auto pUV = pFloat2 + 2 * tri[t];
 						pDst[3 * offset + t].x = pUV[0];
 						pDst[3 * offset + t].y = pUV[1];
 					}
@@ -620,11 +721,11 @@ namespace interm
 				for (int i = 0; i < numTri; i++)
 				{
 					const auto offset = loopTriIndexToOutputOffset[i];
-					const auto& lt = ltPtr[i];
+					const auto& tri = loopTri[i];
 
 					for (int t = 0; t < 3; t++)
 					{
-						auto& loopUV = pMLoopUV[lt.tri[t]];
+						auto& loopUV = pMLoopUV[tri[t]];
 						pDst[3 * offset + t].x = loopUV.uv[0];
 						pDst[3 * offset + t].y = loopUV.uv[1];
 					}
@@ -644,8 +745,8 @@ namespace interm
 			return;
 		}
 
+		auto& loopTri = *_loopTriAccessor;
 		const auto numTri = info.PrimitiveCountAll();
-		const auto ltPtr = _mesh.get_loop_triangles<MLoopTri*>();
 		auto pDst = info.ColorData(buff);
 
 		if (&_meshColorAttributes == &MeshDataAccessor::color_attributes_none)
@@ -658,12 +759,12 @@ namespace interm
 				for (int i = 0; i < numTri; i++)
 				{
 					const auto offset = loopTriIndexToOutputOffset[i];
-					const auto& lt = ltPtr[i];
+					const auto& tri = loopTri[i];
 
 					for (int t = 0; t < 3; t++)
 					{
 						constexpr float coef = 1.0f / 255.0f;
-						auto& loopColor = pMLoopColor[lt.tri[t]];
+						auto& loopColor = pMLoopColor[tri[t]];
 						auto& dst = pDst[3 * offset + t];
 						dst.r = srgb_to_linear_float(coef * loopColor.r);
 						dst.g = srgb_to_linear_float(coef * loopColor.g);
@@ -699,11 +800,11 @@ namespace interm
 				for (int i = 0; i < numTri; i++)
 				{
 					const auto offset = loopTriIndexToOutputOffset[i];
-					const auto& lt = ltPtr[i];
+					const auto& tri = loopTri[i];
 
 					for (int t = 0; t < 3; t++)
 					{
-						attr.get_color(lt.tri[t], &pDst[3 * offset + t].r);
+						attr.get_color(tri[t], &pDst[3 * offset + t].r);
 					}
 				};
 
@@ -724,9 +825,9 @@ namespace interm
 
 		//
 		const auto numTri = info.PrimitiveCountAll();
-		const auto ltPtr = _mesh.get_loop_triangles<MLoopTri*>();
 		const auto polygonsPtr = _mesh.get_polygons<MPoly*>();
 		auto& materialIndices = *_polyMaterialIndexAccessor;
+		auto& loopTriPoly = *_loopTriPolyAccessor;
 
 		std::vector<int> loopTriIndexToOutputOffset;
 		loopTriIndexToOutputOffset.resize(numTri);
@@ -740,7 +841,7 @@ namespace interm
 			}
 			for (int i = 0; i < numTri; i++)
 			{
-				loopTriIndexToOutputOffset[i] = offsets[materialIndices[ltPtr[i].poly]]++;
+				loopTriIndexToOutputOffset[i] = offsets[materialIndices[loopTriPoly[i]]]++;
 			}
 		}
 		else
@@ -763,17 +864,17 @@ namespace interm
 		WriteVerticesData(buff);
 
 		{
-			const auto pEdges = _mesh.get_edges<MEdge*>();
+			auto& edges = *_edgeAccessor;
 			auto pDstIndices = info.IndicesData(buff);
 
 			int offset = 0;
-			for (auto& edges : _subMeshEdges)
+			for (auto& edgeIndices : _subMeshEdges)
 			{
-				for (auto& edgeIndex : edges)
+				for (auto& edgeIndex : edgeIndices)
 				{
-					const auto& edge = pEdges[edgeIndex];
-					pDstIndices[offset * 2 + 0] = edge.v1;
-					pDstIndices[offset * 2 + 1] = edge.v2;
+					const auto edge = edges[edgeIndex];
+					pDstIndices[offset * 2 + 0] = edge.first;
+					pDstIndices[offset * 2 + 1] = edge.second;
 					offset++;
 				}
 			}
@@ -787,17 +888,17 @@ namespace interm
 
 		inline bool isNull() const { return !(i[0] || i[1]); }
 
-		inline void Set(int iPrev, int iCurr, int iNext, const GeomDataAccessor<int>& cornerVerts, const MEdge& edge)
+		inline void Set(int iPrev, int iCurr, int iNext, const GeomDataAccessor<int>& cornerVerts, const std::pair<int, int>& edge)
 		{
-			if (cornerVerts[iCurr] == edge.v1)
+			if (cornerVerts[iCurr] == edge.first)
 			{
 				i[0] = iCurr;
-				i[1] = cornerVerts[iNext] == edge.v2 ? iNext : iPrev;
+				i[1] = cornerVerts[iNext] == edge.second ? iNext : iPrev;
 			}
 			else
 			{
 				i[1] = iCurr;
-				i[0] = cornerVerts[iNext] == edge.v1 ? iNext : iPrev;
+				i[0] = cornerVerts[iNext] == edge.first ? iNext : iPrev;
 			}
 		}
 
@@ -811,8 +912,8 @@ namespace interm
 	void MeshDataAccessor::SetupEdgesFlags(std::vector<unsigned char>& edgeFlags)
 	{
 		const auto numEdges = _mesh.get_edges_length();
-		const auto pEdges = _mesh.get_edges<MEdge*>();
 		const auto numPolygons = _mesh.get_polygons_length();
+		auto& edges = *_edgeAccessor;
 		auto& cornerVerts = *_cornerVertAccessor;
 		auto& cornerEdges = *_cornerEdgeAccessor;
 		auto& edgeSharps = *_edgeSharpAccessor;
@@ -826,14 +927,14 @@ namespace interm
 
 		edgeFlags.resize(numEdges);
 		{
+			auto medgeAccessor = MEdgeAccessor(_mesh);
 			auto medgeItemType = _mesh.edges_item_type();
 			blrna::MEdge medgeObjectWork(PointerRNA{ (ID*)_mesh.data(), medgeItemType, nullptr });
 			const auto EdgeSharp_to_FaceFlag = autoSmooth ? RenderApp::FaceFlag_SmoothingBound0_1 : 0;
 
 			for (int i = 0; i < numEdges; i++)
 			{
-				auto& edge = pEdges[i];
-				medgeObjectWork.SetMEdge(&edge);
+				medgeObjectWork.SetMEdge(&medgeAccessor[i]);
 				edgeFlags[i] = (edgeWires[i] ? RenderApp::FaceFlag_Wire0_1 : 0) +
 					(edgeSharps[i] ? EdgeSharp_to_FaceFlag : 0) +
 					(medgeObjectWork.get_use_freestyle_mark() ? RenderApp::FaceFlag_SelectedEdge0_1 : 0);
@@ -910,7 +1011,7 @@ namespace interm
 					}
 
 					auto& etol = edgeToLoops[loop_e];
-					const auto& edge = pEdges[loop_e];
+					const auto edge = edges[loop_e];
 					if (etol.isNull())
 					{
 						etol.Set(iPrev, iCurr, iNext, cornerVerts, edge);

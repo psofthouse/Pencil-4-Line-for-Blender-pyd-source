@@ -16,6 +16,8 @@ namespace blrna
 		COLLECTION_PROP_ITEM_TYPE(polygons);
 		COLLECTION_PROP(loops);
 		COLLECTION_PROP(loop_triangles);
+		COLLECTION_PROP(loop_triangle_polygons);
+		HAS_PROP(loop_triangle_polygons);
 		COLLECTION_PROP_ITEM_TYPE(loops);
 		COLLECTION_PROP_ITEM_TYPE(loop_triangles);
 

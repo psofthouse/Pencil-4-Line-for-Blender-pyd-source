@@ -7,6 +7,7 @@ namespace blrna
 	DEF_COLLECTION_PROP_RNA(Mesh, polygons);
 	DEF_COLLECTION_PROP_RNA(Mesh, loops);
 	DEF_COLLECTION_PROP_RNA(Mesh, loop_triangles);
+	DEF_COLLECTION_PROP_RNA(Mesh, loop_triangle_polygons);
 
 	DEF_COLLECTION_PROP_RNA(Mesh, materials);
 
