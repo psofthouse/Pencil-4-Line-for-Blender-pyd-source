@@ -212,7 +212,7 @@ namespace RenderApp
 			return false;
 		}
 
-		SendMessage(WM_SESSION_RENDER, 0);
+		SendMessage(WM_SESSION_RENDER, ::GetCurrentProcessId());
 		return _lastRenderAppRet == RenderAppRet::Success || _lastRenderAppRet == RenderAppRet::SuccessWithoutLicense;
 	}
 }
