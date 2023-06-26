@@ -35,6 +35,7 @@ namespace interm
 			const std::vector<std::shared_ptr<Nodes::LineNodeToExport>>& lineNodes,
 			const std::vector<std::shared_ptr<Nodes::LineFunctionsNodeToExport>>& lineFunctions,
 			const std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>>& lineRenderElements,
+			const std::vector<std::shared_ptr<Nodes::VectorOutputToExport>>& vectorOutputs,
 			const std::vector<std::vector<py::object>>& groups);
 		RenderAppRet DrawForViewport(int width, int height,
 			Camera camera,
@@ -52,6 +53,7 @@ namespace interm
 		std::wstring renderAppPath;
 		std::wstring taskName;
 		std::shared_ptr<DrawOptions> drawOptions;
+		std::string platform;
 		
 		bool mesh_color_attributes_on = false;
 		std::vector<std::pair<py::object, std::vector<py::object>>> mesh_color_attributes;
@@ -70,6 +72,7 @@ namespace interm
 			const std::vector<std::shared_ptr<Nodes::LineNodeToExport>>& lineNodes,
 			const std::vector<std::shared_ptr<Nodes::LineFunctionsNodeToExport>>& lineFunctions,
 			const std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>>& lineRenderElements,
+			const std::vector<std::shared_ptr<Nodes::VectorOutputToExport>>& vectorOutputs,
 			const std::vector<std::vector<py::object>>& groups);
 
 		std::unordered_map<void*, int> _instanceIDMap;

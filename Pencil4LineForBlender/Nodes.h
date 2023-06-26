@@ -62,6 +62,7 @@ namespace Nodes
 		Nodes::LineSizeType LineSizeTypeValue; // -> LineSizeType
 #endif
 		std::vector<std::shared_ptr<LineSetNodeToExport>> LineSetNodesToExport;
+		std::wstring Name;
 		template<class Archive>
 		void serialize(Archive& archive, std::uint32_t const version)
 		{
@@ -86,6 +87,11 @@ namespace Nodes
 			{
 				ScaleEx = 1.0f;
 			}
+			if (2 <= version) {
+				archive(
+					CEREAL_NVP(Name)
+				);
+			}
 		}
 	};
 
@@ -96,9 +102,11 @@ namespace Nodes
 
 		std::vector<pybind11::object> ObjectsToExport;
 		std::vector<pybind11::object> MaterialsToExport;
+		std::array<float, 3> UserDefinedColorRGB;
 #endif
 		std::vector<int> ObjectIds;
 		std::vector<int> MaterialIds;
+		std::wstring Name;
 
 		std::shared_ptr<BrushSettingsNodeToExport> VBrushSettingsToExport;
 		std::shared_ptr<BrushSettingsNodeToExport> VOutlineToExport;
@@ -206,8 +214,20 @@ namespace Nodes
 				CEREAL_NVP(HSizeReductionToExport),
 				CEREAL_NVP(HAlphaReductionOn),
 				CEREAL_NVP(HAlphaReductionToExport)
-
 			);
+			if (1 <= version) {
+				archive(
+					CEREAL_NVP(Name),
+					CEREAL_NVP(UserDefinedColorR),
+					CEREAL_NVP(UserDefinedColorG),
+					CEREAL_NVP(UserDefinedColorB)
+				);
+			}
+			else {
+				UserDefinedColorR = 0;
+				UserDefinedColorG = 0;
+				UserDefinedColorB = 0;
+			}
 		}
 	};
 
@@ -248,7 +268,7 @@ namespace Nodes
 		bool BrushMapOn;
 		bool DistortionMapOn;
 		Nodes::LoopDirectionType LoopDirectionTypeValue; // -> LoopDirectionType
-		Pcl4NativeDll::ColorSpace ColorSpaceTypeValue; // -> ColorSpaceType
+		Pcl4NativeDll::ColorMode ColorModeTypeValue; // -> ColorModeType
 #endif
 		std::shared_ptr<TextureMapNodeToExport> BrushMapToExport;
 		std::shared_ptr<TextureMapNodeToExport> DistortionMapToExport;
@@ -316,7 +336,7 @@ namespace Nodes
 				CEREAL_NVP(AlphaReductionEnable),
 				CEREAL_NVP(AlphaReductionCurveValues),
 
-				CEREAL_NVP(ColorSpaceType),
+				CEREAL_NVP(ColorModeType),
 				CEREAL_NVP(ColorRed),
 				CEREAL_NVP(ColorGreen),
 				CEREAL_NVP(ColorBlue),
@@ -543,7 +563,43 @@ namespace Nodes
 	};
 
 
+	struct VectorOutputToExport : public Pcl4NativeDll::VectorOutputNode
+	{
+#ifdef PYBIND_INCLUDE
+		static void registerClass(const pybind11::module_& m);
+		std::array<bool, 8> LinesetIDs;
+#endif
+		std::wstring path;
+
+		template<class Archive>
+		void serialize(Archive& archive, std::uint32_t const version)
+		{
+			archive(
+				CEREAL_NVP(path),
+				CEREAL_NVP(outputType),
+				CEREAL_NVP(isDrawVisibleLines),
+				CEREAL_NVP(isDrawHiddenLines),
+				CEREAL_NVP(isDrawEdgeOutline),
+				CEREAL_NVP(isDrawEdgeObject),
+				CEREAL_NVP(isDrawEdgeISect),
+				CEREAL_NVP(isDrawEdgeSmooth),
+				CEREAL_NVP(isDrawEdgeMatID),
+				CEREAL_NVP(isDrawEdgeSelectedEdge),
+				CEREAL_NVP(isDrawEdgeNormal),
+				CEREAL_NVP(isDrawEdgeWire),
+				CEREAL_NVP(isDrawLineSetId1),
+				CEREAL_NVP(isDrawLineSetId2),
+				CEREAL_NVP(isDrawLineSetId3),
+				CEREAL_NVP(isDrawLineSetId4),
+				CEREAL_NVP(isDrawLineSetId5),
+				CEREAL_NVP(isDrawLineSetId6),
+				CEREAL_NVP(isDrawLineSetId7),
+				CEREAL_NVP(isDrawLineSetId8)
+			);
+		}
+	};
 }
 
-CEREAL_CLASS_VERSION(Nodes::LineNodeToExport, 1);
+CEREAL_CLASS_VERSION(Nodes::LineNodeToExport, 2);
+CEREAL_CLASS_VERSION(Nodes::LineSetNodeToExport, 1);
 CEREAL_CLASS_VERSION(Nodes::TextureMapNodeToExport, 1);

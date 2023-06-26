@@ -16,6 +16,7 @@ namespace blrna
 		INT_ARRAY_PROP(size);
 		POINTER_PROP(colorspace_settings);
 		BOOL_PROP(is_float)
+		ACTION(update);
 
 	private:
 

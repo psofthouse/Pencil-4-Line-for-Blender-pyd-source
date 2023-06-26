@@ -39,7 +39,7 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 		.def(py::init<float, float, int, std::vector<std::vector<float>>&, std::vector<std::vector<float>>&>())
 		;
 	py::class_<interm::RenderInstance>(m, "interm_render_Instance")
-		.def(py::init<py::object, std::vector<std::vector<float>>&, py::object>())
+		.def(py::init<py::object, std::vector<std::vector<float>>&, py::object, bool>())
 		;
 	py::class_<interm::CurveData>(m, "interm_curve_data")
 		.def(py::init<std::vector<py::object>&, std::vector<int>>())
@@ -56,8 +56,9 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 			std::vector<std::shared_ptr<Nodes::LineNodeToExport>> lineNodes,
 			std::vector<std::shared_ptr<Nodes::LineFunctionsNodeToExport>> lineFunctions,
 			std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>> lineRenderElements,
+			std::vector<std::shared_ptr<Nodes::VectorOutputToExport>> vectorOutputs,
 			std::vector<std::vector<py::object>> groups)
-			{ return self.Draw(blrna::Image(image), cameraObject.cast<interm::Camera>(), objects, materialOverride, curveData, lineNodes, lineFunctions, lineRenderElements, groups); })
+			{ return self.Draw(blrna::Image(image), cameraObject.cast<interm::Camera>(), objects, materialOverride, curveData, lineNodes, lineFunctions, lineRenderElements, vectorOutputs, groups); })
 		.def("draw_for_viewport", [](interm::Context& self,
 			int width,
 			int height,
@@ -73,6 +74,7 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 		.def("cleanup_frame", [](interm::Context& self) { self.CleanupFrame(); })
 		.def_readwrite("render_app_path", &interm::Context::renderAppPath)
 		.def_readwrite("task_name", &interm::Context::taskName)
+		.def_readwrite("platform", &interm::Context::platform)
 		.def("get_viewport_image_buffer", [](interm::Context& self)
 		{
 			if (!self.GetViewportImageBuffer())
@@ -121,4 +123,5 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 	Nodes::TextureMapNodeToExport::registerClass(m);
 	Nodes::LineFunctionsNodeToExport::registerClass(m);
 	Nodes::LineRenderElementToExport::registerClass(m);
+	Nodes::VectorOutputToExport::registerClass(m);
 }

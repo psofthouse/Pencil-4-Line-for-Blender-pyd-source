@@ -21,7 +21,7 @@ namespace RenderApp
 	struct DataHeader
 	{
 		const size_t headerBytes = sizeof(DataHeader);
-		const int version = 6;
+		const int version = 7;
 
 		size_t dataBytes = 0;
 		size_t meshDataBytes = 0;
@@ -106,13 +106,6 @@ namespace RenderApp
 			);
 		}
 	};
-
-	//struct MeshData
-	//{
-	//	std::vector<Vector3> vertices;
-	//	std::vector<Vector2> uvs;
-	//	std::vector<int> triangles;
-	//};
 
 	struct MeshDataInfo
 	{
@@ -277,6 +270,9 @@ namespace RenderApp
 		std::vector<std::vector<int>> groups;
 		std::wstring taskName;
 		std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>> lineRenderElements;
+		std::vector<std::shared_ptr<Nodes::VectorOutputToExport>> vectorOutputs;
+		std::string platform;
+		Pcl4NativeDll::ColorSpace inputColorSpace = Pcl4NativeDll::ColorSpace::Linear;
 
 		template<class Archive>
 		void serialize(Archive& archive, std::uint32_t const version)
@@ -300,6 +296,13 @@ namespace RenderApp
 					CEREAL_NVP(lineRenderElements)
 				);
 			}
+			if (3 <= version) {
+				archive(
+					CEREAL_NVP(vectorOutputs),
+					CEREAL_NVP(platform),
+					CEREAL_NVP(inputColorSpace)
+				);
+			}
 		}
 	};
 
@@ -308,4 +311,4 @@ namespace RenderApp
 
 CEREAL_CLASS_VERSION(RenderApp::MeshDataInfo, 1);
 CEREAL_CLASS_VERSION(RenderApp::RenderInformation, 1);
-CEREAL_CLASS_VERSION(RenderApp::Data, 2);
+CEREAL_CLASS_VERSION(RenderApp::Data, 3);

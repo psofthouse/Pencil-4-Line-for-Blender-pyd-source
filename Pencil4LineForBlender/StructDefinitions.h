@@ -14,6 +14,13 @@ namespace Pcl4NativeDll
 	struct TextureMapNode;
 	struct LineGroupNode;
 	struct RenderElementsLineNode;
+	struct VectorOutputNode;
+
+	enum class ColorSpace : int
+	{
+		Linear,
+		sRGB,
+	};
 
 #pragma pack(4)
 	struct RenderInformation
@@ -23,6 +30,7 @@ namespace Pcl4NativeDll
 		int height;
 		int pixelBufferFormat;
 		float lineScale;
+		ColorSpace inputColorSpace;
 	};
 
 	struct LineListNode
@@ -50,6 +58,7 @@ namespace Pcl4NativeDll
 		float LineOffscreenDistance;
 		int LineRandomSeed;
 		float ScaleEx;
+		wchar_t* pName;	// for Vector Output
 	};
 
 	struct LineSetNode
@@ -159,6 +168,11 @@ namespace Pcl4NativeDll
 
 		bool HAlphaReductionOn;
 		ReductionSettingsNode* HAlphaReduction;
+
+		wchar_t* pName;	// for Vector Output
+		float UserDefinedColorR;	// for Vector Output
+		float UserDefinedColorG;	// for Vector Output
+		float UserDefinedColorB;	// for Vector Output
 	};
 
 	struct BrushSettingsNode
@@ -204,7 +218,7 @@ namespace Pcl4NativeDll
 		Right
 	};
 
-	enum class ColorSpace : int
+	enum class ColorMode : int
 	{
 		RGB = 0,
 		HSV
@@ -267,7 +281,7 @@ namespace Pcl4NativeDll
 		bool AlphaReductionEnable;
 		float* AlphaReductionCurve;
 
-		int ColorSpaceType;
+		int ColorModeType;
 		float ColorRed;
 		float ColorGreen;
 		float ColorBlue;
@@ -449,5 +463,44 @@ namespace Pcl4NativeDll
 		float depthDrawMax;
 		int pixelBufferFormat;
 	};
+
+
+	struct VectorOutputsInfo
+	{
+		VectorOutputNode** outputs;
+		int outputsLength;
+	};
+
+	enum class VectorOutputType : int
+	{
+		AIEPS,
+		EPS,
+		PLD,
+	};
+
+	struct VectorOutputNode
+	{
+		wchar_t* outputPath;
+		VectorOutputType outputType;
+		bool isDrawVisibleLines;
+		bool isDrawHiddenLines;
+		bool isDrawEdgeOutline;
+		bool isDrawEdgeObject;
+		bool isDrawEdgeISect;
+		bool isDrawEdgeSmooth;
+		bool isDrawEdgeMatID;
+		bool isDrawEdgeSelectedEdge;
+		bool isDrawEdgeNormal;
+		bool isDrawEdgeWire;
+		bool isDrawLineSetId1;
+		bool isDrawLineSetId2;
+		bool isDrawLineSetId3;
+		bool isDrawLineSetId4;
+		bool isDrawLineSetId5;
+		bool isDrawLineSetId6;
+		bool isDrawLineSetId7;
+		bool isDrawLineSetId8;
+	};
+
 #pragma pack()
 }

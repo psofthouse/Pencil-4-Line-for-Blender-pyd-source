@@ -36,9 +36,9 @@ void Nodes::registerEnums(const pybind11::module_& m)
 		.value("anticlockwise", LoopDirectionType::Anticlockwise)
 		;
 
-	py::enum_<ColorSpace>(m, "pcl4_enum_color_space_type")
-		.value("RGB", ColorSpace::RGB)
-		.value("HSV", ColorSpace::HSV)
+	py::enum_<ColorMode>(m, "pcl4_enum_color_mode_type")
+		.value("RGB", ColorMode::RGB)
+		.value("HSV", ColorMode::HSV)
 		;
 
 	py::enum_<TextureMapSourceType>(m, "pcl4_enum_texture_map_source_type")
@@ -72,6 +72,12 @@ void Nodes::registerEnums(const pybind11::module_& m)
 		.value("COLOR", LineRenderElementToExport::RenderElementType::Color)
 		.value("DEPTH", LineRenderElementToExport::RenderElementType::Depth)
 		;
+
+	py::enum_<VectorOutputType> (m, "pcl4_enum_vector_putput_type")
+		.value("AIEPS", VectorOutputType::AIEPS)
+		.value("EPS", VectorOutputType::EPS)
+		.value("PLD", VectorOutputType::PLD)
+		;
 }
 
 void Nodes::LineNodeToExport::registerClass(const pybind11::module_& m)
@@ -88,6 +94,7 @@ void Nodes::LineNodeToExport::registerClass(const pybind11::module_& m)
 		.def_readwrite("off_screen_distance", &LineNodeToExport::LineOffscreenDistance)
 		.def_readwrite("random_seed", &LineNodeToExport::LineRandomSeed)
 		.def_readwrite("_scale_ex", &LineNodeToExport::ScaleEx)
+		.def_readwrite("node_name", &LineNodeToExport::Name)
 		;
 }
 
@@ -192,6 +199,9 @@ void Nodes::LineSetNodeToExport::registerClass(const pybind11::module_& m)
 		.def_readwrite("h_size_reduction_settings", &LineSetNodeToExport::HSizeReductionToExport)
 		.def_readwrite("h_alpha_reduction_on", &LineSetNodeToExport::HAlphaReductionOn)
 		.def_readwrite("h_alpha_reduction_settings", &LineSetNodeToExport::HAlphaReductionToExport)
+
+		.def_readwrite("node_name", &LineSetNodeToExport::Name)
+		.def_readwrite("user_defined_color", &LineSetNodeToExport::UserDefinedColorRGB)
 		;
 }
 
@@ -275,7 +285,7 @@ void Nodes::BrushDetailNodeToExport::registerClass(const pybind11::module_& m)
 		.def_readwrite("alpha_reduction_enabled", &BrushDetailNodeToExport::AlphaReductionEnable)
 		.def_readwrite("alpha_reduction_curve", &BrushDetailNodeToExport::AlphaReductionCurveValues)
 
-		.def_readwrite("color_space_type", &BrushDetailNodeToExport::ColorSpaceTypeValue)
+		.def_readwrite("color_space_type", &BrushDetailNodeToExport::ColorModeTypeValue)
 		.def_readwrite("color_space_red", &BrushDetailNodeToExport::ColorRed)
 		.def_readwrite("color_space_green", &BrushDetailNodeToExport::ColorGreen)
 		.def_readwrite("color_space_blue", &BrushDetailNodeToExport::ColorBlue)
@@ -382,5 +392,26 @@ void Nodes::LineRenderElementToExport::registerClass(const pybind11::module_& m)
 		.def_readwrite("normal_angle_on", &LineRenderElementToExport::isDrawEdgeNormal)
 		.def_readwrite("wireframe_on", &LineRenderElementToExport::isDrawEdgeWire)
 		.def_readwrite("line_set_ids", &LineRenderElementToExport::LinesetIDs)
+		;
+}
+
+
+void Nodes::VectorOutputToExport::registerClass(const pybind11::module_& m)
+{
+	py::class_<VectorOutputToExport, std::shared_ptr<VectorOutputToExport>>(m, "vector_output")
+		.def(py::init<>())
+		.def_readwrite("output_path", &VectorOutputToExport::path)
+		.def_readwrite("file_type", &VectorOutputToExport::outputType)
+		.def_readwrite("visible_lines_on", &VectorOutputToExport::isDrawVisibleLines)
+		.def_readwrite("hidden_lines_on", &VectorOutputToExport::isDrawHiddenLines)
+		.def_readwrite("outline_on", &VectorOutputToExport::isDrawEdgeOutline)
+		.def_readwrite("object_on", &VectorOutputToExport::isDrawEdgeObject)
+		.def_readwrite("intersection_on", &VectorOutputToExport::isDrawEdgeISect)
+		.def_readwrite("smoothing_on", &VectorOutputToExport::isDrawEdgeSmooth)
+		.def_readwrite("material_id_on", &VectorOutputToExport::isDrawEdgeMatID)
+		.def_readwrite("selected_edges_on", &VectorOutputToExport::isDrawEdgeSelectedEdge)
+		.def_readwrite("normal_angle_on", &VectorOutputToExport::isDrawEdgeNormal)
+		.def_readwrite("wireframe_on", &VectorOutputToExport::isDrawEdgeWire)
+		.def_readwrite("line_set_ids", &VectorOutputToExport::LinesetIDs)
 		;
 }

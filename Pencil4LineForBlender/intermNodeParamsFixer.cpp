@@ -113,6 +113,8 @@ namespace interm
 		FixNode(node->HSelectedToExport, mapChannels);
 		FixNode(node->HSizeReductionToExport);
 		FixNode(node->HAlphaReductionToExport);
+
+		ExportArray(node->UserDefinedColorR, node->UserDefinedColorG, node->UserDefinedColorB, node->UserDefinedColorRGB);
 	}
 
 	void NodeParamsFixer::FixNode(std::shared_ptr<Nodes::BrushSettingsNodeToExport> node, MapChannels& mapChannels) const
@@ -130,7 +132,7 @@ namespace interm
 		if (!node) return;
 
 		node->LoopDirectionType = node->LoopDirectionTypeValue == Nodes::LoopDirectionType::Clockwise ? Pcl4NativeDll::LoopDirection::Right : Pcl4NativeDll::LoopDirection::Left;
-		node->ColorSpaceType = static_cast<int>(node->ColorSpaceTypeValue);
+		node->ColorModeType = static_cast<int>(node->ColorModeTypeValue);
 		FixNode(node->BrushMapToExport, node->BrushMapOn, mapChannels);
 		FixNode(node->DistortionMapToExport, node->DistortionMapOn, mapChannels);
 	}

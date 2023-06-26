@@ -10,7 +10,8 @@ namespace interm
 	public:
 		RenderInstance(py::object srcObject,
 			const std::vector<std::vector<float>>& m,
-			py::object mesh) :
+			py::object mesh,
+			bool holdout) :
 			_srcObject(srcObject),
 			_matrixWorld {
 				m[0][0], m[1][0], m[2][0], m[3][0],
@@ -18,7 +19,8 @@ namespace interm
 				m[0][2], m[1][2], m[2][2], m[3][2],
 				m[0][3], m[1][3], m[2][3], m[3][3],
 			},
-			_mesh(mesh)
+			_mesh(mesh),
+			_holdout(holdout)
 		{}
 		~RenderInstance() {}
 
@@ -27,10 +29,13 @@ namespace interm
 
 		const float* GetMatrixWorld() const { return _matrixWorld; }
 
+		const bool IsHoldout() const { return _holdout; }
+
 	private:
 		py::object _srcObject;
 		const float _matrixWorld[16];
 		py::object _mesh;
+		bool _holdout;
 	};
 
 }

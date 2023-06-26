@@ -48,6 +48,7 @@ namespace interm
 		return DrawImpl(width, height, blrna::Image(py::object()), camera, viewportScale,
 			renderInstances, materialOverride, curveData, lineNodesSrc, lineFunctions,
 			std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>>(),
+			std::vector<std::shared_ptr<Nodes::VectorOutputToExport>>(),
 			groups);
 	}
 
@@ -59,6 +60,7 @@ namespace interm
 		const std::vector<std::shared_ptr<Nodes::LineNodeToExport>>& lineNodesSrc,
 		const std::vector<std::shared_ptr<Nodes::LineFunctionsNodeToExport>>& lineFunctions,
 		const std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>>& lineRenderElements,
+		const std::vector<std::shared_ptr<Nodes::VectorOutputToExport>>& vectorOutputs,
 		const std::vector<std::vector<py::object>>& groups)
 	{
 		int w = 0, h = 0;
@@ -93,7 +95,7 @@ namespace interm
 		}
 
 		return DrawImpl(w, h, image, camera, viewportScale,
-			renderInstances, materialOverride, curveData, lineNodesSrc, lineFunctions, lineRenderElements, groups);
+			renderInstances, materialOverride, curveData, lineNodesSrc, lineFunctions, lineRenderElements, vectorOutputs, groups);
 	}
 
 	RenderAppRet Context::DrawImpl(int w, int h,
@@ -106,6 +108,7 @@ namespace interm
 		const std::vector<std::shared_ptr<Nodes::LineNodeToExport>>& lineNodesSrc,
 		const std::vector<std::shared_ptr<Nodes::LineFunctionsNodeToExport>>& lineFunctions,
 		const std::vector<std::shared_ptr<Nodes::LineRenderElementToExport>>& lineRenderElements,
+		const std::vector<std::shared_ptr<Nodes::VectorOutputToExport>>& vectorOutputs,
 		const std::vector<std::vector<py::object>>& groups)
 	{
 		auto renderSession = RenderApp::Session::Create(renderAppPath, drawOptions ? drawOptions->timeout : 0);
@@ -173,6 +176,19 @@ namespace interm
 
 		ImageMapper imageMapperForTexture(lineRenderElements.empty() ? sizeof(header) : imageMapperForRenderElement.GetNextPtrOffset(), 1);
 
+		// ベクトルファイル出力設定
+		for (auto vectorOutput : vectorOutputs)
+		{
+			vectorOutput->isDrawLineSetId1 = vectorOutput->LinesetIDs[0];
+			vectorOutput->isDrawLineSetId2 = vectorOutput->LinesetIDs[1];
+			vectorOutput->isDrawLineSetId3 = vectorOutput->LinesetIDs[2];
+			vectorOutput->isDrawLineSetId4 = vectorOutput->LinesetIDs[3];
+			vectorOutput->isDrawLineSetId5 = vectorOutput->LinesetIDs[4];
+			vectorOutput->isDrawLineSetId6 = vectorOutput->LinesetIDs[5];
+			vectorOutput->isDrawLineSetId7 = vectorOutput->LinesetIDs[6];
+			vectorOutput->isDrawLineSetId8 = vectorOutput->LinesetIDs[7];
+		}
+
 		//
 		std::unordered_map<void*, const CurveData&> curveDataMap;
 		for (auto& pair : curveData)
@@ -196,6 +212,8 @@ namespace interm
 
 		// レンダーインスタンス設定
 		renderAppData.renderInstances.reserve(renderInstances.size());
+		std::vector<int> holdout_instace_indices;
+		holdout_instace_indices.reserve(renderInstances.size());
 		std::vector<std::shared_ptr<MeshDataAccessor>> meshDataAccessors;
 		{
 			blrna::Material mtlOverride(materialOverride);
@@ -210,6 +228,11 @@ namespace interm
 				dst.localToWolrdMatrix.Set(src.GetMatrixWorld());
 
 				dst.instanceId = instanceId++;
+
+				if (src.IsHoldout())
+				{
+					holdout_instace_indices.emplace_back(dst.instanceId);
+				}
 
 				// メッシュデータへの参照設定
 				const auto& srcMesh = blrna::Mesh(src.Mesh());
@@ -276,6 +299,17 @@ namespace interm
 				fixer.FixNode(lineFunc);
 			}
 
+			// Holdout設定
+			if (!holdout_instace_indices.empty())
+			{
+				for (auto linenode : lineNodes)
+				{
+					auto dummyLineSetNode = std::make_shared<Nodes::LineSetNodeToExport>();
+					dummyLineSetNode->ObjectIds = holdout_instace_indices;
+					linenode->LineSetNodesToExport.insert(linenode->LineSetNodesToExport.begin(), dummyLineSetNode);
+				}
+			}
+
 			// メッシュが使用するマップチャンネル情報を設定
 			fixer.ForMapChannelsPerLinesets([&](std::shared_ptr<Nodes::LineSetNodeToExport> lineset,
 				const std::unordered_set<int>& uvChannels, const std::unordered_set<int>& colorChannels,
@@ -338,6 +372,8 @@ namespace interm
 		renderAppData.lineNodes = lineNodes;
 		renderAppData.lineFunctions = lineFunctions;
 		renderAppData.lineRenderElements = lineRenderElements;
+		renderAppData.vectorOutputs = vectorOutputs;
+		renderAppData.platform = platform;
 
 		// メッシュデータ情報を送信用データに書き込む
 		renderAppData.meshDataInformations.reserve(meshDataAccessors.size());
@@ -470,6 +506,7 @@ namespace interm
 				return RenderAppRet::Error_Unknown;
 			}
 			image.set_pixels(dataAccessor->ptr<float*>());
+			image.update();
 		}
 		for (auto element : lineRenderElements)
 		{
@@ -484,6 +521,7 @@ namespace interm
 			if (bytesPerPixel == 32)
 			{
 				i.set_pixels(dataAccessor->ptr<float*>());
+				image.update();
 			}
 			else
 			{
@@ -497,6 +535,7 @@ namespace interm
 					pDst[i] = coef * pSrc[i];
 				}
 				i.set_pixels(pDst);
+				image.update();
 			}
 		}
 
