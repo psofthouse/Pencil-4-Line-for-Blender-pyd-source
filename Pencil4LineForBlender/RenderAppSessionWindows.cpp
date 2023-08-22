@@ -168,14 +168,43 @@ namespace RenderApp
 			return;
 		}
 
-		auto mapView = hwndFileMapping->CreateView(0, sizeof(HWND), FILE_MAP_READ);
-		if (!mapView)
+		HWND hwnd = 0;
+		while (true)
 		{
-			_lastRenderAppRet = RenderAppRet::Error_Unknown;
-			return;
+			auto mapView = hwndFileMapping->CreateView(0, sizeof(HWND), FILE_MAP_READ);
+			if (!mapView)
+			{
+				_lastRenderAppRet = RenderAppRet::Error_Unknown;
+				return;
+			}
+			hwnd = *(HWND*)mapView->GetPtr();
+			if (hwnd)
+			{
+				break;
+			}
+
+			if (_useTimeout)
+			{
+				if (_timeout_point < std::chrono::steady_clock::now())
+				{
+					_lastRenderAppRet = RenderAppRet::Error_ExecRenderApp;
+					return;
+				}
+			}
+			else
+			{
+				hwndFileMapping = nullptr;
+				hwndFileMapping = std::make_shared<FileMapping>(FILEMAPPING_HWND, sizeof(HWND));
+				if (!hwndFileMapping->IsAlreadyExists())
+				{
+					_lastRenderAppRet = RenderAppRet::Error_ExecRenderApp;
+					return;
+				}
+			}
+			Sleep(100);
 		}
 
-		func(*(HWND*)mapView->GetPtr());
+		func(hwnd);
 	}
 
 	bool SessionWindows::RequestData(size_t bytes)

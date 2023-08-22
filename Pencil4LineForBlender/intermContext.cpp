@@ -521,7 +521,7 @@ namespace interm
 			if (bytesPerPixel == 32)
 			{
 				i.set_pixels(dataAccessor->ptr<float*>());
-				image.update();
+				i.update();
 			}
 			else
 			{
@@ -535,7 +535,7 @@ namespace interm
 					pDst[i] = coef * pSrc[i];
 				}
 				i.set_pixels(pDst);
-				image.update();
+				i.update();
 			}
 		}
 
