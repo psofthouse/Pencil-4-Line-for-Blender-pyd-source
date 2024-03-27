@@ -11,6 +11,7 @@
 #include "blrnaImage.h"
 #include "blrnaCamera.h"	
 #include "Nodes.h"
+#include "commitHash.h"
 
 namespace py = pybind11;
 
@@ -23,16 +24,21 @@ namespace py = pybind11;
 PYBIND11_MODULE(pencil4line_for_blender_win64_39, m)
 #elif defined PYTHON310
 PYBIND11_MODULE(pencil4line_for_blender_win64_310, m)
+#elif defined PYTHON311
+PYBIND11_MODULE(pencil4line_for_blender_win64_311, m)
 #endif
 #elif __MACH__
 #if defined PYTHON39
 PYBIND11_MODULE(pencil4line_for_blender_mac_39, m)
 #elif defined PYTHON310
 PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
+#elif defined PYTHON311
+PYBIND11_MODULE(pencil4line_for_blender_mac_311, m)
 #endif
 #endif
 {
 	m.doc() = "Pencil+ 4 for Blender";
+	m.def("get_commit_hash", [] { return GIT_COMMIT_HASH; });
 	m.def("set_blender_version", &interm::BlenderVersion::Set);
 
 	py::class_<interm::Camera>(m, "interm_camera")

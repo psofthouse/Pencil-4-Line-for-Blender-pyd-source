@@ -921,16 +921,17 @@ namespace interm
 		auto& polyLoops = *_polyLoopAccessor;
 		auto& polySharp = *_polySharpAccessor;
 
-		const bool autoSmooth = _mesh.get_use_auto_smooth();
-		const auto autoSmoothAngle = _mesh.get_auto_smooth_angle();
-		const bool hasCustomNormal = _mesh.get_has_custom_normals();
+		const bool newAutoSmooth = (BlenderVersion::Shared() >= BlenderVersion(4, 1));
+		const bool autoSmooth = newAutoSmooth ? false : _mesh.get_use_auto_smooth();
+		const auto autoSmoothAngle = newAutoSmooth ? 0 : _mesh.get_auto_smooth_angle();
+		const bool hasCustomNormal = autoSmoothAngle ? false : _mesh.get_has_custom_normals();
 
 		edgeFlags.resize(numEdges);
 		{
 			auto medgeAccessor = MEdgeAccessor(_mesh);
 			auto medgeItemType = _mesh.edges_item_type();
 			blrna::MEdge medgeObjectWork(PointerRNA{ (ID*)_mesh.data(), medgeItemType, nullptr });
-			const auto EdgeSharp_to_FaceFlag = autoSmooth ? RenderApp::FaceFlag_SmoothingBound0_1 : 0;
+			const auto EdgeSharp_to_FaceFlag = (autoSmooth || newAutoSmooth) ? RenderApp::FaceFlag_SmoothingBound0_1 : 0;
 
 			for (int i = 0; i < numEdges; i++)
 			{

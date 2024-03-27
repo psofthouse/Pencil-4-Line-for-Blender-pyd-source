@@ -1,6 +1,7 @@
 #ifdef _WINDOWS
 #include <tchar.h>
 #include <sstream>
+#include <filesystem>
 #include "FileMapping.h"
 #include "RenderAppDefine.h"
 #include "RenderAppSessionWindows.h"
@@ -158,7 +159,12 @@ namespace RenderApp
 				{
 					break;
 				}
-				::ShellExecute(NULL, _T("open"), _renderAppPath.data(), NULL, NULL, SW_SHOWNORMAL);
+				auto exec_ret = ::ShellExecute(NULL, _T("open"), _renderAppPath.data(), NULL,
+					std::filesystem::path(_renderAppPath).wstring().data(), SW_SHOWNORMAL);
+				if ((INT_PTR)exec_ret <= 32)
+				{
+					break;
+				}
 				Sleep(100);
 			}
 		}

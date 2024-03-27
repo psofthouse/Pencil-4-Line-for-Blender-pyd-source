@@ -389,3 +389,4 @@ FodyWeavers.xsd
 *.pyd
 
 Deploy/
+Pencil4LineForBlender/commitHash.h
