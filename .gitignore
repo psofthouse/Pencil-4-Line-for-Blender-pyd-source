@@ -388,5 +388,15 @@ FodyWeavers.xsd
 *.sln.iml
 *.pyd
 
+## User settings
+xcuserdata/
+
+## Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+#CMAKE
+out/
+
 Deploy/
 Pencil4LineForBlender/commitHash.h

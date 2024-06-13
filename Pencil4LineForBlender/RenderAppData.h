@@ -21,12 +21,12 @@ namespace RenderApp
 	struct DataHeader
 	{
 		const size_t headerBytes = sizeof(DataHeader);
-		const int version = 7;
+		const int version = 8;
 
 		size_t dataBytes = 0;
 		size_t meshDataBytes = 0;
 		size_t dataBytesStart = 0;
-		int renderType = 0; // reserved
+		int renderType = 0; // 0 : Render, 1 : Preview
 	};
 
 	struct Vector2
@@ -60,6 +60,12 @@ namespace RenderApp
 		float g;
 		float b;
 		float a;
+
+		template<class Archive>
+		void serialize(Archive& archive, std::uint32_t const version)
+		{
+			archive(CEREAL_NVP(r), CEREAL_NVP(g), CEREAL_NVP(b), CEREAL_NVP(a));
+		}
 	};
 
 	struct Matrix4x4
@@ -259,6 +265,7 @@ namespace RenderApp
 		}
 	};
 
+
 	struct Data
 	{
 		RenderInformation renderInformation;
@@ -305,6 +312,38 @@ namespace RenderApp
 			}
 		}
 	};
+
+
+	struct PreviewData
+	{
+		template<class Archive>
+		void serialize(Archive& archive, std::uint32_t const version)
+		{
+			archive(
+				CEREAL_NVP(widthForBrush),
+				CEREAL_NVP(heightForBrush),
+				CEREAL_NVP(widthForStroke),
+				CEREAL_NVP(heightForStroke),
+				CEREAL_NVP(brushDetailNode),
+				CEREAL_NVP(strokePreviewBrushSize),
+				CEREAL_NVP(strokePreviewScale),
+				CEREAL_NVP(color),
+				CEREAL_NVP(bgColor),
+				CEREAL_NVP(flipY)
+			);
+		}
+		int widthForBrush = 0;
+		int heightForBrush = 0;
+		int widthForStroke = 0;
+		int heightForStroke = 0;
+		std::shared_ptr<Nodes::BrushDetailNodeToExport> brushDetailNode;
+		float strokePreviewBrushSize = 1.0f;
+		float strokePreviewScale = 1.0f;
+		ColorFloat color = { 0, 0, 0, 1 };
+		ColorFloat bgColor = { 1, 1, 1, 1 };
+		bool flipY = false;
+	};
+
 
 #pragma pack()
 }

@@ -30,6 +30,7 @@ namespace RenderApp
 	{
 	public:
 		static std::shared_ptr<Session> Create(const std::wstring& renderAppPath, double timeout = 0);
+		static std::shared_ptr<Session> CreateForPreview(const std::wstring& renderAppPath);
 
 		Session(const Session&) = delete;
 		Session& operator=(const Session&) = delete;

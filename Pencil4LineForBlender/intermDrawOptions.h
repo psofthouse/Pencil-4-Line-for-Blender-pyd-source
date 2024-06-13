@@ -8,6 +8,7 @@ namespace interm
 		float line_scale = 1.0f;
 		float linesize_relative_target_width = 0;
 		float linesize_relative_target_height = 0;
+		float linesize_absolute_scale = 1.0f;
 		bool objects_cache_valid = false;
 	};
 }

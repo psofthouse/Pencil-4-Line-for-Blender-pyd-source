@@ -36,6 +36,7 @@ namespace interm
 		void FixNode(std::shared_ptr<Nodes::LineSetNodeToExport> node);
 		void FixNode(std::shared_ptr<Nodes::BrushSettingsNodeToExport> node, MapChannels& mapChannels) const;
 		void FixNode(std::shared_ptr<Nodes::BrushDetailNodeToExport> node, MapChannels& mapChannels) const;
+		void FixNode(std::shared_ptr<Nodes::BrushDetailNodeToExport> node) const { MapChannels mapChannels; FixNode(node, mapChannels); }
 		void FixNode(std::shared_ptr<Nodes::ReductionSettingsNodeToExport> node) const;
 		void FixNode(std::shared_ptr<Nodes::TextureMapNodeToExport> node, MapChannels& mapChannels) const;
 		void FixNode(std::shared_ptr<Nodes::LineFunctionsNodeToExport> node) const;

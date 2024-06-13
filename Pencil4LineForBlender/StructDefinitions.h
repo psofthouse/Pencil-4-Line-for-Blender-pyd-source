@@ -379,7 +379,8 @@ namespace Pcl4NativeDll
 		Repeat,
 		Clamp,
 		Mirror,
-		MirrorOnce
+		MirrorOnce,
+		Clip
 	};
 
 	enum class TextureFilterMode : int
@@ -418,6 +419,7 @@ namespace Pcl4NativeDll
 		bool objectColorMode;
 		int exChannelIndex;
 		int exChannelID;
+		float rotation;
 	};
 
 	struct LineGroupNode

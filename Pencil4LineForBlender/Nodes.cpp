@@ -61,6 +61,7 @@ void Nodes::registerEnums(const pybind11::module_& m)
 		.value("clamp", TextureWrapMode::Clamp)
 		.value("mirror", TextureWrapMode::Mirror)
 		.value("mirror_once", TextureWrapMode::MirrorOnce)
+		.value("clip", TextureWrapMode::Clip)
 		;
 
 	py::enum_<TextureFilterMode>(m, "pcl4_enum_texture_filter_mode")
@@ -326,6 +327,7 @@ void Nodes::TextureMapNodeToExport::registerClass(const pybind11::module_& m)
 		.def_readwrite("object_color_selection_mode", &TextureMapNodeToExport::object_color_selection_mode)
 		.def_readwrite("object_color_index", &TextureMapNodeToExport::object_color_index)
 		.def_readwrite("object_color_name", &TextureMapNodeToExport::object_color_name)
+		.def_readwrite("rotation", &TextureMapNodeToExport::rotation)
 		;
 }
 

@@ -36,10 +36,16 @@ namespace RenderApp
 
 	std::shared_ptr<Session> Session::Create(const std::wstring& renderAppPath, double timeout)
 	{
-		return std::shared_ptr<Session>(new SessionWindows(renderAppPath, timeout));
+		return std::shared_ptr<Session>(new SessionWindows(renderAppPath, timeout, FILEMAPPING_HWND, FILEMAPPING_DATAFILE));
 	}
 
-	SessionWindows::SessionWindows(const std::wstring& renderAppPath, double timeout):_renderAppPath(renderAppPath)
+	std::shared_ptr<Session> Session::CreateForPreview(const std::wstring& renderAppPath)
+	{
+		return std::shared_ptr<Session>(new SessionWindows(renderAppPath, 0, FILEMAPPING_HWND_FOR_PREVIEW, FILEMAPPING_DATAFILE_FOR_PREVIEW));
+	}
+
+	SessionWindows::SessionWindows(const std::wstring& renderAppPath, double timeout, const TCHAR* filemapping_hwnd, const TCHAR* filemapping_datafile):
+		_renderAppPath(renderAppPath), _filemapping_hwnd_name(filemapping_hwnd), _filemapping_datafile_name(filemapping_datafile)
 	{
 		_useTimeout = timeout > 0;
 		if (_useTimeout)
@@ -151,7 +157,7 @@ namespace RenderApp
 		std::shared_ptr<FileMapping> hwndFileMapping;
 		for (int i = 0; !hwndFileMapping; i++)
 		{
-			hwndFileMapping = std::make_shared<FileMapping>(FILEMAPPING_HWND, sizeof(HWND));
+			hwndFileMapping = std::make_shared<FileMapping>(_filemapping_hwnd_name.data(), sizeof(HWND));
 			if (!hwndFileMapping->IsAlreadyExists())
 			{
 				hwndFileMapping = nullptr;
@@ -200,7 +206,7 @@ namespace RenderApp
 			else
 			{
 				hwndFileMapping = nullptr;
-				hwndFileMapping = std::make_shared<FileMapping>(FILEMAPPING_HWND, sizeof(HWND));
+				hwndFileMapping = std::make_shared<FileMapping>(_filemapping_hwnd_name.data(), sizeof(HWND));
 				if (!hwndFileMapping->IsAlreadyExists())
 				{
 					_lastRenderAppRet = RenderAppRet::Error_ExecRenderApp;
@@ -217,7 +223,7 @@ namespace RenderApp
 	{
 		if (SendMessage(WM_SESSION_DATAFILE_REQUEST, bytes))
 		{
-			_fileMappingData = std::make_shared<FileMapping>(FILEMAPPING_DATAFILE, 1);
+			_fileMappingData = std::make_shared<FileMapping>(_filemapping_datafile_name.data(), 1);
 			if (_fileMappingData && _fileMappingData->IsAlreadyExists())
 			{
 				return true;

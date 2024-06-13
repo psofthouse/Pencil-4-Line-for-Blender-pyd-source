@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <sstream>
+#include <mutex>
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/vector.hpp>
@@ -25,6 +26,8 @@
 
 namespace interm
 {
+	std::wstring Context::renderAppPath;
+
 	constexpr int RenderAppPixelFormat_RGBA32 = 0;
 	constexpr int RenderAppPixelFormat_Float = 2;
 
@@ -275,7 +278,11 @@ namespace interm
 			{
 				if (lineNodeSrc && lineNodeSrc->Active)
 				{
-					if (lineNodeSrc->LineSizeTypeValue != Nodes::LineSizeType::Absolute)
+					if (lineNodeSrc->LineSizeTypeValue == Nodes::LineSizeType::Absolute)
+					{
+						lineNodeSrc->ScaleEx *= drawOptions ? drawOptions->linesize_absolute_scale : 1.0f;
+					}
+					else
 					{
 						lineNodeSrc->LineSizeTypeValue = Nodes::LineSizeType::Absolute;
 						if (camera.GetSensorFit() == 1 ||
@@ -587,5 +594,155 @@ namespace interm
 		}
 
 		return ret;
+	}
+
+	CreatePreviewsRet CreatePreviews(int previewSize, int strokePreviewWidth,
+		std::shared_ptr<Nodes::BrushDetailNodeToExport> brushDtailNode,
+		float strokePreviewBrushSize,
+		float strokePreviewScale,
+		const std::array<float, 4>& color,
+		const std::array<float, 4>& bgColor,
+		std::shared_ptr<DataHash> hashPrev)
+	{
+		static const CreatePreviewsRet error_ret(nullptr, py::array_t<float>(0, nullptr), py::array_t<float>(0, nullptr));
+		static std::mutex mutex;
+		std::lock_guard<std::mutex> lock(mutex);
+		static std::vector<float> textureWorkBuffer;
+
+		static bool g_tryAutoExecRenderAppForPreview = true;
+		auto renderSession = RenderApp::Session::CreateForPreview(g_tryAutoExecRenderAppForPreview ? Context::renderAppPath : std::wstring());
+		g_tryAutoExecRenderAppForPreview = false;
+		if (!renderSession || !renderSession->IsReady() || previewSize <= 0 || strokePreviewWidth <= 0 || !brushDtailNode)
+		{
+			return error_ret;
+		}
+
+		//
+		RenderApp::DataHeader header;
+		header.renderType = 1;
+		RenderApp::PreviewData previewData;
+		previewData.widthForBrush = previewSize;
+		previewData.heightForBrush = previewSize;
+		previewData.widthForStroke = strokePreviewWidth;
+		previewData.heightForStroke = previewSize;
+		previewData.brushDetailNode = brushDtailNode;
+		previewData.strokePreviewBrushSize = strokePreviewBrushSize;
+		previewData.strokePreviewScale = strokePreviewScale;
+		previewData.color = { color[0], color[1], color[2], color[3] };
+		previewData.bgColor = { bgColor[0], bgColor[1], bgColor[2], bgColor[3] };
+		previewData.flipY = false;
+		const size_t bytesPerPixel = 4;
+
+		//
+		ImageMapper imageMapperForTexture(sizeof(header), 1);
+		{
+			std::unordered_map<void*, int> instanceIDMap;
+			std::vector<RenderApp::RenderInstance> renderInstances;
+			std::vector<py::object> renderInstancesSrc;
+			ObjectIDMapper objectIDMapper(renderInstances, renderInstancesSrc);
+			NameIDMapper nameIDMapper;
+			NodeParamsFixer fixer(instanceIDMap, objectIDMapper, imageMapperForTexture, nameIDMapper);
+			fixer.FixNode(brushDtailNode);
+		}
+
+		// レンダリングに必要なデータサイズを計算する
+		std::string renderAppDataBinary;
+		{
+			std::stringstream stream;
+			cereal::BinaryOutputArchive archive(stream);
+			archive(CEREAL_NVP(previewData));
+			renderAppDataBinary = stream.str();
+		}
+
+		header.dataBytes = renderAppDataBinary.size();
+		header.dataBytesStart = imageMapperForTexture.GetNextPtrOffset();
+
+		auto allBufferSize = header.dataBytesStart +
+			std::max(header.dataBytes, (previewData.widthForBrush * previewData.heightForBrush + previewData.widthForStroke * previewData.heightForStroke) * bytesPerPixel);
+
+		// データを書き込むバッファの確保
+		if (!renderSession->RequestData(allBufferSize))
+		{
+			return error_ret;
+		}
+
+		// 確保したバッファへのデータ書き込み
+		auto data_hash = std::make_shared<DataHash>();
+
+		auto writeDataFunc = [&](std::function<void(void*)> writeFunc, size_t offset, size_t bytes)
+		{
+			auto dataAccessor = renderSession->AccessData(offset, bytes, RenderApp::DataAccessor::DesiredAccess::Write);
+			if (dataAccessor)
+			{
+				writeFunc(dataAccessor->ptr());
+				data_hash->Record(offset, bytes, dataAccessor->ptr());
+				return true;
+			}
+
+			return false;
+		};
+		auto writeDataBuffer = [&](const void* src, size_t offset, size_t bytes)
+		{
+			return writeDataFunc([src, bytes](void* dst) {
+				memcpy(dst, src, bytes);
+			}, offset, bytes);
+		};
+
+		if (!writeDataBuffer(&header, 0, sizeof(header))) return error_ret;
+
+		size_t offset = header.dataBytesStart;
+		if (!writeDataBuffer(renderAppDataBinary.data(), offset, renderAppDataBinary.size())) return error_ret;
+		offset += renderAppDataBinary.size();
+
+		// テクスチャマップの書き込み
+		{
+			std::shared_ptr<RenderApp::DataAccessor> dataAccessor;
+			if (!imageMapperForTexture.WriteImageData([&](size_t offset, size_t bytes) {
+				dataAccessor = renderSession->AccessData(offset, bytes, RenderApp::DataAccessor::DesiredAccess::Write);
+				return dataAccessor ? dataAccessor->ptr() : nullptr;
+			}, [&](size_t offset, size_t bytes) {
+				data_hash->Record(offset, bytes, dataAccessor->ptr());
+			}, textureWorkBuffer))
+			{
+				return error_ret;
+			}
+		}
+
+		// レンダリングの実行
+		if (hashPrev && *hashPrev == *data_hash)
+		{
+			g_tryAutoExecRenderAppForPreview = true;
+			return CreatePreviewsRet(hashPrev, py::array_t<float>(0, nullptr), py::array_t<float>(0, nullptr));
+		}
+		if (!renderSession->Render())
+		{
+			return error_ret;
+		}
+
+		// 得られたピクセルデータをバッファに展開する
+		std::vector<float> pixelData[2];
+		size_t bytes[2] = { previewData.widthForBrush * previewData.heightForBrush * bytesPerPixel, previewData.widthForStroke * previewData.heightForStroke * bytesPerPixel };
+		offset = header.dataBytesStart;
+		for (int i = 0; i < 2; i++)
+		{
+			auto dataAccessor = renderSession->AccessData(offset, bytes[i], RenderApp::DataAccessor::DesiredAccess::Read);
+			if (!dataAccessor)
+			{
+				return error_ret;
+			}
+			pixelData[i].resize(bytes[i]);
+			auto pSrc = dataAccessor->ptr<unsigned char*>();
+			auto pDst = pixelData[i].data();
+			constexpr auto coef = 1.0f / 255;
+			int numData =(int) bytes[i];
+			for (int i = 0; i < numData; i++)
+			{
+				pDst[i] = coef * pSrc[i];
+			}
+			offset += bytes[i];
+		}
+
+		g_tryAutoExecRenderAppForPreview = true;
+		return CreatePreviewsRet(data_hash, py::array_t<float>(pixelData[0].size(), pixelData[0].data()), py::array_t<float>(pixelData[1].size(), pixelData[1].data()));
 	}
 }

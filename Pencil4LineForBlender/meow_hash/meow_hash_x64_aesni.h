@@ -128,14 +128,19 @@
 #endif
 #include <intrin.h>
 #else
-#include <x86intrin.h>
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+#include "sse2neon.h"
+#else
+#include <wmmintrin.h>
+#include <smmintrin.h>
+#endif
 #endif
 
 #define meow_u8 char unsigned
 #define meow_u64 long long unsigned
 #define meow_u128 __m128i
 
-#if __x86_64__ || _M_AMD64
+#if __x86_64__ || _M_AMD64 || defined(__APPLE__)
 #define meow_umm long long unsigned
 #define MeowU64From(A, I) (_mm_extract_epi64((A), (I)))
 #elif __i386__  || _M_IX86

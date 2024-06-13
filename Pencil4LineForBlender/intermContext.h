@@ -3,7 +3,9 @@
 #include <memory>
 #include <unordered_map>
 #include <string>
+#include <tuple>
 #include "pybind11/pybind11.h"
+#include "pybind11/numpy.h"
 #include "Nodes.h"
 #include "RenderAppDefine.h"
 namespace py = pybind11;
@@ -50,7 +52,7 @@ namespace interm
 
 		int PointerToInstanceID(void* p);
 
-		std::wstring renderAppPath;
+		static std::wstring renderAppPath;
 		std::wstring taskName;
 		std::shared_ptr<DrawOptions> drawOptions;
 		std::string platform;
@@ -83,4 +85,15 @@ namespace interm
 		std::shared_ptr<DataHash> _data_hash;
 		std::shared_ptr<DataHash> _data_hash_excluding_objects;
 	};
+
+
+	typedef std::tuple<std::shared_ptr<DataHash>, py::array_t<float>, py::array_t<float>> CreatePreviewsRet;
+	CreatePreviewsRet CreatePreviews(int previewSize, int strokePreviewWidth,
+		std::shared_ptr<Nodes::BrushDetailNodeToExport> brushDtailNode,
+		float strokePreviewBrushSize,
+		float strokePreviewScale,
+		const std::array<float, 4>& color,
+		const std::array<float, 4>& bgColor,
+		std::shared_ptr<DataHash> hashPrev);
+
 }

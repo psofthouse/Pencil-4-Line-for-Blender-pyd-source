@@ -8,6 +8,7 @@
 #include "intermMeshDataAccessor.h"
 #include "intermDrawOptions.h"
 #include "intermBlenderVersion.h"
+#include "intermDataHash.h"
 #include "blrnaImage.h"
 #include "blrnaCamera.h"	
 #include "Nodes.h"
@@ -28,6 +29,11 @@ PYBIND11_MODULE(pencil4line_for_blender_win64_310, m)
 PYBIND11_MODULE(pencil4line_for_blender_win64_311, m)
 #endif
 #elif __MACH__
+#include <cstdlib>
+static void SimulateEscKeyPress()
+{
+    std::system("osascript -e 'tell application \"System Events\" to key code 53'");
+}
 #if defined PYTHON39
 PYBIND11_MODULE(pencil4line_for_blender_mac_39, m)
 #elif defined PYTHON310
@@ -35,12 +41,34 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 #elif defined PYTHON311
 PYBIND11_MODULE(pencil4line_for_blender_mac_311, m)
 #endif
+#elif __linux__
+#if defined PYTHON39
+PYBIND11_MODULE(pencil4line_for_blender_linux_39, m)
+#elif defined PYTHON310
+PYBIND11_MODULE(pencil4line_for_blender_linux_310, m)
+#elif defined PYTHON311
+PYBIND11_MODULE(pencil4line_for_blender_linux_311, m)
+#endif
 #endif
 {
 	m.doc() = "Pencil+ 4 for Blender";
 	m.def("get_commit_hash", [] { return GIT_COMMIT_HASH; });
 	m.def("set_blender_version", &interm::BlenderVersion::Set);
-
+	m.def("set_render_app_path", [](std::wstring& str)  {interm::Context::renderAppPath = str; });
+    m.def("create_previews", [](
+        int previewSize,
+        int strokePreviewWidth,
+        std::shared_ptr<Nodes::BrushDetailNodeToExport> brushDtailNode,
+        float strokePreviewBrushSize,
+        float strokePreviewScale,
+        const std::array<float, 4> color,
+        const std::array<float, 4> bgColor,
+        std::shared_ptr<interm::DataHash> hashPrev)
+    { return interm::CreatePreviews(previewSize, strokePreviewWidth, brushDtailNode, strokePreviewBrushSize, strokePreviewScale, color, bgColor, hashPrev); });
+#ifdef __MACH__
+    m.def("simulate_esc_key_press", &SimulateEscKeyPress);
+#endif
+    
 	py::class_<interm::Camera>(m, "interm_camera")
 		.def(py::init<float, float, int, std::vector<std::vector<float>>&, std::vector<std::vector<float>>&>())
 		;
@@ -78,7 +106,6 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_311, m)
 			{ return self.DrawForViewport(width, height, cameraObject.cast<interm::Camera>(), objects, materialOverride, curveData, lineNodes, lineFunctions, groups); })
 		.def("cleanup_all", [](interm::Context& self) { self.CleanupAll(); })
 		.def("cleanup_frame", [](interm::Context& self) { self.CleanupFrame(); })
-		.def_readwrite("render_app_path", &interm::Context::renderAppPath)
 		.def_readwrite("task_name", &interm::Context::taskName)
 		.def_readwrite("platform", &interm::Context::platform)
 		.def("get_viewport_image_buffer", [](interm::Context& self)
@@ -116,9 +143,13 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_311, m)
 		.def_readwrite("line_scale", &interm::DrawOptions::line_scale)
 		.def_readwrite("linesize_relative_target_width", &interm::DrawOptions::linesize_relative_target_width)
 		.def_readwrite("linesize_relative_target_height", &interm::DrawOptions::linesize_relative_target_height)
+		.def_readwrite("linesize_absolute_scale", &interm::DrawOptions::linesize_absolute_scale)
 		.def_readwrite("objects_cache_valid", &interm::DrawOptions::objects_cache_valid)
 		;
 
+	py::class_<interm::DataHash, std::shared_ptr<interm::DataHash>>(m, "data_hash")
+		.def(py::init<>())
+		;
 
 	Nodes::registerEnums(m);
 	Nodes::LineNodeToExport::registerClass(m);

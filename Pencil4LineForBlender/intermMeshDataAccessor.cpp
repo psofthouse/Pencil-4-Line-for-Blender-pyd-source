@@ -66,7 +66,7 @@ namespace interm
 	template <class T, class blrnaT> class GeomAttribAccessor : public GeomDataAccessor<T>
 	{
 	public:
-		GeomAttribAccessor(PointerRNA prna) : _data(blrnaT(prna).get_data<T*>()) {}
+        GeomAttribAccessor(PointerRNA prna) : _data(blrnaT(prna).template get_data<T*>()) {}
 		T operator[](size_t i) const override { return _data[i]; }
 	private:
 		const T* _data;

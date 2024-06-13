@@ -20,9 +20,11 @@ namespace RenderApp
 		bool Render() override;
 
 	protected:
-		SessionWindows(const std::wstring& renderAppPath, double timeout);
+		SessionWindows(const std::wstring& renderAppPath, double timeout, const TCHAR* filemapping_hwnd, const TCHAR* _filemapping_datafile);
 
 	private:
+		const std::wstring _filemapping_hwnd_name;
+		const std::wstring _filemapping_datafile_name;
 		std::shared_ptr<FileMapping> _fileMappingProc;
 		std::shared_ptr<FileMapping> _fileMappingData;
 		int _dataGranularity;

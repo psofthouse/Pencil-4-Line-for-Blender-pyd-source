@@ -421,6 +421,14 @@ namespace Nodes
 				exChannelIndex = 0;
 				exChannelID = 0;
 			}
+			if (2 <= version) {
+				archive(
+					CEREAL_NVP(rotation)
+				);
+			}
+			else {
+				rotation = 0;
+			}
 		}
 	};
 
@@ -602,4 +610,4 @@ namespace Nodes
 
 CEREAL_CLASS_VERSION(Nodes::LineNodeToExport, 2);
 CEREAL_CLASS_VERSION(Nodes::LineSetNodeToExport, 1);
-CEREAL_CLASS_VERSION(Nodes::TextureMapNodeToExport, 1);
+CEREAL_CLASS_VERSION(Nodes::TextureMapNodeToExport, 2);
