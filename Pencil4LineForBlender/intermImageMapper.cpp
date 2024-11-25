@@ -23,7 +23,7 @@ namespace interm
 		auto w = rnaImage.Width();
 		auto h = rnaImage.Height();
 
-		return w * h * bytesPerPixel;
+		return (size_t)w * h * bytesPerPixel;
 	}
 
 	size_t ImageMapper::GetLastPtrOffset() const
@@ -105,21 +105,21 @@ namespace interm
 			blrna::ColorManagedInputColorspaceSettings colorspaceSettings(rnaImage.get_colorspace_settings());
 			auto colorspace = colorspaceSettings.get_name_item();
 
-			if (size == w * h * 32)
+			if (size == (size_t)w * h * 16)
 			{
 				// RGBAfloat
 				rnaImage.get_pixels(static_cast<float*>(ptr));
-				ConvertColorSpace(static_cast<float*>(ptr), w * h, colorspace);
+				ConvertColorSpace(static_cast<float*>(ptr), (size_t)w * h, colorspace);
 			}
-			else if (size == w * h * 4)
+			else if (size == (size_t)w * h * 4)
 			{
 				// RGBA32
 				auto* pDst = static_cast<unsigned char*>(ptr);
 
-				workBuffer.resize(w * h * 4);
+				workBuffer.resize((size_t)w * h * 4);
 				auto* pSrc = workBuffer.data();
 				rnaImage.get_pixels(pSrc);
-				ConvertColorSpace(pSrc, w * h, colorspace);
+				ConvertColorSpace(pSrc, (size_t)w * h, colorspace);
 
 				for (int i = 0; i < size; i++)
 				{

@@ -159,7 +159,7 @@ namespace interm
 
 			element->pixelBufferFormat = i.get_is_float() ? RenderAppPixelFormat_Float : RenderAppPixelFormat_RGBA32;
 
-			auto bytesPerPixel = element->pixelBufferFormat ? 32 : 4;
+			auto bytesPerPixel = i.get_is_float() ? 16 : 4;
 			element->ptr_offset = imageMapperForRenderElement.GetPtrOffset(element->Image, bytesPerPixel);
 
 			element->depthDrawModeEnabled = element->ElementType == Nodes::LineRenderElementToExport::RenderElementType::Depth;
@@ -407,7 +407,7 @@ namespace interm
 			header.meshDataBytes += meshDataInfo.MeshDataSize();
 		}
 
-		auto allBufferSize = header.dataBytesStart + std::max(header.dataBytes + header.meshDataBytes, w * h * bytesPerPixel);
+		auto allBufferSize = header.dataBytesStart + std::max(header.dataBytes + header.meshDataBytes, (size_t)w * h * bytesPerPixel);
 
 		// データを書き込むバッファの確保
 		if (!renderSession->RequestData(allBufferSize))
@@ -507,7 +507,7 @@ namespace interm
 		// 得られたピクセルデータをImageに設定する
 		if (image)
 		{
-			auto dataAccessor = renderSession->AccessData(header.dataBytesStart, w * h * bytesPerPixel, RenderApp::DataAccessor::DesiredAccess::Read);
+			auto dataAccessor = renderSession->AccessData(header.dataBytesStart, (size_t)w * h * bytesPerPixel, RenderApp::DataAccessor::DesiredAccess::Read);
 			if (!dataAccessor)
 			{
 				return RenderAppRet::Error_Unknown;
@@ -518,26 +518,26 @@ namespace interm
 		for (auto element : lineRenderElements)
 		{
 			auto i = blrna::Image(element->Image);
-			auto bytesPerPixel = element->pixelBufferFormat ? 32 : 4;
-			auto dataAccessor = renderSession->AccessData(element->ptr_offset, w * h * bytesPerPixel, RenderApp::DataAccessor::DesiredAccess::Read);
+			size_t bytesPerPixel = element->pixelBufferFormat ? 16 : 4;
+			auto dataAccessor = renderSession->AccessData(element->ptr_offset, (size_t)w * h * bytesPerPixel, RenderApp::DataAccessor::DesiredAccess::Read);
 			if (!dataAccessor)
 			{
 				return RenderAppRet::Error_Unknown;
 			}
 
-			if (bytesPerPixel == 32)
+			if (bytesPerPixel == 16)
 			{
 				i.set_pixels(dataAccessor->ptr<float*>());
 				i.update();
 			}
 			else
 			{
-				int numData = w * h * 4;
+				auto numData = (size_t)w * h * 4;
 				_textureWorkBuffer.resize(numData);
 				auto pSrc = dataAccessor->ptr<unsigned char*>();
 				auto pDst = _textureWorkBuffer.data();
 				constexpr auto coef = 1.0f / 255;
-				for (int i = 0; i < numData; i++)
+				for (size_t i = 0; i < numData; i++)
 				{
 					pDst[i] = coef * pSrc[i];
 				}
@@ -549,7 +549,7 @@ namespace interm
 		if (_viewport_image_buffer)
 		{
 			auto& dst = *_viewport_image_buffer;
-			dst.resize(w * h * 4);
+			dst.resize((size_t)w * h * 4);
 			auto dataAccessor = renderSession->AccessData(header.dataBytesStart, w * h * bytesPerPixel, RenderApp::DataAccessor::DesiredAccess::Read);
 			if (!dataAccessor)
 			{
