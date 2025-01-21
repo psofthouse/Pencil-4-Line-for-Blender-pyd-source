@@ -11,7 +11,8 @@ namespace interm
 		RenderInstance(py::object srcObject,
 			const std::vector<std::vector<float>>& m,
 			py::object mesh,
-			bool holdout) :
+			bool holdout,
+			const std::vector<py::object>& objectMaterials) :
 			_srcObject(srcObject),
 			_matrixWorld {
 				m[0][0], m[1][0], m[2][0], m[3][0],
@@ -20,7 +21,8 @@ namespace interm
 				m[0][3], m[1][3], m[2][3], m[3][3],
 			},
 			_mesh(mesh),
-			_holdout(holdout)
+			_holdout(holdout),
+			_objectMaterials(objectMaterials)
 		{}
 		~RenderInstance() {}
 
@@ -31,11 +33,14 @@ namespace interm
 
 		const bool IsHoldout() const { return _holdout; }
 
+		const std::vector<py::object>& GetObjectMaterials() const { return _objectMaterials; }
+
 	private:
 		py::object _srcObject;
 		const float _matrixWorld[16];
 		py::object _mesh;
 		bool _holdout;
+		const std::vector<py::object> _objectMaterials;
 	};
 
 }

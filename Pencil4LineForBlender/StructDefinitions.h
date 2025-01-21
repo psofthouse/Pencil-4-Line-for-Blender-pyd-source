@@ -420,6 +420,7 @@ namespace Pcl4NativeDll
 		int exChannelIndex;
 		int exChannelID;
 		float rotation;
+		ColorSpace inputColorSpace;
 	};
 
 	struct LineGroupNode

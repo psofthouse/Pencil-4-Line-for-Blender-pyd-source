@@ -55,31 +55,6 @@ namespace interm
 		return itr->second.offset;
 	}
 
-	float srgb_to_linear_float(float x)
-	{
-		if (x <= 0.0f)			return 0.0f;
-		else if (x < 0.04045f)	return x / 12.92f;
-		else					return powf((x + 0.055f) / 1.055f, 2.4f);
-	}
-
-	static void ConvertColorSpace(float* pBuff, size_t numPixels, EnumPropertyItem* colorspace)
-	{
-		if (!pBuff || !colorspace)
-		{
-			return;
-		}
-
-		if (strcmp("sRGB", colorspace->name) == 0)
-		{
-			for (int i = 0; i < (int)numPixels; i++)
-			{
-				pBuff[i * 4 + 0] = srgb_to_linear_float(pBuff[i * 4 + 0]);
-				pBuff[i * 4 + 1] = srgb_to_linear_float(pBuff[i * 4 + 1]);
-				pBuff[i * 4 + 2] = srgb_to_linear_float(pBuff[i * 4 + 2]);
-			}
-		}
-	}
-
 	bool ImageMapper::WriteImageData(std::function<void* (size_t, size_t)> getPtrFunc,
 		std::function<void (size_t, size_t)> postWriteFunc,
 		std::vector<float>& workBuffer) const
@@ -109,7 +84,6 @@ namespace interm
 			{
 				// RGBAfloat
 				rnaImage.get_pixels(static_cast<float*>(ptr));
-				ConvertColorSpace(static_cast<float*>(ptr), (size_t)w * h, colorspace);
 			}
 			else if (size == (size_t)w * h * 4)
 			{
@@ -119,7 +93,6 @@ namespace interm
 				workBuffer.resize((size_t)w * h * 4);
 				auto* pSrc = workBuffer.data();
 				rnaImage.get_pixels(pSrc);
-				ConvertColorSpace(pSrc, (size_t)w * h, colorspace);
 
 				for (int i = 0; i < size; i++)
 				{

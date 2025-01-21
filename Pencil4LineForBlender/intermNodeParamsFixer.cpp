@@ -160,6 +160,7 @@ namespace interm
 		ExportArray(node->tilingX, node->tilingY, node->tillingXY);
 		ExportArray(node->offsetX, node->offsetY, node->offsetXY);
 		node->objectColorMode = node->source_type == Nodes::TextureMapSourceType::ObjectColor;
+		node->inputColorSpace = Pcl4NativeDll::ColorSpace::Linear;
 
 		if (node->objectColorMode)
 		{
@@ -203,6 +204,12 @@ namespace interm
 			blrna::Image image(node->ImageToExport.value());
 			node->width = image.Width();
 			node->height = image.Height();
+
+			blrna::ColorManagedInputColorspaceSettings colorspaceSettings(image.get_colorspace_settings());
+			if (strcmp("sRGB", colorspaceSettings.get_name_item()->name) == 0)
+			{
+				node->inputColorSpace = Pcl4NativeDll::ColorSpace::sRGB;
+			}
 		}
 	}
 

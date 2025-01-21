@@ -73,7 +73,7 @@ PYBIND11_MODULE(pencil4line_for_blender_linux_311, m)
 		.def(py::init<float, float, int, std::vector<std::vector<float>>&, std::vector<std::vector<float>>&>())
 		;
 	py::class_<interm::RenderInstance>(m, "interm_render_Instance")
-		.def(py::init<py::object, std::vector<std::vector<float>>&, py::object, bool>())
+		.def(py::init<py::object, std::vector<std::vector<float>>&, py::object, bool, std::vector<py::object>&>())
 		;
 	py::class_<interm::CurveData>(m, "interm_curve_data")
 		.def(py::init<std::vector<py::object>&, std::vector<int>>())

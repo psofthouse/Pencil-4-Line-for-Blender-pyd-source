@@ -19,12 +19,17 @@
 
 namespace interm
 {
-	extern float srgb_to_linear_float(float x);
+	float srgb_to_linear_float(float x)
+	{
+		if (x <= 0.0f)			return 0.0f;
+		else if (x < 0.04045f)	return x / 12.92f;
+		else					return powf((x + 0.055f) / 1.055f, 2.4f);
+	}
 
 	std::vector<py::object> MeshDataAccessor::color_attributes_default;
 	std::vector<py::object> MeshDataAccessor::color_attributes_none;
 
-	static void* GetMaterialOriginalData(const blrna::Material& material)
+	void* GetMaterialOriginalData(const blrna::Material& material)
 	{
 		auto org_material = material.original<blrna::Material>();
 

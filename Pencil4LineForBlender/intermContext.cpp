@@ -26,6 +26,9 @@
 
 namespace interm
 {
+	extern void* GetMaterialOriginalData(const blrna::Material& material);
+
+
 	std::wstring Context::renderAppPath;
 
 	constexpr int RenderAppPixelFormat_RGBA32 = 0;
@@ -237,6 +240,15 @@ namespace interm
 					holdout_instace_indices.emplace_back(dst.instanceId);
 				}
 
+				if (!src.GetObjectMaterials().empty())
+				{
+					dst.objectMaterialIds.reserve(src.GetObjectMaterials().size());
+					for (auto& material : src.GetObjectMaterials())
+					{
+						dst.objectMaterialIds.emplace_back(PointerToInstanceID(GetMaterialOriginalData(blrna::Material(material))));
+					}
+				}
+
 				// メッシュデータへの参照設定
 				const auto& srcMesh = blrna::Mesh(src.Mesh());
 				auto itr = meshDataToIndex.find(srcMesh.data());
@@ -336,7 +348,9 @@ namespace interm
 					}
 					else
 					{
-						for (const auto& materialID : meshData->info.subMeshMaterialIds)
+						const auto& materialIds = meshData->info.subMeshMaterialIds.size() == renderInstance.objectMaterialIds.size() ?
+							renderInstance.objectMaterialIds : meshData->info.subMeshMaterialIds;
+						for (const auto& materialID : materialIds)
 						{
 							if (materials.find(materialID) != materials.end())
 							{

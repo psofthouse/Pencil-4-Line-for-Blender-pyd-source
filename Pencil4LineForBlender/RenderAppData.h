@@ -21,7 +21,7 @@ namespace RenderApp
 	struct DataHeader
 	{
 		const size_t headerBytes = sizeof(DataHeader);
-		const int version = 8;
+		const int version = 9;
 
 		size_t dataBytes = 0;
 		size_t meshDataBytes = 0;
@@ -208,6 +208,8 @@ namespace RenderApp
 		Matrix4x4 localToWolrdMatrix;
 		int meshDataIndex = 0;
 
+		std::vector<int> objectMaterialIds;
+
 		template<class Archive>
 		void serialize(Archive& archive, std::uint32_t const version)
 		{
@@ -216,6 +218,11 @@ namespace RenderApp
 				CEREAL_NVP(localToWolrdMatrix),
 				CEREAL_NVP(meshDataIndex)
 			);
+			if (1 <= version) {
+				archive(
+					CEREAL_NVP(objectMaterialIds)
+				);
+			}
 		}
 	};
 
@@ -349,5 +356,6 @@ namespace RenderApp
 }
 
 CEREAL_CLASS_VERSION(RenderApp::MeshDataInfo, 1);
+CEREAL_CLASS_VERSION(RenderApp::RenderInstance, 1);
 CEREAL_CLASS_VERSION(RenderApp::RenderInformation, 1);
 CEREAL_CLASS_VERSION(RenderApp::Data, 3);

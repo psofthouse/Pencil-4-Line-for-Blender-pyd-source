@@ -429,6 +429,14 @@ namespace Nodes
 			else {
 				rotation = 0;
 			}
+			if (3 <= version) {
+				archive(
+					CEREAL_NVP(inputColorSpace)
+				);
+			}
+			else {
+				inputColorSpace = Pcl4NativeDll::ColorSpace::Linear;
+			}
 		}
 	};
 
@@ -610,4 +618,4 @@ namespace Nodes
 
 CEREAL_CLASS_VERSION(Nodes::LineNodeToExport, 2);
 CEREAL_CLASS_VERSION(Nodes::LineSetNodeToExport, 1);
-CEREAL_CLASS_VERSION(Nodes::TextureMapNodeToExport, 2);
+CEREAL_CLASS_VERSION(Nodes::TextureMapNodeToExport, 3);
