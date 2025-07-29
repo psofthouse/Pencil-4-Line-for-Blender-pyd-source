@@ -38,6 +38,51 @@ struct ReportList;
 struct StructRNA;
 struct bContext;
 
+#ifdef NEW_PROPERTY_RNA
+/**
+ * An ancestor of a given PointerRNA. The owner ID is not needed here, it is assumed to always be
+ * the same as the owner ID of the PropertyRNA itself.
+ */
+struct AncestorPointerRNA {
+    StructRNA* type;
+    void* data;
+};
+/** Allows to benefit from the `max_full_copy_size` optimization on copy of #blender::Vector. */
+constexpr int64_t ANCESTOR_POINTERRNA_DEFAULT_SIZE = 2;
+
+class DummyVectorAncestorPointerRNA
+{
+    class AlignedBuffer
+    {
+        struct alignas(alignof(AncestorPointerRNA)) Sized
+        {
+            std::byte buffer[ANCESTOR_POINTERRNA_DEFAULT_SIZE * sizeof(AncestorPointerRNA)];
+        };
+        Sized buffer_;
+    };
+
+
+    class TypedBuffer
+    {
+		AlignedBuffer buffer_;
+    };
+
+    AncestorPointerRNA* begin_;
+    AncestorPointerRNA* end_;
+    AncestorPointerRNA* capacity_end_;
+    TypedBuffer inline_buffer_;
+
+public:
+    DummyVectorAncestorPointerRNA()
+    {
+		begin_ = reinterpret_cast<AncestorPointerRNA*>(&inline_buffer_);
+        end_ = begin_;
+        capacity_end_ = begin_ + ANCESTOR_POINTERRNA_DEFAULT_SIZE;
+    }
+};
+
+#endif /* NEW_PROPERTY_RNA */
+
 /**
  * Pointer
  *
@@ -47,9 +92,27 @@ struct bContext;
  * the properties and validate them. */
 
 typedef struct PointerRNA {
-  struct ID *owner_id;
-  struct StructRNA *type;
-  void *data;
+  struct ID *owner_id = nullptr;
+  struct StructRNA *type = nullptr;
+  void* data = nullptr;
+
+  PointerRNA() = default;
+  PointerRNA(const PointerRNA&) = default;
+  PointerRNA(PointerRNA&&) = default;
+  PointerRNA& operator=(const PointerRNA& other) = default;
+  PointerRNA& operator=(PointerRNA&& other) = default;
+#ifdef NEW_PROPERTY_RNA
+  DummyVectorAncestorPointerRNA ancestors;
+  PointerRNA(ID* owner_id, StructRNA* type, void* data)
+      : owner_id(owner_id), type(type), data(data), ancestors{}
+  {
+  }
+#else
+  PointerRNA(ID* owner_id, StructRNA* type, void* data)
+      : owner_id(owner_id), type(type), data(data)
+  {
+  }
+#endif
 } PointerRNA;
 
 typedef struct PropertyPointerRNA {

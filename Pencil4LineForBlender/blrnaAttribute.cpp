@@ -72,7 +72,7 @@ namespace blrna
 				}
 				return false;
 			}
-			r = PointerRNA{ r.owner_id, r.type->base, r.data };
+			r = PointerRNA( r.owner_id, r.type->base, r.data );
 		}
 
 		return false;

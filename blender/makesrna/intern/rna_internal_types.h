@@ -290,6 +290,11 @@ struct FunctionRNA {
   PropertyRNA *c_ret;
 };
 
+enum PropertyPathTemplateType {
+    PROP_VARIABLES_NONE = 0,
+    PROP_VARIABLES_RENDER_OUTPUT,
+};
+
 struct PropertyRNA {
   struct PropertyRNA *next, *prev;
 
@@ -308,6 +313,17 @@ struct PropertyRNA {
   short flag_internal;
   /* The subset of StructRNA.prop_tag_defines values that applies to this property. */
   short tags;
+
+#ifdef NEW_PROPERTY_RNA
+  /**
+   * Indicates which set of template variables this property supports.
+   *
+   * Must be set for path properties that are marked as supporting path
+   * templates (`PROP_PATH_SUPPORTS_TEMPLATES` in `flag`). Is ignored for other
+   * properties.
+   */
+  PropertyPathTemplateType path_template_type;
+#endif
 
   /* user readable name */
   const char *name;

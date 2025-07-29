@@ -92,7 +92,7 @@ namespace blrna
 #define forListBase(type, v, listbase)  for(auto v = (type)listbase.first; v; v = (type)((Link*)v)->next)
 #define forListBaseC(type, v, listbase, additional_condition)  for(auto v = (type)listbase.first; v && additional_condition ; v = (type)((Link*)v)->next)
 
-	constexpr PointerRNA NULL_PointerRNA{nullptr, nullptr, nullptr};
+	const PointerRNA NULL_PointerRNA(nullptr, nullptr, nullptr);
 	inline PointerRNA ConvertToPointerRNA(py::object obj) { return (obj && !obj.is_none()) ? ((BPy_StructRNA*)obj.ptr())->ptr : NULL_PointerRNA; }
 	inline void* ConvertToRNAData(py::object obj) { return ConvertToPointerRNA(obj).data; }
 

@@ -9,9 +9,11 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug(Pythom311)|x64 = Debug(Pythom311)|x64
 		Debug(Python310)|x64 = Debug(Python310)|x64
+		Debug(Python311_450)|x64 = Debug(Python311_450)|x64
 		Debug(Python39)|x64 = Debug(Python39)|x64
 		Release(Python310)|x64 = Release(Python310)|x64
 		Release(Python311)|x64 = Release(Python311)|x64
+		Release(Python311_450)|x64 = Release(Python311_450)|x64
 		Release(Python39)|x64 = Release(Python39)|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
@@ -19,12 +21,16 @@ Global
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Pythom311)|x64.Build.0 = Debug(Pythom311)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Python310)|x64.ActiveCfg = Debug(Python310)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Python310)|x64.Build.0 = Debug(Python310)|x64
+		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Python311_450)|x64.ActiveCfg = Debug(Python311_450)|x64
+		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Python311_450)|x64.Build.0 = Debug(Python311_450)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Python39)|x64.ActiveCfg = Debug(Python39)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Debug(Python39)|x64.Build.0 = Debug(Python39)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python310)|x64.ActiveCfg = Release(Python310)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python310)|x64.Build.0 = Release(Python310)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python311)|x64.ActiveCfg = Release(Python311)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python311)|x64.Build.0 = Release(Python311)|x64
+		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python311_450)|x64.ActiveCfg = Release(Python311_450)|x64
+		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python311_450)|x64.Build.0 = Release(Python311_450)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python39)|x64.ActiveCfg = Release(Python39)|x64
 		{5089CD6E-0B36-41C5-884C-9BC919D48B3B}.Release(Python39)|x64.Build.0 = Release(Python39)|x64
 	EndGlobalSection
