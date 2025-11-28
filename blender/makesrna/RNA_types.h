@@ -52,6 +52,85 @@ constexpr int64_t ANCESTOR_POINTERRNA_DEFAULT_SIZE = 2;
 
 class DummyVectorAncestorPointerRNA
 {
+#ifdef NEW_PROPERTY_RNA2
+    class AlignedBuffer
+    {
+        struct Empty {};
+        struct alignas(alignof(AncestorPointerRNA)) Sized
+        {
+            std::byte buffer[ANCESTOR_POINTERRNA_DEFAULT_SIZE * sizeof(AncestorPointerRNA)];
+        };
+        using BufferType = std::conditional_t<false, Empty, Sized>;
+        BufferType buffer_;
+
+    public:
+        operator void* ()
+        {
+            return this;
+        }
+
+        operator const void* () const
+        {
+            return this;
+        }
+
+        void* ptr()
+        {
+            return this;
+        }
+
+        const void* ptr() const
+        {
+            return this;
+        }
+    };
+
+    class TypedBuffer
+    {
+        AlignedBuffer buffer_;
+
+    public:
+        operator AncestorPointerRNA* ()
+        {
+            return static_cast<AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        operator const AncestorPointerRNA* () const
+        {
+            return static_cast<const AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        AncestorPointerRNA& operator*()
+        {
+            return *static_cast<AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        const AncestorPointerRNA& operator*() const
+        {
+            return *static_cast<const AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        AncestorPointerRNA* ptr()
+        {
+            return static_cast<AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        const AncestorPointerRNA* ptr() const
+        {
+            return static_cast<const AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        AncestorPointerRNA& ref()
+        {
+            return *static_cast<AncestorPointerRNA*>(buffer_.ptr());
+        }
+
+        const AncestorPointerRNA& ref() const
+        {
+            return *static_cast<const AncestorPointerRNA*>(buffer_.ptr());
+        }
+    };
+#else
     class AlignedBuffer
     {
         struct alignas(alignof(AncestorPointerRNA)) Sized
@@ -61,11 +140,12 @@ class DummyVectorAncestorPointerRNA
         Sized buffer_;
     };
 
-
     class TypedBuffer
     {
-		AlignedBuffer buffer_;
+        AlignedBuffer buffer_;
     };
+#endif
+
 
     AncestorPointerRNA* begin_;
     AncestorPointerRNA* end_;
@@ -75,7 +155,11 @@ class DummyVectorAncestorPointerRNA
 public:
     DummyVectorAncestorPointerRNA()
     {
-		begin_ = reinterpret_cast<AncestorPointerRNA*>(&inline_buffer_);
+#ifdef NEW_PROPERTY_RNA2
+        begin_ = inline_buffer_;
+#else
+        begin_ = reinterpret_cast<AncestorPointerRNA*>(&inline_buffer_);
+#endif
         end_ = begin_;
         capacity_end_ = begin_ + ANCESTOR_POINTERRNA_DEFAULT_SIZE;
     }
@@ -491,7 +575,11 @@ typedef struct CollectionPropertyIterator {
 
   /* external */
   PointerRNA ptr;
+#ifdef NEW_PROPERTY_RNA2
+  bool valid;
+#else
   int valid;
+#endif
 } CollectionPropertyIterator;
 
 typedef struct CollectionPointerLink {
@@ -773,6 +861,25 @@ typedef struct ExtensionRNA {
   StructCallbackFunc call;
   StructFreeFunc free;
 } ExtensionRNA;
+
+/**
+ * Information about deprecated properties.
+ *
+ * Used by the API documentation and Python API to print warnings
+ * when accessing a deprecated property.
+ */
+struct DeprecatedRNA {
+    /** Single line deprecation message, suggest alternatives where possible. */
+    const char* note;
+    /** The released version this was deprecated. */
+    short version;
+    /**
+     * The version this will be removed.
+     * The value represents major, minor versions (sub-version isn't supported).
+     * Compatible with #Main::versionfile (e.g. `502` for `v5.2`).
+     */
+    short removal_version;
+};
 
 #ifdef __cplusplus
 }

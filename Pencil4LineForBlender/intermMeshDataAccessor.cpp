@@ -133,6 +133,19 @@ namespace interm
 		const MEdge* _pEdges;
 	};
 
+	class GeomEdgeFreestyleAccessorMEdge : public GeomDataAccessor<bool>
+	{
+	public:
+		GeomEdgeFreestyleAccessorMEdge(blrna::Mesh mesh) : _medgeAccessor(mesh), _medgeObjectWork(PointerRNA{ (ID*)mesh.data(), mesh.edges_item_type(), nullptr }) {}
+		bool operator[](size_t i) const override {
+			const_cast<blrna::MEdge*>(&_medgeObjectWork)->SetMEdge(&_medgeAccessor[i]);
+			return _medgeObjectWork.get_use_freestyle_mark();
+		}
+	private:
+		MEdgeAccessor _medgeAccessor;
+		blrna::MEdge _medgeObjectWork;
+	};
+
 	class GeomPolyLoopAccessorMPloy : public GeomDataAccessor<std::pair<int, int>>
 	{
 	public:
@@ -278,6 +291,28 @@ namespace interm
 				{
 					ret = std::make_unique<GeomEdgeWireAccessorMEdge>(mesh);
 				}
+			}
+			return ret;
+		}
+		static std::unique_ptr<GeomDataAccessor<bool>> EdgeFreestyleAccessor(blrna::Mesh mesh)
+		{
+			std::unique_ptr<GeomDataAccessor<bool>> ret;
+			if (BlenderVersion::Shared() >= BlenderVersion(5, 0))
+			{
+				mesh.foreach_attributes([&mesh, &ret](const CollectionPropertyIterator& itr) {
+					if (blrna::Attribute::Equals(itr.ptr, blrna::Attribute::AttrDomain::EDGE, blrna::Attribute::DataType::BOOL, "freestyle_edge"))
+					{
+						ret = std::make_unique<GeomAttribBoolAccessor>(itr.ptr);
+					}
+				});
+			}
+			else
+			{
+				ret = std::make_unique<GeomEdgeFreestyleAccessorMEdge>(mesh);
+			}
+			if (!ret)
+			{
+				return std::make_unique<DefaultDataAccessor<bool>>(false);
 			}
 			return ret;
 		}
@@ -933,17 +968,14 @@ namespace interm
 
 		edgeFlags.resize(numEdges);
 		{
-			auto medgeAccessor = MEdgeAccessor(_mesh);
-			auto medgeItemType = _mesh.edges_item_type();
-			blrna::MEdge medgeObjectWork(PointerRNA{ (ID*)_mesh.data(), medgeItemType, nullptr });
 			const auto EdgeSharp_to_FaceFlag = (autoSmooth || newAutoSmooth) ? RenderApp::FaceFlag_SmoothingBound0_1 : 0;
-
+			auto freestyleEdgeAccessorPtr = GeomData::EdgeFreestyleAccessor(_mesh);
+			auto& freestyleEdgeAccessor = *freestyleEdgeAccessorPtr;
 			for (int i = 0; i < numEdges; i++)
 			{
-				medgeObjectWork.SetMEdge(&medgeAccessor[i]);
 				edgeFlags[i] = (edgeWires[i] ? RenderApp::FaceFlag_Wire0_1 : 0) +
 					(edgeSharps[i] ? EdgeSharp_to_FaceFlag : 0) +
-					(medgeObjectWork.get_use_freestyle_mark() ? RenderApp::FaceFlag_SelectedEdge0_1 : 0);
+					(freestyleEdgeAccessor[i] ? RenderApp::FaceFlag_SelectedEdge0_1 : 0);
 			}
 		}
 

@@ -15,6 +15,7 @@
 				C21180B629DD441A00F99DF7 /* ShellScript */,
 			);
 			dependencies = (
+				C29B7F6E2ED6DBFF0060EA00 /* PBXTargetDependency */,
 				C2A7710F2E31C1F0008E19F6 /* PBXTargetDependency */,
 				C24EB1362BCCE2D400719B0E /* PBXTargetDependency */,
 				C24EB0E92BC9286B00719B0E /* PBXTargetDependency */,
@@ -161,6 +162,71 @@
 		C254CD2029E7DEDC0047069C /* blrnaAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C254CD1E29E7DEDC0047069C /* blrnaAttribute.cpp */; };
 		C254CD2329E7E0480047069C /* intermBlenderVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = C254CD2129E7E0480047069C /* intermBlenderVersion.h */; };
 		C254CD2429E7E0480047069C /* intermBlenderVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C254CD2229E7E0480047069C /* intermBlenderVersion.cpp */; };
+		C29B7F262ED6DB280060EA00 /* intermMeshDataAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA529D3BF0C0071B50F /* intermMeshDataAccessor.h */; };
+		C29B7F272ED6DB280060EA00 /* intermCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9129D3BF0C0071B50F /* intermCamera.h */; };
+		C29B7F282ED6DB280060EA00 /* FileMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8D29D3BF0C0071B50F /* FileMapping.h */; };
+		C29B7F292ED6DB280060EA00 /* StructDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA229D3BF0C0071B50F /* StructDefinitions.h */; };
+		C29B7F2A2ED6DB280060EA00 /* RenderAppSessionWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8629D3BF0C0071B50F /* RenderAppSessionWindows.h */; };
+		C29B7F2B2ED6DB280060EA00 /* intermContext.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9A29D3BF0C0071B50F /* intermContext.h */; };
+		C29B7F2C2ED6DB280060EA00 /* blrnaMEdge.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7B29D3BF0C0071B50F /* blrnaMEdge.h */; };
+		C29B7F2D2ED6DB280060EA00 /* intermRenderInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA029D3BF0C0071B50F /* intermRenderInstance.h */; };
+		C29B7F2E2ED6DB280060EA00 /* meow_hash_x64_aesni.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9729D3BF0C0071B50F /* meow_hash_x64_aesni.h */; };
+		C29B7F2F2ED6DB280060EA00 /* intermNameIDMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8E29D3BF0C0071B50F /* intermNameIDMapper.h */; };
+		C29B7F302ED6DB280060EA00 /* intermDataHash.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8729D3BF0C0071B50F /* intermDataHash.h */; };
+		C29B7F312ED6DB280060EA00 /* blrnaMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7829D3BF0C0071B50F /* blrnaMaterial.h */; };
+		C29B7F322ED6DB280060EA00 /* blrnaMLoopTri.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA329D3BF0C0071B50F /* blrnaMLoopTri.h */; };
+		C29B7F332ED6DB280060EA00 /* blrnaMLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8B29D3BF0C0071B50F /* blrnaMLoop.h */; };
+		C29B7F342ED6DB280060EA00 /* RenderAppSession.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9D29D3BF0C0071B50F /* RenderAppSession.h */; };
+		C29B7F352ED6DB280060EA00 /* blrnaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6B29D3BF0B0071B50F /* blrnaImage.h */; };
+		C29B7F362ED6DB280060EA00 /* Nodes.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8429D3BF0C0071B50F /* Nodes.h */; };
+		C29B7F372ED6DB280060EA00 /* intermBlenderVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = C254CD2129E7E0480047069C /* intermBlenderVersion.h */; };
+		C29B7F382ED6DB280060EA00 /* FileMappingPOSIX.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C2A9CC4929DBEFA3007C5B85 /* FileMappingPOSIX.hpp */; };
+		C29B7F392ED6DB280060EA00 /* blrnaMeshUVLoopLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6F29D3BF0B0071B50F /* blrnaMeshUVLoopLayer.h */; };
+		C29B7F3A2ED6DB280060EA00 /* RenderAppDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7F29D3BF0C0071B50F /* RenderAppDefine.h */; };
+		C29B7F3B2ED6DB280060EA00 /* intermImageMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7429D3BF0B0071B50F /* intermImageMapper.h */; };
+		C29B7F3C2ED6DB280060EA00 /* blrnaID.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7129D3BF0B0071B50F /* blrnaID.h */; };
+		C29B7F3D2ED6DB280060EA00 /* blrnaObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7229D3BF0B0071B50F /* blrnaObject.h */; };
+		C29B7F3E2ED6DB280060EA00 /* blrnaMeshLoopColorLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA629D3BF0C0071B50F /* blrnaMeshLoopColorLayer.h */; };
+		C29B7F3F2ED6DB280060EA00 /* blrnaBase.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6A29D3BF0B0071B50F /* blrnaBase.h */; };
+		C29B7F402ED6DB280060EA00 /* blrnaCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6929D3BF0B0071B50F /* blrnaCamera.h */; };
+		C29B7F412ED6DB280060EA00 /* intermDrawOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9029D3BF0C0071B50F /* intermDrawOptions.h */; };
+		C29B7F422ED6DB280060EA00 /* intermObjectIDMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9B29D3BF0C0071B50F /* intermObjectIDMapper.h */; };
+		C29B7F432ED6DB280060EA00 /* intermNodeParamsFixer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8929D3BF0C0071B50F /* intermNodeParamsFixer.h */; };
+		C29B7F442ED6DB280060EA00 /* RenderAppSessionPOSIX.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C2CF88FF29D3FD6E00597B2A /* RenderAppSessionPOSIX.hpp */; };
+		C29B7F452ED6DB280060EA00 /* RenderAppData.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9229D3BF0C0071B50F /* RenderAppData.h */; };
+		C29B7F462ED6DB280060EA00 /* blrnaMPoly.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7A29D3BF0C0071B50F /* blrnaMPoly.h */; };
+		C29B7F472ED6DB280060EA00 /* blrnaAttribute.h in Headers */ = {isa = PBXBuildFile; fileRef = C254CD1D29E7DEDC0047069C /* blrnaAttribute.h */; };
+		C29B7F482ED6DB280060EA00 /* blrnaMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8A29D3BF0C0071B50F /* blrnaMesh.h */; };
+		C29B7F492ED6DB280060EA00 /* blrnaIDOverrideLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6E29D3BF0B0071B50F /* blrnaIDOverrideLibrary.h */; };
+		C29B7F4B2ED6DB280060EA00 /* blrnaAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C254CD1E29E7DEDC0047069C /* blrnaAttribute.cpp */; };
+		C29B7F4C2ED6DB280060EA00 /* blrnaCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8229D3BF0C0071B50F /* blrnaCamera.cpp */; };
+		C29B7F4D2ED6DB280060EA00 /* blrnaID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7D29D3BF0C0071B50F /* blrnaID.cpp */; };
+		C29B7F4E2ED6DB280060EA00 /* blrnaMeshUVLoopLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7029D3BF0B0071B50F /* blrnaMeshUVLoopLayer.cpp */; };
+		C29B7F4F2ED6DB280060EA00 /* blrnaObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7729D3BF0C0071B50F /* blrnaObject.cpp */; };
+		C29B7F502ED6DB280060EA00 /* blrnaMLoopTri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8129D3BF0C0071B50F /* blrnaMLoopTri.cpp */; };
+		C29B7F512ED6DB280060EA00 /* blrnaImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7C29D3BF0C0071B50F /* blrnaImage.cpp */; };
+		C29B7F522ED6DB280060EA00 /* blrnaMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9E29D3BF0C0071B50F /* blrnaMaterial.cpp */; };
+		C29B7F532ED6DB280060EA00 /* blrnaIDOverrideLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9429D3BF0C0071B50F /* blrnaIDOverrideLibrary.cpp */; };
+		C29B7F542ED6DB280060EA00 /* blrnaMLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7529D3BF0B0071B50F /* blrnaMLoop.cpp */; };
+		C29B7F552ED6DB280060EA00 /* blrnaMEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E6C29D3BF0B0071B50F /* blrnaMEdge.cpp */; };
+		C29B7F562ED6DB280060EA00 /* blrnaMPoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7329D3BF0B0071B50F /* blrnaMPoly.cpp */; };
+		C29B7F572ED6DB280060EA00 /* blrnaMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8529D3BF0C0071B50F /* blrnaMesh.cpp */; };
+		C29B7F582ED6DB280060EA00 /* blrnaMeshLoopColorLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9C29D3BF0C0071B50F /* blrnaMeshLoopColorLayer.cpp */; };
+		C29B7F592ED6DB280060EA00 /* intermDataHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33EA429D3BF0C0071B50F /* intermDataHash.cpp */; };
+		C29B7F5A2ED6DB280060EA00 /* intermCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9829D3BF0C0071B50F /* intermCamera.cpp */; };
+		C29B7F5B2ED6DB280060EA00 /* intermNameIDMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8F29D3BF0C0071B50F /* intermNameIDMapper.cpp */; };
+		C29B7F5C2ED6DB280060EA00 /* intermContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33EA729D3BF0C0071B50F /* intermContext.cpp */; };
+		C29B7F5D2ED6DB280060EA00 /* intermNodeParamsFixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8329D3BF0C0071B50F /* intermNodeParamsFixer.cpp */; };
+		C29B7F5E2ED6DB280060EA00 /* intermObjectIDMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9F29D3BF0C0071B50F /* intermObjectIDMapper.cpp */; };
+		C29B7F5F2ED6DB280060EA00 /* intermImageMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E6D29D3BF0B0071B50F /* intermImageMapper.cpp */; };
+		C29B7F602ED6DB280060EA00 /* intermBlenderVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C254CD2229E7E0480047069C /* intermBlenderVersion.cpp */; };
+		C29B7F612ED6DB280060EA00 /* intermMeshDataAccessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33EA129D3BF0C0071B50F /* intermMeshDataAccessor.cpp */; };
+		C29B7F622ED6DB280060EA00 /* Nodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7E29D3BF0C0071B50F /* Nodes.cpp */; };
+		C29B7F632ED6DB280060EA00 /* Pencil4LineForBlender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7929D3BF0C0071B50F /* Pencil4LineForBlender.cpp */; };
+		C29B7F642ED6DB280060EA00 /* FileMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8C29D3BF0C0071B50F /* FileMapping.cpp */; };
+		C29B7F652ED6DB280060EA00 /* FileMappingPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2A9CC4829DBEFA3007C5B85 /* FileMappingPOSIX.cpp */; };
+		C29B7F662ED6DB280060EA00 /* RenderAppSessionPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2CF88FE29D3FD6E00597B2A /* RenderAppSessionPOSIX.cpp */; };
+		C29B7F6F2ED6DC100060EA00 /* libpencil4line_for_blender_mac_311_500.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = C29B7F6C2ED6DB280060EA00 /* libpencil4line_for_blender_mac_311_500.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C2A770C72E31BC12008E19F6 /* intermMeshDataAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA529D3BF0C0071B50F /* intermMeshDataAccessor.h */; };
 		C2A770C82E31BC12008E19F6 /* intermCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9129D3BF0C0071B50F /* intermCamera.h */; };
 		C2A770C92E31BC12008E19F6 /* FileMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8D29D3BF0C0071B50F /* FileMapping.h */; };
@@ -310,6 +376,13 @@
 			remoteGlobalIDString = C24EB0EB2BCCE1AC00719B0E;
 			remoteInfo = pencil4line_for_blender_mac_311;
 		};
+		C29B7F6D2ED6DBFF0060EA00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2C33E5429D3BE4C0071B50F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C29B7F232ED6DB280060EA00;
+			remoteInfo = pencil4line_for_blender_mac_311_500;
+		};
 		C2A7710E2E31C1F0008E19F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2C33E5429D3BE4C0071B50F /* Project object */;
@@ -326,6 +399,7 @@
 			dstPath = $PROJECT_DIR/../Package/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				C29B7F6F2ED6DC100060EA00 /* libpencil4line_for_blender_mac_311_500.dylib in CopyFiles */,
 				C2A771102E31C4F0008E19F6 /* libpencil4line_for_blender_mac_311_450.dylib in CopyFiles */,
 				C24EB0EA2BCCCA3E00719B0E /* libpencil4line_for_blender_mac_39.dylib in CopyFiles */,
 				C21180B529DD401A00F99DF7 /* libpencil4line_for_blender_mac_310.dylib in CopyFiles */,
@@ -342,6 +416,7 @@
 		C254CD1E29E7DEDC0047069C /* blrnaAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = blrnaAttribute.cpp; path = ../Pencil4LineForBlender/blrnaAttribute.cpp; sourceTree = "<group>"; };
 		C254CD2129E7E0480047069C /* intermBlenderVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = intermBlenderVersion.h; path = ../Pencil4LineForBlender/intermBlenderVersion.h; sourceTree = "<group>"; };
 		C254CD2229E7E0480047069C /* intermBlenderVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = intermBlenderVersion.cpp; path = ../Pencil4LineForBlender/intermBlenderVersion.cpp; sourceTree = "<group>"; };
+		C29B7F6C2ED6DB280060EA00 /* libpencil4line_for_blender_mac_311_500.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpencil4line_for_blender_mac_311_500.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2A7710D2E31BC12008E19F6 /* libpencil4line_for_blender_mac_311_450.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpencil4line_for_blender_mac_311_450.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2A9CC4629DBDBB1007C5B85 /* sse2neon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sse2neon.h; sourceTree = "<group>"; };
 		C2A9CC4729DBDBB1007C5B85 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -426,6 +501,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C29B7F672ED6DB280060EA00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2A771082E31BC12008E19F6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -470,6 +552,7 @@
 				C24EB0E72BC9278300719B0E /* libpencil4line_for_blender_mac_39.dylib */,
 				C24EB1342BCCE1AC00719B0E /* libpencil4line_for_blender_mac_311.dylib */,
 				C2A7710D2E31BC12008E19F6 /* libpencil4line_for_blender_mac_311_450.dylib */,
+				C29B7F6C2ED6DB280060EA00 /* libpencil4line_for_blender_mac_311_500.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -661,6 +744,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C29B7F252ED6DB280060EA00 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C29B7F262ED6DB280060EA00 /* intermMeshDataAccessor.h in Headers */,
+				C29B7F272ED6DB280060EA00 /* intermCamera.h in Headers */,
+				C29B7F282ED6DB280060EA00 /* FileMapping.h in Headers */,
+				C29B7F292ED6DB280060EA00 /* StructDefinitions.h in Headers */,
+				C29B7F2A2ED6DB280060EA00 /* RenderAppSessionWindows.h in Headers */,
+				C29B7F2B2ED6DB280060EA00 /* intermContext.h in Headers */,
+				C29B7F2C2ED6DB280060EA00 /* blrnaMEdge.h in Headers */,
+				C29B7F2D2ED6DB280060EA00 /* intermRenderInstance.h in Headers */,
+				C29B7F2E2ED6DB280060EA00 /* meow_hash_x64_aesni.h in Headers */,
+				C29B7F2F2ED6DB280060EA00 /* intermNameIDMapper.h in Headers */,
+				C29B7F302ED6DB280060EA00 /* intermDataHash.h in Headers */,
+				C29B7F312ED6DB280060EA00 /* blrnaMaterial.h in Headers */,
+				C29B7F322ED6DB280060EA00 /* blrnaMLoopTri.h in Headers */,
+				C29B7F332ED6DB280060EA00 /* blrnaMLoop.h in Headers */,
+				C29B7F342ED6DB280060EA00 /* RenderAppSession.h in Headers */,
+				C29B7F352ED6DB280060EA00 /* blrnaImage.h in Headers */,
+				C29B7F362ED6DB280060EA00 /* Nodes.h in Headers */,
+				C29B7F372ED6DB280060EA00 /* intermBlenderVersion.h in Headers */,
+				C29B7F382ED6DB280060EA00 /* FileMappingPOSIX.hpp in Headers */,
+				C29B7F392ED6DB280060EA00 /* blrnaMeshUVLoopLayer.h in Headers */,
+				C29B7F3A2ED6DB280060EA00 /* RenderAppDefine.h in Headers */,
+				C29B7F3B2ED6DB280060EA00 /* intermImageMapper.h in Headers */,
+				C29B7F3C2ED6DB280060EA00 /* blrnaID.h in Headers */,
+				C29B7F3D2ED6DB280060EA00 /* blrnaObject.h in Headers */,
+				C29B7F3E2ED6DB280060EA00 /* blrnaMeshLoopColorLayer.h in Headers */,
+				C29B7F3F2ED6DB280060EA00 /* blrnaBase.h in Headers */,
+				C29B7F402ED6DB280060EA00 /* blrnaCamera.h in Headers */,
+				C29B7F412ED6DB280060EA00 /* intermDrawOptions.h in Headers */,
+				C29B7F422ED6DB280060EA00 /* intermObjectIDMapper.h in Headers */,
+				C29B7F432ED6DB280060EA00 /* intermNodeParamsFixer.h in Headers */,
+				C29B7F442ED6DB280060EA00 /* RenderAppSessionPOSIX.hpp in Headers */,
+				C29B7F452ED6DB280060EA00 /* RenderAppData.h in Headers */,
+				C29B7F462ED6DB280060EA00 /* blrnaMPoly.h in Headers */,
+				C29B7F472ED6DB280060EA00 /* blrnaAttribute.h in Headers */,
+				C29B7F482ED6DB280060EA00 /* blrnaMesh.h in Headers */,
+				C29B7F492ED6DB280060EA00 /* blrnaIDOverrideLibrary.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2A770C62E31BC12008E19F6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -788,6 +914,25 @@
 			productReference = C24EB1342BCCE1AC00719B0E /* libpencil4line_for_blender_mac_311.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		C29B7F232ED6DB280060EA00 /* pencil4line_for_blender_mac_311_500 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C29B7F692ED6DB280060EA00 /* Build configuration list for PBXNativeTarget "pencil4line_for_blender_mac_311_500" */;
+			buildPhases = (
+				C29B7F242ED6DB280060EA00 /* ShellScript */,
+				C29B7F252ED6DB280060EA00 /* Headers */,
+				C29B7F4A2ED6DB280060EA00 /* Sources */,
+				C29B7F672ED6DB280060EA00 /* Frameworks */,
+				C29B7F682ED6DB280060EA00 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pencil4line_for_blender_mac_311_500;
+			productName = test;
+			productReference = C29B7F6C2ED6DB280060EA00 /* libpencil4line_for_blender_mac_311_500.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		C2A770C42E31BC12008E19F6 /* pencil4line_for_blender_mac_311_450 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2A7710A2E31BC12008E19F6 /* Build configuration list for PBXNativeTarget "pencil4line_for_blender_mac_311_450" */;
@@ -860,6 +1005,7 @@
 				C2C9E94B29D407890056D782 /* pencil4line_for_blender_mac_310 */,
 				C24EB0EB2BCCE1AC00719B0E /* pencil4line_for_blender_mac_311 */,
 				C2A770C42E31BC12008E19F6 /* pencil4line_for_blender_mac_311_450 */,
+				C29B7F232ED6DB280060EA00 /* pencil4line_for_blender_mac_311_500 */,
 				C21180AE29DD3FE700F99DF7 /* Deploy */,
 			);
 		};
@@ -952,6 +1098,40 @@
 			shellScript = "cd ..\nCOMMIT_HASH=$(git log -n 1 --pretty=format:\"%H\" -- ./blender ./cereal ./pybind11 ./pencil4line_for_blender_mac ./Pencil4LineForBlender)\necho \"$COMMIT_HASH\" > \"./Package/bin/commitHash.txt\"\necho \"#define GIT_COMMIT_HASH \\\"$COMMIT_HASH\\\"\" > ./Pencil4LineForBlender/commitHash.h\n\n";
 		};
 		C24EB1302BCCE1AC00719B0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BIN_DIR=\"$PROJECT_DIR/../Package/bin\"\n\nmkdir -p \"${BIN_DIR}\"\n#cp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.dylib\" \"${BIN_DIR}/${PRODUCT_NAME}.so\"\n";
+		};
+		C29B7F242ED6DB280060EA00 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd ..\nCOMMIT_HASH=$(git log -n 1 --pretty=format:\"%H\" -- ./blender ./cereal ./pybind11 ./pencil4line_for_blender_mac ./Pencil4LineForBlender)\necho \"$COMMIT_HASH\" > \"./Package/bin/commitHash.txt\"\necho \"#define GIT_COMMIT_HASH \\\"$COMMIT_HASH\\\"\" > ./Pencil4LineForBlender/commitHash.h\n\n";
+		};
+		C29B7F682ED6DB280060EA00 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1092,6 +1272,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C29B7F4A2ED6DB280060EA00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C29B7F4B2ED6DB280060EA00 /* blrnaAttribute.cpp in Sources */,
+				C29B7F4C2ED6DB280060EA00 /* blrnaCamera.cpp in Sources */,
+				C29B7F4D2ED6DB280060EA00 /* blrnaID.cpp in Sources */,
+				C29B7F4E2ED6DB280060EA00 /* blrnaMeshUVLoopLayer.cpp in Sources */,
+				C29B7F4F2ED6DB280060EA00 /* blrnaObject.cpp in Sources */,
+				C29B7F502ED6DB280060EA00 /* blrnaMLoopTri.cpp in Sources */,
+				C29B7F512ED6DB280060EA00 /* blrnaImage.cpp in Sources */,
+				C29B7F522ED6DB280060EA00 /* blrnaMaterial.cpp in Sources */,
+				C29B7F532ED6DB280060EA00 /* blrnaIDOverrideLibrary.cpp in Sources */,
+				C29B7F542ED6DB280060EA00 /* blrnaMLoop.cpp in Sources */,
+				C29B7F552ED6DB280060EA00 /* blrnaMEdge.cpp in Sources */,
+				C29B7F562ED6DB280060EA00 /* blrnaMPoly.cpp in Sources */,
+				C29B7F572ED6DB280060EA00 /* blrnaMesh.cpp in Sources */,
+				C29B7F582ED6DB280060EA00 /* blrnaMeshLoopColorLayer.cpp in Sources */,
+				C29B7F592ED6DB280060EA00 /* intermDataHash.cpp in Sources */,
+				C29B7F5A2ED6DB280060EA00 /* intermCamera.cpp in Sources */,
+				C29B7F5B2ED6DB280060EA00 /* intermNameIDMapper.cpp in Sources */,
+				C29B7F5C2ED6DB280060EA00 /* intermContext.cpp in Sources */,
+				C29B7F5D2ED6DB280060EA00 /* intermNodeParamsFixer.cpp in Sources */,
+				C29B7F5E2ED6DB280060EA00 /* intermObjectIDMapper.cpp in Sources */,
+				C29B7F5F2ED6DB280060EA00 /* intermImageMapper.cpp in Sources */,
+				C29B7F602ED6DB280060EA00 /* intermBlenderVersion.cpp in Sources */,
+				C29B7F612ED6DB280060EA00 /* intermMeshDataAccessor.cpp in Sources */,
+				C29B7F622ED6DB280060EA00 /* Nodes.cpp in Sources */,
+				C29B7F632ED6DB280060EA00 /* Pencil4LineForBlender.cpp in Sources */,
+				C29B7F642ED6DB280060EA00 /* FileMapping.cpp in Sources */,
+				C29B7F652ED6DB280060EA00 /* FileMappingPOSIX.cpp in Sources */,
+				C29B7F662ED6DB280060EA00 /* RenderAppSessionPOSIX.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C2A770EB2E31BC12008E19F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1179,6 +1394,11 @@
 			isa = PBXTargetDependency;
 			target = C24EB0EB2BCCE1AC00719B0E /* pencil4line_for_blender_mac_311 */;
 			targetProxy = C24EB1352BCCE2D400719B0E /* PBXContainerItemProxy */;
+		};
+		C29B7F6E2ED6DBFF0060EA00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C29B7F232ED6DB280060EA00 /* pencil4line_for_blender_mac_311_500 */;
+			targetProxy = C29B7F6D2ED6DBFF0060EA00 /* PBXContainerItemProxy */;
 		};
 		C2A7710F2E31C1F0008E19F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1345,6 +1565,93 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					PYBIND_INCLUDE,
 					PYTHON311,
+				);
+				GCC_UNROLL_LOOPS = YES;
+				HEADER_SEARCH_PATHS = (
+					$PROJECT_DIR/../Pencil4LineForBlender,
+					$PROJECT_DIR/../pybind11/include,
+					"$PROJECT_DIR/../blender/**",
+					$PROJECT_DIR/../cereal/include,
+					/Library/Frameworks/Python.framework/Versions/3.11/include/python3.11,
+				);
+				LD_DYLIB_INSTALL_NAME = "$(LD_DYLIB_INSTALL_NAME_$(LLVM_TARGET_TRIPLE_VENDOR):default=$(EXECUTABLE_PATH))";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACH_O_TYPE = mh_dylib;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-maes",
+					"-Qunused-arguments",
+				);
+				OTHER_LDFLAGS = "-Wl,-undefined,dynamic_lookup";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REEXPORTED_LIBRARY_NAMES = "";
+				REEXPORTED_LIBRARY_PATHS = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C29B7F6A2ED6DB280060EA00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = "$(DYNAMIC_LIBRARY_EXTENSION:default=dylib)";
+				EXECUTABLE_PREFIX = lib;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					PYBIND_INCLUDE,
+					PYTHON311,
+					NEW_PROPERTY_RNA,
+					NEW_PROPERTY_RNA2,
+				);
+				HEADER_SEARCH_PATHS = (
+					$PROJECT_DIR/../Pencil4LineForBlender,
+					$PROJECT_DIR/../pybind11/include,
+					"$PROJECT_DIR/../blender/**",
+					$PROJECT_DIR/../cereal/include,
+					/Library/Frameworks/Python.framework/Versions/3.11/include/python3.11,
+				);
+				LD_DYLIB_INSTALL_NAME = "$(LD_DYLIB_INSTALL_NAME_$(LLVM_TARGET_TRIPLE_VENDOR):default=$(EXECUTABLE_PATH))";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACH_O_TYPE = mh_dylib;
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-maes",
+					"-Qunused-arguments",
+				);
+				OTHER_LDFLAGS = "-Wl,-undefined,dynamic_lookup";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REEXPORTED_LIBRARY_NAMES = "";
+				REEXPORTED_LIBRARY_PATHS = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C29B7F6B2ED6DB280060EA00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = "$(DYNAMIC_LIBRARY_EXTENSION:default=dylib)";
+				EXECUTABLE_PREFIX = lib;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					PYBIND_INCLUDE,
+					PYTHON311,
+					NEW_PROPERTY_RNA,
+					NEW_PROPERTY_RNA2,
 				);
 				GCC_UNROLL_LOOPS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1679,6 +1986,15 @@
 			buildConfigurations = (
 				C24EB1322BCCE1AC00719B0E /* Debug */,
 				C24EB1332BCCE1AC00719B0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C29B7F692ED6DB280060EA00 /* Build configuration list for PBXNativeTarget "pencil4line_for_blender_mac_311_500" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C29B7F6A2ED6DB280060EA00 /* Debug */,
+				C29B7F6B2ED6DB280060EA00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

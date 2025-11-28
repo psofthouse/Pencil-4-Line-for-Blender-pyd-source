@@ -63,6 +63,9 @@ typedef int (*ItemEditableFunc)(struct PointerRNA *ptr, int index);
 typedef struct IDProperty **(*IDPropertiesFunc)(struct PointerRNA *ptr);
 typedef struct StructRNA *(*StructRefineFunc)(struct PointerRNA *ptr);
 typedef char *(*StructPathFunc)(struct PointerRNA *ptr);
+using PropUINameFunc = const char* (*)(const PointerRNA* ptr,
+    const PropertyRNA* prop,
+    bool do_translate);
 
 typedef int (*PropArrayLengthGetFunc)(struct PointerRNA *ptr, int length[RNA_MAX_ARRAY_DIMENSION]);
 typedef bool (*PropBooleanGetFunc)(struct PointerRNA *ptr);
@@ -334,6 +337,11 @@ struct PropertyRNA {
   /* context for translation */
   const char *translation_context;
 
+#if NEW_PROPERTY_RNA2
+  /** Optional deprecation information. */
+  const DeprecatedRNA* deprecated;
+#endif
+
   /* property type as it appears to the outside */
   PropertyType type;
   /* subtype, 'interpretation' of the property */
@@ -356,6 +364,11 @@ struct PropertyRNA {
   EditableFunc editable;
   /* callback for testing if array-item editable (if applicable) */
   ItemEditableFunc itemeditable;
+
+#if NEW_PROPERTY_RNA2
+  /** Optional function to dynamically override the user-readable #name. */
+  PropUINameFunc ui_name_func;
+#endif
 
   /* Override handling callbacks (diff is also used for comparison). */
   RNAPropOverrideDiff override_diff;
@@ -583,6 +596,11 @@ struct StructRNA {
 
   /** Return the location of the struct's pointer to the root group IDProperty. */
   IDPropertiesFunc idproperties;
+
+#ifdef NEW_PROPERTY_RNA2
+  /** Return the location of the struct's pointer to the system-defined root group IDProperty. */
+  IDPropertiesFunc system_idproperties;
+#endif
 
   /* functions of this struct */
   ListBase functions;

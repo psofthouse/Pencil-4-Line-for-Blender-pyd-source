@@ -28,8 +28,10 @@ PYBIND11_MODULE(pencil4line_for_blender_win64_310, m)
 #elif defined PYTHON311
 #ifndef NEW_PROPERTY_RNA
 PYBIND11_MODULE(pencil4line_for_blender_win64_311, m)
-#else
+#elif !defined NEW_PROPERTY_RNA2
 PYBIND11_MODULE(pencil4line_for_blender_win64_311_450, m)
+#else
+PYBIND11_MODULE(pencil4line_for_blender_win64_311_500, m)
 #endif
 #endif
 #elif __MACH__
@@ -45,8 +47,10 @@ PYBIND11_MODULE(pencil4line_for_blender_mac_310, m)
 #elif defined PYTHON311
 #ifndef NEW_PROPERTY_RNA
 PYBIND11_MODULE(pencil4line_for_blender_mac_311, m)
-#else
+#elif !defined NEW_PROPERTY_RNA2
 PYBIND11_MODULE(pencil4line_for_blender_mac_311_450, m)
+#else
+PYBIND11_MODULE(pencil4line_for_blender_mac_311_500, m)
 #endif
 #endif
 #elif __linux__
@@ -57,8 +61,10 @@ PYBIND11_MODULE(pencil4line_for_blender_linux_310, m)
 #elif defined PYTHON311
 #ifndef NEW_PROPERTY_RNA
 PYBIND11_MODULE(pencil4line_for_blender_linux_311, m)
-#else
+#elif !defined NEW_PROPERTY_RNA2
 PYBIND11_MODULE(pencil4line_for_blender_linux_311_450, m)
+#else
+PYBIND11_MODULE(pencil4line_for_blender_linux_311_500, m)
 #endif
 #endif
 #endif

@@ -41,8 +41,7 @@
       allowLocationSimulation = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         BundleIdentifier = "org.blenderfoundation.blender"
-         FilePath = "/Applications/Blender 4.5.0.app">
+         FilePath = "/Applications/Blender 5.0.0.app">
       </PathRunnable>
    </LaunchAction>
    <ProfileAction
