@@ -610,6 +610,8 @@ namespace interm
 		return ret;
 	}
 
+#define _CreatePreviewsRet_EROOR_ CreatePreviewsRet(nullptr, py::array_t<float>(0, nullptr), py::array_t<float>(0, nullptr))
+
 	CreatePreviewsRet CreatePreviews(int previewSize, int strokePreviewWidth,
 		std::shared_ptr<Nodes::BrushDetailNodeToExport> brushDtailNode,
 		float strokePreviewBrushSize,
@@ -618,7 +620,6 @@ namespace interm
 		const std::array<float, 4>& bgColor,
 		std::shared_ptr<DataHash> hashPrev)
 	{
-		static const CreatePreviewsRet error_ret(nullptr, py::array_t<float>(0, nullptr), py::array_t<float>(0, nullptr));
 		static std::mutex mutex;
 		std::lock_guard<std::mutex> lock(mutex);
 		static std::vector<float> textureWorkBuffer;
@@ -628,7 +629,7 @@ namespace interm
 		g_tryAutoExecRenderAppForPreview = false;
 		if (!renderSession || !renderSession->IsReady() || previewSize <= 0 || strokePreviewWidth <= 0 || !brushDtailNode)
 		{
-			return error_ret;
+			return _CreatePreviewsRet_EROOR_;
 		}
 
 		//
@@ -677,7 +678,7 @@ namespace interm
 		// データを書き込むバッファの確保
 		if (!renderSession->RequestData(allBufferSize))
 		{
-			return error_ret;
+			return _CreatePreviewsRet_EROOR_;
 		}
 
 		// 確保したバッファへのデータ書き込み
@@ -702,10 +703,10 @@ namespace interm
 			}, offset, bytes);
 		};
 
-		if (!writeDataBuffer(&header, 0, sizeof(header))) return error_ret;
+		if (!writeDataBuffer(&header, 0, sizeof(header))) return _CreatePreviewsRet_EROOR_;
 
 		size_t offset = header.dataBytesStart;
-		if (!writeDataBuffer(renderAppDataBinary.data(), offset, renderAppDataBinary.size())) return error_ret;
+		if (!writeDataBuffer(renderAppDataBinary.data(), offset, renderAppDataBinary.size())) return _CreatePreviewsRet_EROOR_;
 		offset += renderAppDataBinary.size();
 
 		// テクスチャマップの書き込み
@@ -718,7 +719,7 @@ namespace interm
 				data_hash->Record(offset, bytes, dataAccessor->ptr());
 			}, textureWorkBuffer))
 			{
-				return error_ret;
+				return _CreatePreviewsRet_EROOR_;
 			}
 		}
 
@@ -730,7 +731,7 @@ namespace interm
 		}
 		if (!renderSession->Render())
 		{
-			return error_ret;
+			return _CreatePreviewsRet_EROOR_;
 		}
 
 		// 得られたピクセルデータをバッファに展開する
@@ -742,7 +743,7 @@ namespace interm
 			auto dataAccessor = renderSession->AccessData(offset, bytes[i], RenderApp::DataAccessor::DesiredAccess::Read);
 			if (!dataAccessor)
 			{
-				return error_ret;
+				return _CreatePreviewsRet_EROOR_;
 			}
 			pixelData[i].resize(bytes[i]);
 			auto pSrc = dataAccessor->ptr<unsigned char*>();

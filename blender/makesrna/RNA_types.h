@@ -38,7 +38,7 @@ struct ReportList;
 struct StructRNA;
 struct bContext;
 
-#ifdef NEW_PROPERTY_RNA
+#if BLENDER_TARGET_VERSION_MIN >= 40500
 /**
  * An ancestor of a given PointerRNA. The owner ID is not needed here, it is assumed to always be
  * the same as the owner ID of the PropertyRNA itself.
@@ -52,7 +52,7 @@ constexpr int64_t ANCESTOR_POINTERRNA_DEFAULT_SIZE = 2;
 
 class DummyVectorAncestorPointerRNA
 {
-#ifdef NEW_PROPERTY_RNA2
+#if BLENDER_TARGET_VERSION_MIN >= 50000
     class AlignedBuffer
     {
         struct Empty {};
@@ -150,12 +150,15 @@ class DummyVectorAncestorPointerRNA
     AncestorPointerRNA* begin_;
     AncestorPointerRNA* end_;
     AncestorPointerRNA* capacity_end_;
+#if BLENDER_TARGET_VERSION_MIN >= 50100 && defined(_WINDOWS)
+    char __padding__[8] = { 0 };
+#endif
     TypedBuffer inline_buffer_;
 
 public:
     DummyVectorAncestorPointerRNA()
     {
-#ifdef NEW_PROPERTY_RNA2
+#if BLENDER_TARGET_VERSION_MIN >= 50000
         begin_ = inline_buffer_;
 #else
         begin_ = reinterpret_cast<AncestorPointerRNA*>(&inline_buffer_);
@@ -165,7 +168,7 @@ public:
     }
 };
 
-#endif /* NEW_PROPERTY_RNA */
+#endif
 
 /**
  * Pointer
@@ -185,7 +188,7 @@ typedef struct PointerRNA {
   PointerRNA(PointerRNA&&) = default;
   PointerRNA& operator=(const PointerRNA& other) = default;
   PointerRNA& operator=(PointerRNA&& other) = default;
-#ifdef NEW_PROPERTY_RNA
+#if BLENDER_TARGET_VERSION_MIN >= 40500
   DummyVectorAncestorPointerRNA ancestors;
   PointerRNA(ID* owner_id, StructRNA* type, void* data)
       : owner_id(owner_id), type(type), data(data), ancestors{}
@@ -575,7 +578,7 @@ typedef struct CollectionPropertyIterator {
 
   /* external */
   PointerRNA ptr;
-#ifdef NEW_PROPERTY_RNA2
+#if BLENDER_TARGET_VERSION_MIN >= 50000
   bool valid;
 #else
   int valid;
@@ -631,6 +634,161 @@ typedef struct EnumPropertyItem {
   const char *description;
 } EnumPropertyItem;
 
+#if BLENDER_TARGET_VERSION_MIN >= 50100
+/* Extended versions with PropertyRNA argument. Used in particular by the bpy code to wrap all the
+ * py-defined callbacks when defining a property using `bpy.props` module.
+ *
+ * The 'Transform' ones allow to add a transform step (applied after getting, or before setting the
+ * value), which only modifies the value, but does not handle actual storage. Currently only used
+ * by `bpy`, more details in the documentation of #BPyPropStore.
+ */
+using BooleanPropertyGetFunc = bool (*)(PointerRNA* ptr, PropertyRNA* prop);
+using BooleanPropertySetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, bool value);
+using BooleanPropertyGetTransformFunc = bool (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    bool value,
+    bool is_set);
+using BooleanPropertySetTransformFunc =
+bool (*)(PointerRNA* ptr, PropertyRNA* prop, bool new_value, bool curr_value, bool is_set);
+
+using BooleanArrayPropertyGetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, bool* r_values);
+using BooleanArrayPropertySetFunc = void (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const bool* r_values);
+using BooleanArrayPropertyGetTransformFunc = void (*)(
+    PointerRNA* ptr, PropertyRNA* prop, const bool* curr_values, bool is_set, bool* r_values);
+using BooleanArrayPropertySetTransformFunc = void (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const bool* new_values,
+    const bool* curr_values,
+    bool is_set,
+    bool* r_values);
+
+using IntPropertyGetFunc = int (*)(PointerRNA* ptr, PropertyRNA* prop);
+using IntPropertySetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, int value);
+using IntPropertyGetTransformFunc = int (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    int value,
+    bool is_set);
+using IntPropertySetTransformFunc =
+int (*)(PointerRNA* ptr, PropertyRNA* prop, int new_value, int curr_value, bool is_set);
+using IntArrayPropertyGetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, int* values);
+using IntArrayPropertySetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, const int* values);
+using IntArrayPropertyGetTransformFunc = void (*)(
+    PointerRNA* ptr, PropertyRNA* prop, const int* curr_values, bool is_set, int* r_values);
+using IntArrayPropertySetTransformFunc = void (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const int* new_values,
+    const int* curr_values,
+    bool is_set,
+    int* r_values);
+using IntPropertyRangeFunc =
+void (*)(PointerRNA* ptr, PropertyRNA* prop, int* min, int* max, int* softmin, int* softmax);
+
+using FloatPropertyGetFunc = float (*)(PointerRNA* ptr, PropertyRNA* prop);
+using FloatPropertySetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, float value);
+using FloatPropertyGetTransformFunc = float (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    float value,
+    bool is_set);
+using FloatPropertySetTransformFunc =
+float (*)(PointerRNA* ptr, PropertyRNA* prop, float new_value, float curr_value, bool is_set);
+using FloatArrayPropertyGetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, float* values);
+using FloatArrayPropertySetFunc = void (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const float* values);
+using FloatArrayPropertyGetTransformFunc = void (*)(
+    PointerRNA* ptr, PropertyRNA* prop, const float* curr_values, bool is_set, float* r_values);
+using FloatArrayPropertySetTransformFunc = void (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const float* new_values,
+    const float* curr_values,
+    bool is_set,
+    float* r_values);
+using FloatPropertyRangeFunc = void (*)(
+    PointerRNA* ptr, PropertyRNA* prop, float* min, float* max, float* softmin, float* softmax);
+
+using StringPropertyGetFunc = std::string(*)(PointerRNA* ptr, PropertyRNA* prop);
+using StringPropertyLengthFunc = int (*)(PointerRNA* ptr, PropertyRNA* prop);
+using StringPropertySetFunc = void (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const std::string& value);
+using StringPropertyGetTransformFunc = std::string(*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const std::string& value,
+    bool is_set);
+using StringPropertySetTransformFunc = std::string(*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    const std::string& new_value,
+    const std::string& curr_value,
+    bool is_set);
+
+struct StringPropertySearchVisitParams {
+    /** Text being searched for. */
+    std::string text;
+    /** Additional information to display. */
+    std::optional<std::string> info;
+    /* Optional icon instead of #ICON_NONE. */
+    std::optional<int> icon_id;
+};
+
+enum eStringPropertySearchFlag {
+    /**
+     * Used so the result of #RNA_property_string_search_flag can be used to check
+     * if search is supported.
+     */
+    PROP_STRING_SEARCH_SUPPORTED = (1 << 0),
+    /** Items resulting from the search must be sorted. */
+    PROP_STRING_SEARCH_SORT = (1 << 1),
+    /**
+     * Allow members besides the ones listed to be entered.
+     *
+     * \warning disabling this options causes the search callback to run on redraw and should
+     * only be enabled this doesn't cause performance issues.
+     */
+    PROP_STRING_SEARCH_SUGGESTION = (1 << 2),
+};
+
+/**
+ * \param C: context, may be NULL (in this case all available items should be shown).
+ * \param ptr: RNA pointer.
+ * \param prop: RNA property. This must have its #StringPropertyRNA.search callback set,
+ * to check this use `RNA_property_string_search_flag(prop) & PROP_STRING_SEARCH_SUPPORTED`.
+ * \param edit_text: Optionally use the string being edited by the user as a basis
+ * for the search results (auto-complete Python attributes for example).
+ * \param visit_fn: This function is called with every search candidate and is typically
+ * responsible for storing the search results.
+ */
+using StringPropertySearchFunc =
+    void (*)(const bContext* C,
+        PointerRNA* ptr,
+        PropertyRNA* prop,
+        const char* edit_text,
+//        FunctionRef<void(StringPropertySearchVisitParams)> visit_fn);
+        void* visit_fn_dummy);
+
+/**
+ * Returns an optional glob pattern (e.g. `*.png`) that can be passed to the file browser to filter
+ * valid files for this property.
+ */
+using StringPropertyPathFilterFunc = std::optional<std::string>(*)(const bContext* C,
+    PointerRNA* ptr,
+    PropertyRNA* prop);
+
+using EnumPropertyGetFunc = int (*)(PointerRNA* ptr, PropertyRNA* prop);
+using EnumPropertySetFunc = void (*)(PointerRNA* ptr, PropertyRNA* prop, int value);
+using EnumPropertyGetTransformFunc = int (*)(PointerRNA* ptr,
+    PropertyRNA* prop,
+    int value,
+    bool is_set);
+using EnumPropertySetTransformFunc =
+int (*)(PointerRNA* ptr, PropertyRNA* prop, int new_value, int curr_value, bool is_set);
+/* same as PropEnumItemFunc */
+using EnumPropertyItemFunc = const EnumPropertyItem* (*)(bContext* C,
+    PointerRNA* ptr,
+    PropertyRNA* prop,
+    bool* r_free);
+#else
 /* extended versions with PropertyRNA argument */
 typedef bool (*BooleanPropertyGetFunc)(struct PointerRNA *ptr, struct PropertyRNA *prop);
 typedef void (*BooleanPropertySetFunc)(struct PointerRNA *ptr,
@@ -686,7 +844,7 @@ typedef const EnumPropertyItem *(*EnumPropertyItemFunc)(struct bContext *C,
                                                         PointerRNA *ptr,
                                                         struct PropertyRNA *prop,
                                                         bool *r_free);
-
+#endif
 typedef struct PropertyRNA PropertyRNA;
 
 /* Parameter List */

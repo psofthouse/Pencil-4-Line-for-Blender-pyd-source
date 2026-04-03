@@ -555,7 +555,7 @@ namespace interm
 
 	void MeshDataAccessor::ActivateUVChannel(int channel)
 	{
-		if (0 <= channel && channel < _mesh.get_uv_layers_length() && _mesh.uv_layers_lookup_int(channel).data)
+		if (0 <= channel && channel < _mesh.get_uv_layers_length() && _mesh.uv_layers_at(channel).data)
 		{
 			auto& v = info.uvChannels;
 			if (std::find(v.begin(), v.end(), channel) == v.end())
@@ -569,7 +569,7 @@ namespace interm
 	{
 		if (&_meshColorAttributes == &MeshDataAccessor::color_attributes_none)
 		{	  
-			if (0 <= channel && channel < _mesh.get_vertex_colors_length() && _mesh.vertex_colors_lookup_int(channel).data)
+			if (0 <= channel && channel < _mesh.get_vertex_colors_length() && _mesh.vertex_colors_at(channel).data)
 			{
 				auto& v = info.faceCornerColorChannels;
 				if (std::find(v.begin(), v.end(), channel) == v.end())
@@ -625,7 +625,7 @@ namespace interm
 			auto numChannels = _mesh.get_uv_layers_length();
 			for (int channel = 0; channel < numChannels; channel++)
 			{
-				blrna::MeshUVLoopLayer uvLoopLayer(_mesh.uv_layers_lookup_int(channel));
+				blrna::MeshUVLoopLayer uvLoopLayer(_mesh.uv_layers_at(channel));
 				auto n = uvLoopLayer.get_struct_name();
 				_uvChannelNames->emplace(uvLoopLayer.get_struct_name(), channel);
 			}
@@ -645,7 +645,7 @@ namespace interm
 				auto numChannels = _mesh.get_vertex_colors_length();
 				for (int channel = 0; channel < numChannels; channel++)
 				{
-					blrna::MeshLoopColorLayer meshLoopColorLayer(_mesh.vertex_colors_lookup_int(channel));
+					blrna::MeshLoopColorLayer meshLoopColorLayer(_mesh.vertex_colors_at(channel));
 					_colorChannelNames->emplace(meshLoopColorLayer.get_struct_name(), channel);
 				}
 			}
@@ -735,7 +735,7 @@ namespace interm
 		auto pDst = info.UVsData(buff);
 		for (int uvChannel : info.uvChannels)
 		{
-			blrna::MeshUVLoopLayer uvLoopLayer(_mesh.uv_layers_lookup_int(uvChannel));
+			blrna::MeshUVLoopLayer uvLoopLayer(_mesh.uv_layers_at(uvChannel));
 
 			if (uvLoopLayer.has_uv_prop())
 			{
@@ -793,7 +793,7 @@ namespace interm
 		{
 			for (int channel : info.faceCornerColorChannels)
 			{
-				blrna::MeshLoopColorLayer meshLoopColorLayer(_mesh.vertex_colors_lookup_int(channel));
+				blrna::MeshLoopColorLayer meshLoopColorLayer(_mesh.vertex_colors_at(channel));
 				const auto pMLoopColor = meshLoopColorLayer.get_data<MLoopCol*>();
 
 				for (int i = 0; i < numTri; i++)

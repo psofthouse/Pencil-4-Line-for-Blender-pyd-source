@@ -24,6 +24,8 @@
 
 #include "RNA_types.h"
 
+#include "VectorAccessor.h"
+
 struct BlenderRNA;
 struct CollectionPropertyIterator;
 struct ContainerRNA;
@@ -266,12 +268,19 @@ typedef bool (*RNAPropOverrideApply)(struct Main *bmain,
                                      struct IDOverrideLibraryPropertyOperation *opop);
 
 /* Container - generic abstracted container of RNA properties */
+#if BLENDER_TARGET_VERSION_MIN >= 50100
 typedef struct ContainerRNA {
-  void *next, *prev;
-
-  struct GHash *prophash;
-  ListBase properties;
+    std::int64_t padding[1];
+    ListBase properties;
 } ContainerRNA;
+#else
+typedef struct ContainerRNA {
+    void* next, * prev;
+
+    struct GHash* prophash;
+    ListBase properties;
+} ContainerRNA;
+#endif
 
 struct FunctionRNA {
   /* structs are containers of properties */
@@ -317,7 +326,7 @@ struct PropertyRNA {
   /* The subset of StructRNA.prop_tag_defines values that applies to this property. */
   short tags;
 
-#ifdef NEW_PROPERTY_RNA
+#if BLENDER_TARGET_VERSION_MIN >= 40500
   /**
    * Indicates which set of template variables this property supports.
    *
@@ -337,7 +346,7 @@ struct PropertyRNA {
   /* context for translation */
   const char *translation_context;
 
-#if NEW_PROPERTY_RNA2
+#if BLENDER_TARGET_VERSION_MIN >= 50000
   /** Optional deprecation information. */
   const DeprecatedRNA* deprecated;
 #endif
@@ -365,9 +374,14 @@ struct PropertyRNA {
   /* callback for testing if array-item editable (if applicable) */
   ItemEditableFunc itemeditable;
 
-#if NEW_PROPERTY_RNA2
+#if BLENDER_TARGET_VERSION_MIN >= 50000
   /** Optional function to dynamically override the user-readable #name. */
   PropUINameFunc ui_name_func;
+#endif
+
+#if BLENDER_TARGET_VERSION_MIN >= 50100
+  /** Optional function to dynamically override the user-readable #description. */
+  PropUINameFunc ui_description_func;
 #endif
 
   /* Override handling callbacks (diff is also used for comparison). */
@@ -403,6 +417,196 @@ typedef enum PropertyFlagIntern {
 
 /* Property Types */
 
+#if BLENDER_TARGET_VERSION_MIN >= 50100
+/* Transform step (applied after getting, or before setting the value). Currently only used by
+ * `bpy`, more details in the documentation of #BPyPropStore. */
+ /* NOTE: All transform get/set callbacks will always get a 'real' PropertyRNA `prop` pointer, never
+  * an 'IDProperty as PropertyRNA' one (i.e. when called, the given `prop` is the RNA result of a
+  * call to `rna_property_rna_or_id_get` or one of its wrappers). */
+
+using PropBooleanGetTransformFunc = BooleanPropertyGetTransformFunc;
+using PropBooleanSetTransformFunc = BooleanPropertySetTransformFunc;
+using PropBooleanArrayGetTransformFunc = BooleanArrayPropertyGetTransformFunc;
+using PropBooleanArraySetTransformFunc = BooleanArrayPropertySetTransformFunc;
+using PropIntGetTransformFunc = IntPropertyGetTransformFunc;
+using PropIntSetTransformFunc = IntPropertySetTransformFunc;
+using PropIntArrayGetTransformFunc = IntArrayPropertyGetTransformFunc;
+using PropIntArraySetTransformFunc = IntArrayPropertySetTransformFunc;
+using PropFloatGetTransformFunc = FloatPropertyGetTransformFunc;
+using PropFloatSetTransformFunc = FloatPropertySetTransformFunc;
+using PropFloatArrayGetTransformFunc = FloatArrayPropertyGetTransformFunc;
+using PropFloatArraySetTransformFunc = FloatArrayPropertySetTransformFunc;
+using PropStringGetTransformFunc = StringPropertyGetTransformFunc;
+using PropStringSetTransformFunc = StringPropertySetTransformFunc;
+using PropEnumGetTransformFunc = EnumPropertyGetTransformFunc;
+using PropEnumSetTransformFunc = EnumPropertySetTransformFunc;
+
+struct BoolPropertyRNA : public PropertyRNA {
+  PropBooleanGetFunc get;
+  PropBooleanSetFunc set;
+  PropBooleanArrayGetFunc getarray;
+  PropBooleanArraySetFunc setarray;
+
+  PropBooleanGetFuncEx get_ex;
+  PropBooleanSetFuncEx set_ex;
+  PropBooleanArrayGetFuncEx getarray_ex;
+  PropBooleanArraySetFuncEx setarray_ex;
+
+  PropBooleanGetTransformFunc get_transform;
+  PropBooleanSetTransformFunc set_transform;
+  PropBooleanArrayGetTransformFunc getarray_transform;
+  PropBooleanArraySetTransformFunc setarray_transform;
+
+  PropBooleanGetFuncEx get_default;
+  PropBooleanArrayGetFuncEx get_default_array;
+  bool defaultvalue;
+  const bool *defaultarray;
+};
+
+struct IntPropertyRNA : public PropertyRNA {
+  PropIntGetFunc get;
+  PropIntSetFunc set;
+  PropIntArrayGetFunc getarray;
+  PropIntArraySetFunc setarray;
+  PropIntRangeFunc range;
+
+  PropIntGetFuncEx get_ex;
+  PropIntSetFuncEx set_ex;
+  PropIntArrayGetFuncEx getarray_ex;
+  PropIntArraySetFuncEx setarray_ex;
+  PropIntRangeFuncEx range_ex;
+
+  PropIntGetTransformFunc get_transform;
+  PropIntSetTransformFunc set_transform;
+  PropIntArrayGetTransformFunc getarray_transform;
+  PropIntArraySetTransformFunc setarray_transform;
+
+  PropertyScaleType ui_scale_type;
+  int softmin, softmax;
+  int hardmin, hardmax;
+  int step;
+
+  PropIntGetFuncEx get_default;
+  PropIntArrayGetFuncEx get_default_array;
+  int defaultvalue;
+  const int *defaultarray;
+};
+
+struct FloatPropertyRNA : public PropertyRNA {
+  PropFloatGetFunc get;
+  PropFloatSetFunc set;
+  PropFloatArrayGetFunc getarray;
+  PropFloatArraySetFunc setarray;
+  PropFloatRangeFunc range;
+
+  PropFloatGetFuncEx get_ex;
+  PropFloatSetFuncEx set_ex;
+  PropFloatArrayGetFuncEx getarray_ex;
+  PropFloatArraySetFuncEx setarray_ex;
+  PropFloatRangeFuncEx range_ex;
+
+  PropFloatGetTransformFunc get_transform;
+  PropFloatSetTransformFunc set_transform;
+  PropFloatArrayGetTransformFunc getarray_transform;
+  PropFloatArraySetTransformFunc setarray_transform;
+
+  PropertyScaleType ui_scale_type;
+  float softmin, softmax;
+  float hardmin, hardmax;
+  float step;
+  int precision;
+
+  PropFloatGetFuncEx get_default;
+  PropFloatArrayGetFuncEx get_default_array;
+
+  float defaultvalue;
+  const float *defaultarray;
+};
+
+struct StringPropertyRNA : public PropertyRNA {
+  PropStringGetFunc get;
+  PropStringLengthFunc length;
+  PropStringSetFunc set;
+
+  PropStringGetFuncEx get_ex;
+  /* This callback only returns the 'storage' length (i.e. length of string returned by `get_ex`),
+   * _not_ the final length (potentially modified by the `get_transform` callback). */
+  PropStringLengthFuncEx length_ex;
+  PropStringSetFuncEx set_ex;
+
+  PropStringGetTransformFunc get_transform;
+  PropStringSetTransformFunc set_transform;
+
+  PropStringGetFuncEx get_default;
+
+  /**
+   * Optional callback to list candidates for a string.
+   * This is only for use as suggestions in UI, other values may be assigned.
+   *
+   * \note The callback type is public, hence the difference in naming convention.
+   */
+  StringPropertySearchFunc search;
+  eStringPropertySearchFlag search_flag;
+
+  /**
+   * Used for strings which are #PROP_FILEPATH to have a default filter when opening a file
+   * browser.
+   */
+  StringPropertyPathFilterFunc path_filter;
+
+  /** Maximum length including the string terminator! */
+  int maxlength;
+
+  const char *defaultvalue;
+};
+
+struct EnumPropertyRNA : public PropertyRNA {
+  PropEnumGetFunc get;
+  PropEnumSetFunc set;
+  PropEnumItemFunc item_fn;
+
+  PropEnumGetFuncEx get_ex;
+  PropEnumSetFuncEx set_ex;
+
+  PropEnumGetTransformFunc get_transform;
+  PropEnumSetTransformFunc set_transform;
+
+  PropEnumGetFuncEx get_default;
+
+  const EnumPropertyItem *item;
+  int totitem;
+
+  int defaultvalue;
+  const char *native_enum_type;
+};
+
+struct PointerPropertyRNA : public PropertyRNA {
+  PropPointerGetFunc get;
+  PropPointerSetFunc set;
+  PropPointerTypeFunc type_fn;
+  /** unlike operators, 'set' can still run if poll fails, used for filtering display. */
+  PropPointerPollFunc poll;
+
+  StructRNA *pointer_type;
+};
+
+struct CollectionPropertyRNA : public PropertyRNA {
+  PropCollectionBeginFunc begin;
+  PropCollectionNextFunc next;
+  PropCollectionEndFunc end; /* optional */
+  PropCollectionGetFunc get;
+  PropCollectionLengthFunc length;             /* optional */
+  PropCollectionLookupIntFunc lookupint;       /* optional */
+  PropCollectionLookupStringFunc lookupstring; /* optional */
+  PropCollectionAssignIntFunc assignint;       /* optional */
+
+  /** The type of this item. */
+  StructRNA *item_type;
+};
+
+class FunctionsVecotrAccessor : public VectorAccessor<std::unique_ptr<FunctionRNA>, size_t, 5> {
+};
+#else
 typedef struct BoolPropertyRNA {
   PropertyRNA property;
 
@@ -529,6 +733,8 @@ typedef struct CollectionPropertyRNA {
   struct StructRNA *item_type; /* the type of this item */
 } CollectionPropertyRNA;
 
+#endif
+
 /* changes to this struct require updating rna_generate_struct in makesrna.c */
 struct StructRNA {
   /* structs are containers of properties */
@@ -544,9 +750,12 @@ struct StructRNA {
 
   /* various options */
   int flag;
+
+#ifndef NEW_POINTER_RNA
   /* Each StructRNA type can define own tags which properties can set
    * (PropertyRNA.tags) for changed behavior based on struct-type. */
   const EnumPropertyItem *prop_tag_defines;
+#endif
 
   /* user readable name */
   const char *name;
@@ -597,13 +806,17 @@ struct StructRNA {
   /** Return the location of the struct's pointer to the root group IDProperty. */
   IDPropertiesFunc idproperties;
 
-#ifdef NEW_PROPERTY_RNA2
+#if BLENDER_TARGET_VERSION_MIN >= 50000
   /** Return the location of the struct's pointer to the system-defined root group IDProperty. */
   IDPropertiesFunc system_idproperties;
 #endif
 
   /* functions of this struct */
+#if BLENDER_TARGET_VERSION_MIN >= 50100
+  FunctionsVecotrAccessor functions;
+#else
   ListBase functions;
+#endif
 };
 
 /* Blender RNA

@@ -55,9 +55,13 @@ namespace blrna
 	void set_##P (PointerRNA v) { FetchProp(PROP_RNA(P), #P); PROP_RNA(P)->set(&_PRNA, v, nullptr); }\
 	PointerRNA get_##P () const { FetchProp(PROP_RNA(P), #P); auto rna = _PRNA; return PROP_RNA(P)->get(&rna); }\
 
+#if BLENDER_TARGET_VERSION_MIN >= 50100
 #define	POINTER_PROP_ITEM_TYPE(P)\
-	StructRNA* P##_item_type() const { FetchProp(PROP_RNA(P), #P); return PROP_RNA(P)->type; }\
-
+	StructRNA* P##_item_type() const { FetchProp(PROP_RNA(P), #P); return PROP_RNA(P)->pointer_type; }
+#else
+#define	POINTER_PROP_ITEM_TYPE(P)\
+	StructRNA* P##_item_type() const { FetchProp(PROP_RNA(P), #P); return PROP_RNA(P)->type; }
+#endif
 
 #define COLLECTION_PROP(P)\
 	static CollectionPropertyRNA* PROP_RNA(P);\
@@ -69,8 +73,21 @@ namespace blrna
 #define	COLLECTION_PROP_ITEM_TYPE(P)\
 	StructRNA* P##_item_type() const { FetchProp(PROP_RNA(P), #P); return PROP_RNA(P)->item_type; }\
 
-#define	COLLECTION_PROP_LOOKUP_INT(P)\
-	PointerRNA P##_lookup_int(int i) const { FetchProp(PROP_RNA(P), #P); auto rna = _PRNA; PointerRNA ret; PROP_RNA(P)->lookupint(&rna, i, &ret); return ret; } \
+#define	COLLECTION_PROP_AT(P)\
+	PointerRNA P##_at(int i) const {\
+		FetchProp(PROP_RNA(P), #P);\
+		auto rna = _PRNA;\
+		PointerRNA ret;\
+		if (PROP_RNA(P)->lookupint) PROP_RNA(P)->lookupint(&rna, i, &ret);\
+		else if (PROP_RNA(P)->next) {\
+			CollectionPropertyIterator itr;\
+			PROP_RNA(P)->begin(&itr, &rna);\
+			for (int j = 0; j <= i && itr.valid; PROP_RNA(P)->next(&itr)) {\
+				if (j == i) { ret = itr.ptr; break; }\
+				j++;\
+			}\
+		}\
+		return ret; } \
 
 
 #define HAS_PROP(P)\
@@ -158,11 +175,26 @@ namespace blrna
 
 		void FetchFunc(FunctionRNA*& out, const char* name) const
 		{
-			forListBaseC(FunctionRNA*, func, _PRNA.type->functions, out == nullptr)
+			FetchFunc(_PRNA.type->functions, out, name);
+		}
+#if BLENDER_TARGET_VERSION_MIN >= 50100
+		static void FetchFunc(const FunctionsVecotrAccessor& functions, FunctionRNA*& out, const char* name)
+		{
+			for (size_t i = 0; i < functions.size() && !out; i++)
+			{
+				auto func = functions[i].get();
+				out = (strcmp(func->identifier, name) == 0) ? func : out;
+			}
+		}
+#else
+		static void FetchFunc(const ListBase& listBase, FunctionRNA*& out, const char* name)
+		{
+			forListBaseC(FunctionRNA*, func, listBase, out == nullptr)
 			{
 				out = (strcmp(func->identifier, name) == 0) ? func : out;
 			}
 		}
+#endif
 
 		void FetchItems(EnumPropertyItem*& out, EnumPropertyRNA* enumProp) const
 		{

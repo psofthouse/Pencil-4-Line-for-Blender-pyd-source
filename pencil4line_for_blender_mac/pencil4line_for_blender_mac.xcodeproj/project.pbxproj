@@ -15,6 +15,7 @@
 				C21180B629DD441A00F99DF7 /* ShellScript */,
 			);
 			dependencies = (
+				C2D845252F736CDB0033C40E /* PBXTargetDependency */,
 				C29B7F6E2ED6DBFF0060EA00 /* PBXTargetDependency */,
 				C2A7710F2E31C1F0008E19F6 /* PBXTargetDependency */,
 				C24EB1362BCCE2D400719B0E /* PBXTargetDependency */,
@@ -352,6 +353,71 @@
 		C2C9E9D029D409B10056D782 /* RenderAppSessionWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8629D3BF0C0071B50F /* RenderAppSessionWindows.h */; };
 		C2C9E9D129D409B10056D782 /* Pencil4LineForBlender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7929D3BF0C0071B50F /* Pencil4LineForBlender.cpp */; };
 		C2C9E9D229D409BE0056D782 /* meow_hash_x64_aesni.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9729D3BF0C0071B50F /* meow_hash_x64_aesni.h */; };
+		C2D844DD2F736BCB0033C40E /* intermMeshDataAccessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA529D3BF0C0071B50F /* intermMeshDataAccessor.h */; };
+		C2D844DE2F736BCB0033C40E /* intermCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9129D3BF0C0071B50F /* intermCamera.h */; };
+		C2D844DF2F736BCB0033C40E /* FileMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8D29D3BF0C0071B50F /* FileMapping.h */; };
+		C2D844E02F736BCB0033C40E /* StructDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA229D3BF0C0071B50F /* StructDefinitions.h */; };
+		C2D844E12F736BCB0033C40E /* RenderAppSessionWindows.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8629D3BF0C0071B50F /* RenderAppSessionWindows.h */; };
+		C2D844E22F736BCB0033C40E /* intermContext.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9A29D3BF0C0071B50F /* intermContext.h */; };
+		C2D844E32F736BCB0033C40E /* blrnaMEdge.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7B29D3BF0C0071B50F /* blrnaMEdge.h */; };
+		C2D844E42F736BCB0033C40E /* intermRenderInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA029D3BF0C0071B50F /* intermRenderInstance.h */; };
+		C2D844E52F736BCB0033C40E /* meow_hash_x64_aesni.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9729D3BF0C0071B50F /* meow_hash_x64_aesni.h */; };
+		C2D844E62F736BCB0033C40E /* intermNameIDMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8E29D3BF0C0071B50F /* intermNameIDMapper.h */; };
+		C2D844E72F736BCB0033C40E /* intermDataHash.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8729D3BF0C0071B50F /* intermDataHash.h */; };
+		C2D844E82F736BCB0033C40E /* blrnaMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7829D3BF0C0071B50F /* blrnaMaterial.h */; };
+		C2D844E92F736BCB0033C40E /* blrnaMLoopTri.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA329D3BF0C0071B50F /* blrnaMLoopTri.h */; };
+		C2D844EA2F736BCB0033C40E /* blrnaMLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8B29D3BF0C0071B50F /* blrnaMLoop.h */; };
+		C2D844EB2F736BCB0033C40E /* RenderAppSession.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9D29D3BF0C0071B50F /* RenderAppSession.h */; };
+		C2D844EC2F736BCB0033C40E /* blrnaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6B29D3BF0B0071B50F /* blrnaImage.h */; };
+		C2D844ED2F736BCB0033C40E /* Nodes.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8429D3BF0C0071B50F /* Nodes.h */; };
+		C2D844EE2F736BCB0033C40E /* intermBlenderVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = C254CD2129E7E0480047069C /* intermBlenderVersion.h */; };
+		C2D844EF2F736BCB0033C40E /* FileMappingPOSIX.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C2A9CC4929DBEFA3007C5B85 /* FileMappingPOSIX.hpp */; };
+		C2D844F02F736BCB0033C40E /* blrnaMeshUVLoopLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6F29D3BF0B0071B50F /* blrnaMeshUVLoopLayer.h */; };
+		C2D844F12F736BCB0033C40E /* RenderAppDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7F29D3BF0C0071B50F /* RenderAppDefine.h */; };
+		C2D844F22F736BCB0033C40E /* intermImageMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7429D3BF0B0071B50F /* intermImageMapper.h */; };
+		C2D844F32F736BCB0033C40E /* blrnaID.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7129D3BF0B0071B50F /* blrnaID.h */; };
+		C2D844F42F736BCB0033C40E /* blrnaObject.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7229D3BF0B0071B50F /* blrnaObject.h */; };
+		C2D844F52F736BCB0033C40E /* blrnaMeshLoopColorLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33EA629D3BF0C0071B50F /* blrnaMeshLoopColorLayer.h */; };
+		C2D844F62F736BCB0033C40E /* blrnaBase.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6A29D3BF0B0071B50F /* blrnaBase.h */; };
+		C2D844F72F736BCB0033C40E /* blrnaCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6929D3BF0B0071B50F /* blrnaCamera.h */; };
+		C2D844F82F736BCB0033C40E /* intermDrawOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9029D3BF0C0071B50F /* intermDrawOptions.h */; };
+		C2D844F92F736BCB0033C40E /* intermObjectIDMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9B29D3BF0C0071B50F /* intermObjectIDMapper.h */; };
+		C2D844FA2F736BCB0033C40E /* intermNodeParamsFixer.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8929D3BF0C0071B50F /* intermNodeParamsFixer.h */; };
+		C2D844FB2F736BCB0033C40E /* RenderAppSessionPOSIX.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C2CF88FF29D3FD6E00597B2A /* RenderAppSessionPOSIX.hpp */; };
+		C2D844FC2F736BCB0033C40E /* RenderAppData.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E9229D3BF0C0071B50F /* RenderAppData.h */; };
+		C2D844FD2F736BCB0033C40E /* blrnaMPoly.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E7A29D3BF0C0071B50F /* blrnaMPoly.h */; };
+		C2D844FE2F736BCB0033C40E /* blrnaAttribute.h in Headers */ = {isa = PBXBuildFile; fileRef = C254CD1D29E7DEDC0047069C /* blrnaAttribute.h */; };
+		C2D844FF2F736BCB0033C40E /* blrnaMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E8A29D3BF0C0071B50F /* blrnaMesh.h */; };
+		C2D845002F736BCB0033C40E /* blrnaIDOverrideLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = C2C33E6E29D3BF0B0071B50F /* blrnaIDOverrideLibrary.h */; };
+		C2D845022F736BCB0033C40E /* blrnaAttribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C254CD1E29E7DEDC0047069C /* blrnaAttribute.cpp */; };
+		C2D845032F736BCB0033C40E /* blrnaCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8229D3BF0C0071B50F /* blrnaCamera.cpp */; };
+		C2D845042F736BCB0033C40E /* blrnaID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7D29D3BF0C0071B50F /* blrnaID.cpp */; };
+		C2D845052F736BCB0033C40E /* blrnaMeshUVLoopLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7029D3BF0B0071B50F /* blrnaMeshUVLoopLayer.cpp */; };
+		C2D845062F736BCB0033C40E /* blrnaObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7729D3BF0C0071B50F /* blrnaObject.cpp */; };
+		C2D845072F736BCB0033C40E /* blrnaMLoopTri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8129D3BF0C0071B50F /* blrnaMLoopTri.cpp */; };
+		C2D845082F736BCB0033C40E /* blrnaImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7C29D3BF0C0071B50F /* blrnaImage.cpp */; };
+		C2D845092F736BCB0033C40E /* blrnaMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9E29D3BF0C0071B50F /* blrnaMaterial.cpp */; };
+		C2D8450A2F736BCB0033C40E /* blrnaIDOverrideLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9429D3BF0C0071B50F /* blrnaIDOverrideLibrary.cpp */; };
+		C2D8450B2F736BCB0033C40E /* blrnaMLoop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7529D3BF0B0071B50F /* blrnaMLoop.cpp */; };
+		C2D8450C2F736BCB0033C40E /* blrnaMEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E6C29D3BF0B0071B50F /* blrnaMEdge.cpp */; };
+		C2D8450D2F736BCB0033C40E /* blrnaMPoly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7329D3BF0B0071B50F /* blrnaMPoly.cpp */; };
+		C2D8450E2F736BCB0033C40E /* blrnaMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8529D3BF0C0071B50F /* blrnaMesh.cpp */; };
+		C2D8450F2F736BCB0033C40E /* blrnaMeshLoopColorLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9C29D3BF0C0071B50F /* blrnaMeshLoopColorLayer.cpp */; };
+		C2D845102F736BCB0033C40E /* intermDataHash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33EA429D3BF0C0071B50F /* intermDataHash.cpp */; };
+		C2D845112F736BCB0033C40E /* intermCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9829D3BF0C0071B50F /* intermCamera.cpp */; };
+		C2D845122F736BCB0033C40E /* intermNameIDMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8F29D3BF0C0071B50F /* intermNameIDMapper.cpp */; };
+		C2D845132F736BCB0033C40E /* intermContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33EA729D3BF0C0071B50F /* intermContext.cpp */; };
+		C2D845142F736BCB0033C40E /* intermNodeParamsFixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8329D3BF0C0071B50F /* intermNodeParamsFixer.cpp */; };
+		C2D845152F736BCB0033C40E /* intermObjectIDMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E9F29D3BF0C0071B50F /* intermObjectIDMapper.cpp */; };
+		C2D845162F736BCB0033C40E /* intermImageMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E6D29D3BF0B0071B50F /* intermImageMapper.cpp */; };
+		C2D845172F736BCB0033C40E /* intermBlenderVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C254CD2229E7E0480047069C /* intermBlenderVersion.cpp */; };
+		C2D845182F736BCB0033C40E /* intermMeshDataAccessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33EA129D3BF0C0071B50F /* intermMeshDataAccessor.cpp */; };
+		C2D845192F736BCB0033C40E /* Nodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7E29D3BF0C0071B50F /* Nodes.cpp */; };
+		C2D8451A2F736BCB0033C40E /* Pencil4LineForBlender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E7929D3BF0C0071B50F /* Pencil4LineForBlender.cpp */; };
+		C2D8451B2F736BCB0033C40E /* FileMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2C33E8C29D3BF0C0071B50F /* FileMapping.cpp */; };
+		C2D8451C2F736BCB0033C40E /* FileMappingPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2A9CC4829DBEFA3007C5B85 /* FileMappingPOSIX.cpp */; };
+		C2D8451D2F736BCB0033C40E /* RenderAppSessionPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2CF88FE29D3FD6E00597B2A /* RenderAppSessionPOSIX.cpp */; };
+		C2D845262F736CEA0033C40E /* libpencil4line_for_blender_mac_313.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = C2D845232F736BCB0033C40E /* libpencil4line_for_blender_mac_313.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -390,6 +456,13 @@
 			remoteGlobalIDString = C2A770C42E31BC12008E19F6;
 			remoteInfo = pencil4line_for_blender_mac_311_450;
 		};
+		C2D845242F736CDB0033C40E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2C33E5429D3BE4C0071B50F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2D844DA2F736BCB0033C40E;
+			remoteInfo = pencil4line_for_blender_mac_313;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -399,6 +472,7 @@
 			dstPath = $PROJECT_DIR/../Package/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				C2D845262F736CEA0033C40E /* libpencil4line_for_blender_mac_313.dylib in CopyFiles */,
 				C29B7F6F2ED6DC100060EA00 /* libpencil4line_for_blender_mac_311_500.dylib in CopyFiles */,
 				C2A771102E31C4F0008E19F6 /* libpencil4line_for_blender_mac_311_450.dylib in CopyFiles */,
 				C24EB0EA2BCCCA3E00719B0E /* libpencil4line_for_blender_mac_39.dylib in CopyFiles */,
@@ -484,6 +558,7 @@
 		C2CF88FC29D3F95500597B2A /* libpython3.10.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpython3.10.a; path = "../../../../../../Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/config-3.10-darwin/libpython3.10.a"; sourceTree = "<group>"; };
 		C2CF88FE29D3FD6E00597B2A /* RenderAppSessionPOSIX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RenderAppSessionPOSIX.cpp; sourceTree = "<group>"; };
 		C2CF88FF29D3FD6E00597B2A /* RenderAppSessionPOSIX.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RenderAppSessionPOSIX.hpp; sourceTree = "<group>"; };
+		C2D845232F736BCB0033C40E /* libpencil4line_for_blender_mac_313.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libpencil4line_for_blender_mac_313.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -522,6 +597,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C2D8451E2F736BCB0033C40E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -553,6 +635,7 @@
 				C24EB1342BCCE1AC00719B0E /* libpencil4line_for_blender_mac_311.dylib */,
 				C2A7710D2E31BC12008E19F6 /* libpencil4line_for_blender_mac_311_450.dylib */,
 				C29B7F6C2ED6DB280060EA00 /* libpencil4line_for_blender_mac_311_500.dylib */,
+				C2D845232F736BCB0033C40E /* libpencil4line_for_blender_mac_313.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -873,6 +956,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C2D844DC2F736BCB0033C40E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2D844DD2F736BCB0033C40E /* intermMeshDataAccessor.h in Headers */,
+				C2D844DE2F736BCB0033C40E /* intermCamera.h in Headers */,
+				C2D844DF2F736BCB0033C40E /* FileMapping.h in Headers */,
+				C2D844E02F736BCB0033C40E /* StructDefinitions.h in Headers */,
+				C2D844E12F736BCB0033C40E /* RenderAppSessionWindows.h in Headers */,
+				C2D844E22F736BCB0033C40E /* intermContext.h in Headers */,
+				C2D844E32F736BCB0033C40E /* blrnaMEdge.h in Headers */,
+				C2D844E42F736BCB0033C40E /* intermRenderInstance.h in Headers */,
+				C2D844E52F736BCB0033C40E /* meow_hash_x64_aesni.h in Headers */,
+				C2D844E62F736BCB0033C40E /* intermNameIDMapper.h in Headers */,
+				C2D844E72F736BCB0033C40E /* intermDataHash.h in Headers */,
+				C2D844E82F736BCB0033C40E /* blrnaMaterial.h in Headers */,
+				C2D844E92F736BCB0033C40E /* blrnaMLoopTri.h in Headers */,
+				C2D844EA2F736BCB0033C40E /* blrnaMLoop.h in Headers */,
+				C2D844EB2F736BCB0033C40E /* RenderAppSession.h in Headers */,
+				C2D844EC2F736BCB0033C40E /* blrnaImage.h in Headers */,
+				C2D844ED2F736BCB0033C40E /* Nodes.h in Headers */,
+				C2D844EE2F736BCB0033C40E /* intermBlenderVersion.h in Headers */,
+				C2D844EF2F736BCB0033C40E /* FileMappingPOSIX.hpp in Headers */,
+				C2D844F02F736BCB0033C40E /* blrnaMeshUVLoopLayer.h in Headers */,
+				C2D844F12F736BCB0033C40E /* RenderAppDefine.h in Headers */,
+				C2D844F22F736BCB0033C40E /* intermImageMapper.h in Headers */,
+				C2D844F32F736BCB0033C40E /* blrnaID.h in Headers */,
+				C2D844F42F736BCB0033C40E /* blrnaObject.h in Headers */,
+				C2D844F52F736BCB0033C40E /* blrnaMeshLoopColorLayer.h in Headers */,
+				C2D844F62F736BCB0033C40E /* blrnaBase.h in Headers */,
+				C2D844F72F736BCB0033C40E /* blrnaCamera.h in Headers */,
+				C2D844F82F736BCB0033C40E /* intermDrawOptions.h in Headers */,
+				C2D844F92F736BCB0033C40E /* intermObjectIDMapper.h in Headers */,
+				C2D844FA2F736BCB0033C40E /* intermNodeParamsFixer.h in Headers */,
+				C2D844FB2F736BCB0033C40E /* RenderAppSessionPOSIX.hpp in Headers */,
+				C2D844FC2F736BCB0033C40E /* RenderAppData.h in Headers */,
+				C2D844FD2F736BCB0033C40E /* blrnaMPoly.h in Headers */,
+				C2D844FE2F736BCB0033C40E /* blrnaAttribute.h in Headers */,
+				C2D844FF2F736BCB0033C40E /* blrnaMesh.h in Headers */,
+				C2D845002F736BCB0033C40E /* blrnaIDOverrideLibrary.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -971,6 +1097,25 @@
 			productReference = C2C9E94C29D407890056D782 /* libpencil4line_for_blender_mac_310.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		C2D844DA2F736BCB0033C40E /* pencil4line_for_blender_mac_313 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2D845202F736BCB0033C40E /* Build configuration list for PBXNativeTarget "pencil4line_for_blender_mac_313" */;
+			buildPhases = (
+				C2D844DB2F736BCB0033C40E /* ShellScript */,
+				C2D844DC2F736BCB0033C40E /* Headers */,
+				C2D845012F736BCB0033C40E /* Sources */,
+				C2D8451E2F736BCB0033C40E /* Frameworks */,
+				C2D8451F2F736BCB0033C40E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pencil4line_for_blender_mac_313;
+			productName = test;
+			productReference = C2D845232F736BCB0033C40E /* libpencil4line_for_blender_mac_313.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1006,6 +1151,7 @@
 				C24EB0EB2BCCE1AC00719B0E /* pencil4line_for_blender_mac_311 */,
 				C2A770C42E31BC12008E19F6 /* pencil4line_for_blender_mac_311_450 */,
 				C29B7F232ED6DB280060EA00 /* pencil4line_for_blender_mac_311_500 */,
+				C2D844DA2F736BCB0033C40E /* pencil4line_for_blender_mac_313 */,
 				C21180AE29DD3FE700F99DF7 /* Deploy */,
 			);
 		};
@@ -1183,6 +1329,40 @@
 			shellScript = "BIN_DIR=\"$PROJECT_DIR/../Package/bin\"\n\nmkdir -p \"${BIN_DIR}\"\n#cp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.dylib\" \"${BIN_DIR}/${PRODUCT_NAME}.so\"\n";
 		};
 		C2A9CC4C29DC0C46007C5B85 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BIN_DIR=\"$PROJECT_DIR/../Package/bin\"\n\nmkdir -p \"${BIN_DIR}\"\n#cp \"${BUILT_PRODUCTS_DIR}/lib${PRODUCT_NAME}.dylib\" \"${BIN_DIR}/${PRODUCT_NAME}.so\"\n";
+		};
+		C2D844DB2F736BCB0033C40E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd ..\nCOMMIT_HASH=$(git log -n 1 --pretty=format:\"%H\" -- ./blender ./cereal ./pybind11 ./pencil4line_for_blender_mac ./Pencil4LineForBlender)\necho \"$COMMIT_HASH\" > \"./Package/bin/commitHash.txt\"\necho \"#define GIT_COMMIT_HASH \\\"$COMMIT_HASH\\\"\" > ./Pencil4LineForBlender/commitHash.h\n\n";
+		};
+		C2D8451F2F736BCB0033C40E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1377,6 +1557,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C2D845012F736BCB0033C40E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2D845022F736BCB0033C40E /* blrnaAttribute.cpp in Sources */,
+				C2D845032F736BCB0033C40E /* blrnaCamera.cpp in Sources */,
+				C2D845042F736BCB0033C40E /* blrnaID.cpp in Sources */,
+				C2D845052F736BCB0033C40E /* blrnaMeshUVLoopLayer.cpp in Sources */,
+				C2D845062F736BCB0033C40E /* blrnaObject.cpp in Sources */,
+				C2D845072F736BCB0033C40E /* blrnaMLoopTri.cpp in Sources */,
+				C2D845082F736BCB0033C40E /* blrnaImage.cpp in Sources */,
+				C2D845092F736BCB0033C40E /* blrnaMaterial.cpp in Sources */,
+				C2D8450A2F736BCB0033C40E /* blrnaIDOverrideLibrary.cpp in Sources */,
+				C2D8450B2F736BCB0033C40E /* blrnaMLoop.cpp in Sources */,
+				C2D8450C2F736BCB0033C40E /* blrnaMEdge.cpp in Sources */,
+				C2D8450D2F736BCB0033C40E /* blrnaMPoly.cpp in Sources */,
+				C2D8450E2F736BCB0033C40E /* blrnaMesh.cpp in Sources */,
+				C2D8450F2F736BCB0033C40E /* blrnaMeshLoopColorLayer.cpp in Sources */,
+				C2D845102F736BCB0033C40E /* intermDataHash.cpp in Sources */,
+				C2D845112F736BCB0033C40E /* intermCamera.cpp in Sources */,
+				C2D845122F736BCB0033C40E /* intermNameIDMapper.cpp in Sources */,
+				C2D845132F736BCB0033C40E /* intermContext.cpp in Sources */,
+				C2D845142F736BCB0033C40E /* intermNodeParamsFixer.cpp in Sources */,
+				C2D845152F736BCB0033C40E /* intermObjectIDMapper.cpp in Sources */,
+				C2D845162F736BCB0033C40E /* intermImageMapper.cpp in Sources */,
+				C2D845172F736BCB0033C40E /* intermBlenderVersion.cpp in Sources */,
+				C2D845182F736BCB0033C40E /* intermMeshDataAccessor.cpp in Sources */,
+				C2D845192F736BCB0033C40E /* Nodes.cpp in Sources */,
+				C2D8451A2F736BCB0033C40E /* Pencil4LineForBlender.cpp in Sources */,
+				C2D8451B2F736BCB0033C40E /* FileMapping.cpp in Sources */,
+				C2D8451C2F736BCB0033C40E /* FileMappingPOSIX.cpp in Sources */,
+				C2D8451D2F736BCB0033C40E /* RenderAppSessionPOSIX.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1404,6 +1619,11 @@
 			isa = PBXTargetDependency;
 			target = C2A770C42E31BC12008E19F6 /* pencil4line_for_blender_mac_311_450 */;
 			targetProxy = C2A7710E2E31C1F0008E19F6 /* PBXContainerItemProxy */;
+		};
+		C2D845252F736CDB0033C40E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C2D844DA2F736BCB0033C40E /* pencil4line_for_blender_mac_313 */;
+			targetProxy = C2D845242F736CDB0033C40E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1456,6 +1676,10 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
+					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
 				);
@@ -1498,6 +1722,10 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
+					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
 				);
@@ -1538,6 +1766,10 @@
 				MACH_O_TYPE = mh_dylib;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
 					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
@@ -1581,6 +1813,10 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
+					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
 				);
@@ -1608,8 +1844,7 @@
 					"$(inherited)",
 					PYBIND_INCLUDE,
 					PYTHON311,
-					NEW_PROPERTY_RNA,
-					NEW_PROPERTY_RNA2,
+					"BLENDER_TARGET_VERSION_MIN=50000",
 				);
 				HEADER_SEARCH_PATHS = (
 					$PROJECT_DIR/../Pencil4LineForBlender,
@@ -1623,6 +1858,10 @@
 				MACH_O_TYPE = mh_dylib;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
 					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
@@ -1650,8 +1889,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					PYBIND_INCLUDE,
 					PYTHON311,
-					NEW_PROPERTY_RNA,
-					NEW_PROPERTY_RNA2,
+					"BLENDER_TARGET_VERSION_MIN=50000",
 				);
 				GCC_UNROLL_LOOPS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1667,6 +1905,10 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
 					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
@@ -1695,7 +1937,7 @@
 					"$(inherited)",
 					PYBIND_INCLUDE,
 					PYTHON311,
-					NEW_PROPERTY_RNA,
+					"BLENDER_TARGET_VERSION_MIN=40500",
 				);
 				HEADER_SEARCH_PATHS = (
 					$PROJECT_DIR/../Pencil4LineForBlender,
@@ -1709,6 +1951,10 @@
 				MACH_O_TYPE = mh_dylib;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
 					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
@@ -1736,7 +1982,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					PYBIND_INCLUDE,
 					PYTHON311,
-					NEW_PROPERTY_RNA,
+					"BLENDER_TARGET_VERSION_MIN=40500",
 				);
 				GCC_UNROLL_LOOPS = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1752,6 +1998,10 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
 					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
@@ -1907,6 +2157,10 @@
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
+					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
 				);
@@ -1948,6 +2202,103 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
+					"$(OTHER_CFLAGS)",
+					"-maes",
+					"-Qunused-arguments",
+				);
+				OTHER_LDFLAGS = "-Wl,-undefined,dynamic_lookup";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REEXPORTED_LIBRARY_NAMES = "";
+				REEXPORTED_LIBRARY_PATHS = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C2D845212F736BCB0033C40E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = "$(DYNAMIC_LIBRARY_EXTENSION:default=dylib)";
+				EXECUTABLE_PREFIX = lib;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					PYBIND_INCLUDE,
+					PYTHON313,
+					"BLENDER_TARGET_VERSION_MIN=50100",
+				);
+				HEADER_SEARCH_PATHS = (
+					$PROJECT_DIR/../Pencil4LineForBlender,
+					$PROJECT_DIR/../pybind11/include,
+					"$PROJECT_DIR/../blender/**",
+					$PROJECT_DIR/../cereal/include,
+					/Library/Frameworks/Python.framework/Versions/3.13/include/python3.13,
+				);
+				LD_DYLIB_INSTALL_NAME = "$(LD_DYLIB_INSTALL_NAME_$(LLVM_TARGET_TRIPLE_VENDOR):default=$(EXECUTABLE_PATH))";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACH_O_TYPE = mh_dylib;
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
+					"$(OTHER_CFLAGS)",
+					"-maes",
+					"-Qunused-arguments",
+				);
+				OTHER_LDFLAGS = "-Wl,-undefined,dynamic_lookup";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REEXPORTED_LIBRARY_NAMES = "";
+				REEXPORTED_LIBRARY_PATHS = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C2D845222F736BCB0033C40E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_MODULES_AUTOLINK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = "$(DYNAMIC_LIBRARY_EXTENSION:default=dylib)";
+				EXECUTABLE_PREFIX = lib;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					PYBIND_INCLUDE,
+					PYTHON313,
+					"BLENDER_TARGET_VERSION_MIN=50100",
+				);
+				GCC_UNROLL_LOOPS = YES;
+				HEADER_SEARCH_PATHS = (
+					$PROJECT_DIR/../Pencil4LineForBlender,
+					$PROJECT_DIR/../pybind11/include,
+					"$PROJECT_DIR/../blender/**",
+					$PROJECT_DIR/../cereal/include,
+					/Library/Frameworks/Python.framework/Versions/3.13/include/python3.13,
+				);
+				LD_DYLIB_INSTALL_NAME = "$(LD_DYLIB_INSTALL_NAME_$(LLVM_TARGET_TRIPLE_VENDOR):default=$(EXECUTABLE_PATH))";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACH_O_TYPE = mh_dylib;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-Qunused-arguments",
+				);
+				"OTHER_CPLUSPLUSFLAGS[arch=x86_64]" = (
 					"$(OTHER_CFLAGS)",
 					"-maes",
 					"-Qunused-arguments",
@@ -2022,6 +2373,15 @@
 			buildConfigurations = (
 				C2C9E95329D407890056D782 /* Debug */,
 				C2C9E95429D407890056D782 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2D845202F736BCB0033C40E /* Build configuration list for PBXNativeTarget "pencil4line_for_blender_mac_313" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2D845212F736BCB0033C40E /* Debug */,
+				C2D845222F736BCB0033C40E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

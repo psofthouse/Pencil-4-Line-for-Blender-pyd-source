@@ -25,10 +25,10 @@ namespace blrna
 		COLLECTION_PROP_ITEM_TYPE(materials);
 
 		COLLECTION_PROP(uv_layers);
-		COLLECTION_PROP_LOOKUP_INT(uv_layers);
+		COLLECTION_PROP_AT(uv_layers);
 
 		COLLECTION_PROP(vertex_colors);
-		COLLECTION_PROP_LOOKUP_INT(vertex_colors);
+		COLLECTION_PROP_AT(vertex_colors);
 
 		COLLECTION_PROP(attributes);
 
