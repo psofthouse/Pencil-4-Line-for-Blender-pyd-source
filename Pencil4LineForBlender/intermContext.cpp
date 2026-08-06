@@ -245,7 +245,7 @@ namespace interm
 					dst.objectMaterialIds.reserve(src.GetObjectMaterials().size());
 					for (auto& material : src.GetObjectMaterials())
 					{
-						dst.objectMaterialIds.emplace_back(PointerToInstanceID(GetMaterialOriginalData(blrna::Material(material))));
+						dst.objectMaterialIds.emplace_back(PointerToInstanceID(material.is_none() ? nullptr : GetMaterialOriginalData(blrna::Material(material))));
 					}
 				}
 
